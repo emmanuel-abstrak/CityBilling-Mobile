@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/config/routes/router.dart';
+import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
 import 'core/constants/color_constants.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   Get.put(ConnectivityController());
   Get.put(MunicipalityController());
   Get.put(PropertyController());
+  Get.put(PaymentController());
 
 
   // Fetch municipalities on startup

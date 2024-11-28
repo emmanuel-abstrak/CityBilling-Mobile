@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/utils/dimensions.dart';
-import 'package:utility_token_app/features/buy/helper/helper.dart';
-import 'package:utility_token_app/features/property/state/property_controller.dart';
+import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../widgets/bottom_sheet/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
 import '../../municipalities/models/municipality.dart';
+import '../../property/state/property_controller.dart';
+import '../helper/helper.dart';
 
 class BuyUtilityScreen extends StatefulWidget {
   final Municipality? municipality;
@@ -21,6 +21,7 @@ class BuyUtilityScreen extends StatefulWidget {
 }
 
 class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
+  final PaymentController paymentController = Get.find<PaymentController>();
   final PropertyController propertyController = Get.find<PropertyController>();
   final _amountController = TextEditingController();
   TextEditingController _meterNumberController = TextEditingController();
@@ -83,46 +84,44 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
               isEnabled: true,
             ),
             const Spacer(),
-
             Obx(() => showBottomSheet.value
                 ? const SizedBox.shrink()
                 : Row(
               mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: GeneralButton(
-                                    onTap: () {
-                      if (PaymentHelper.validatePaymentDetails(
+              children: [
+                Expanded(
+                  child: GeneralButton(
+                    onTap: () async {
+                      bool detailsValid = await PaymentHelper.validatePaymentDetails(
                         meterNumber: _meterNumberController.text,
                         amount: _amountController.text,
                         selectedCurrency: selectedCurrency,
-                      )) {
+                      );
+
+                      if (detailsValid) {
                         showBottomSheet.value = true;
                       }
-                                    },
-                                    width: Dimensions.screenWidth * 0.8,
-                                    btnColor: Pallete.primary,
-                                    child: const Text(
-                      'Continue',
+                    },
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    btnColor: Pallete.primary,
+                    child: const Text(
+                      'Make Payment',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
-                                    ),
-                                  ),
                     ),
-                  ],
-                )),
+                  ),
+                ),
+              ],
+            )),
           ],
         ),
       ),
       bottomSheet: Obx(
             () => showBottomSheet.value
             ? PurchaseSummaryBottomSheet(
-          municipality: widget.municipality!,
-          meterNumber: _meterNumberController.text,
-          amount: _amountController.text,
-          currency: selectedCurrency,
+          paymentController: paymentController,
           onClose: () => showBottomSheet.value = false,
         )
             : const SizedBox.shrink(),

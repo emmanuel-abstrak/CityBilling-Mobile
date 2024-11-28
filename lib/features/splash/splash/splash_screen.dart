@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/config/routes/router.dart';
+import 'package:utility_token_app/core/constants/color_constants.dart';
+import 'package:utility_token_app/widgets/dialogs/no_internet.dart';
+import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart'; // Import Snackbar
+
 import '../../../core/constants/icon_asset_constants.dart';
 import '../../municipalities/state/municipalities_controller.dart';
 
@@ -31,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       curve: Curves.easeInOut,
     );
 
-
     // Fetch municipalities
     municipalityController.fetchMunicipalities();
   }
@@ -45,6 +48,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (municipalityController.isError.value) {
+        // Show an error dialog if fetching municipalities fails
+        Future.delayed(Duration.zero, () {
+          Get.dialog(
+            barrierDismissible: false,
+            NoInternetDialog(
+              controller: municipalityController,
+            )
+          );
+        });
+      }
+
       if (municipalityController.municipalities.isNotEmpty) {
         Future.delayed(Duration.zero, () {
           // Check if the municipality is cached

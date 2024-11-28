@@ -9,6 +9,7 @@ import '../models/municipality.dart';
 /// the state of municipalities in the application. It handles the fetching
 /// of municipalities from an API and manages the cache for storing a selected municipality.
 class MunicipalityController extends GetxController {
+
   /// List of municipalities that are fetched from the API.
   var municipalities = <Municipality>[].obs;
 
@@ -18,15 +19,23 @@ class MunicipalityController extends GetxController {
   /// Error message to display in case of failed fetch operations.
   var errorMessage = ''.obs;
 
+  /// Error code to trigger retry logic
+  var isError = false.obs;
+
+
   /// Fetches municipalities from the API and updates the state.
   ///
   /// This method makes an API call to retrieve a list of municipalities.
   /// If successful, it updates the `municipalities` list, otherwise, it
   /// updates the `errorMessage` state.
+
+
+  // Fetches municipalities from the API and updates the state.
   Future<void> fetchMunicipalities() async {
     try {
       isLoading.value = true;
       errorMessage.value = '';
+      isError.value = false;
 
       final response = await MunicipalityServices.getMunicipalities();
 
@@ -37,16 +46,24 @@ class MunicipalityController extends GetxController {
       } else {
         // Update the error message
         errorMessage.value = response.message!;
+        isError.value = true;
         DevLogs.logError("Error fetching municipalities: ${response.message}");
       }
     } catch (e, stackTrace) {
       // Handle unexpected errors
       errorMessage.value = "An unexpected error occurred: $e";
+      isError.value = true;
       DevLogs.logError("Unexpected error: $e\nStack Trace: $stackTrace");
     } finally {
       isLoading.value = false;
     }
   }
+
+  // Retry fetching municipalities when there is a network error
+  Future<void> retryFetchMunicipalities() async {
+    await fetchMunicipalities();
+  }
+
 
   /// Checks if a municipality is saved in the cache.
   ///
