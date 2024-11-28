@@ -53,7 +53,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Edit Property',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -95,7 +95,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(LocalImageConstants.bg),
+                opacity: 0.5,
+                image: AssetImage(
+                    LocalImageConstants.bg2
+                ),
                 fit: BoxFit.cover,
               ),
             ),

@@ -20,14 +20,14 @@ class PurchaseSummaryBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final PurchaseSummary summary = paymentController.purchaseSummary.value!;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
+            blurRadius: 15,
             spreadRadius: 5,
           ),
         ],
@@ -36,46 +36,51 @@ class PurchaseSummaryBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Row with Close button
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 'Purchase Summary',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Pallete.primary,
+                ),
               ),
               IconButton(
                 onPressed: onClose,
-                icon: const Icon(Icons.close),
+                icon: const Icon(Icons.close, color: Colors.black54),
               ),
             ],
           ),
-          const Divider(),
-          Text(summary.meter.customerName),
-          const SizedBox(height: 8),
-          Text('Meter Number: ${summary.meter.number}'),
-          const SizedBox(height: 8),
-          Text('Amount To Pay: ${summary.amount.toStringAsFixed(2)}'),
-          const SizedBox(height: 8),
-          Text('Token Amount: ${summary.tokenAmount.toStringAsFixed(2)}'),
-          const SizedBox(height: 16),
+          const Divider(color: Colors.grey, height: 20),
+
+          // Customer Info
+          _buildInfoRow('Customer:', summary.meter.customerName),
+          _buildInfoRow('Meter Number:', summary.meter.number),
+          _buildInfoRow('Amount To Pay:', '\$${summary.amount.toStringAsFixed(2)}'),
+          _buildInfoRow('Token Amount:', '\$${summary.tokenAmount.toStringAsFixed(2)}'),
+
+          const SizedBox(height: 20),
+
+          // Confirm Payment Button
           Row(
             children: [
               Expanded(
                 child: GeneralButton(
-                  onTap: () async{
-
+                  onTap: () async {
                     Get.dialog(
                       barrierDismissible: false,
                       const CustomLoader(message: 'Redirecting...'),
                     );
-
                     await paymentController.initiatePayment(
-                      accessToken: 'k6gX6nDH1ZuDvv0UOP41advUWhvRN0OzL7HR6q1Yop4VbVJT9vvTEyDBo6oHukey2AVSP8tZLS5FpP3gtQnCmyYDCReDyKSji2GDysnIfouTR2zRgeBVV6MSWgPzgd9su22OS2Z9fkxRt7Lzx0rOgPpk9BytVAiHDSdlrYMhYTAujaCf0uYS3Ffbg6klvf1KBsNmjPOhVPmzXMNXcGqq6vi52HHxzsyKGp21arz9ywXwkfaQ',
+                      accessToken: 'your-access-token', // Use the correct token
                       meterNumber: summary.meter.number,
                       currency: summary.currency,
-                      amount: summary.amount
-                    ).then((_){
-                      onClose;
+                      amount: summary.amount,
+                    ).then((_) {
+                      onClose();
                     });
                   },
                   btnColor: Pallete.primary,
@@ -90,6 +95,34 @@ class PurchaseSummaryBottomSheet extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  // Custom Method to Build Info Rows
+  Widget _buildInfoRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
           ),
         ],
       ),

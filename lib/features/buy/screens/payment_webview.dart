@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../../../core/constants/image_asset_constants.dart';
+
 class PaymentWebViewScreen extends StatefulWidget {
   final String redirectUrl;
 
@@ -32,15 +34,26 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Payment",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-          )
-        )
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'Payment',
+      //     style: TextStyle(
+      //         color: Colors.white,
+      //         fontWeight: FontWeight.bold
+      //     ),
+      //   ),
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       image: DecorationImage(
+      //         opacity: 0.5,
+      //         image: AssetImage(
+      //             LocalImageConstants.bg2
+      //         ),
+      //         fit: BoxFit.cover,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         child: _webView,
       ),

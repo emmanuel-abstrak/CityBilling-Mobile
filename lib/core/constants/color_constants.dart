@@ -24,6 +24,7 @@ class Pallete{
    elevation: 0,
    iconTheme: IconThemeData(color: Colors.white),
    centerTitle: true,
+
    backgroundColor: primary,
    systemOverlayStyle: SystemUiOverlayStyle(
     statusBarColor: surface,

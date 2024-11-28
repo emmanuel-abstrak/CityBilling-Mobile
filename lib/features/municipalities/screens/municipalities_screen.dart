@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/cards/municipality_card.dart';
 
+import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/search_delegates/municipality_delegate.dart';
 
 class MunicipalitiesScreen extends StatelessWidget {
@@ -17,7 +18,19 @@ class MunicipalitiesScreen extends StatelessWidget {
         title: const Text(
           'Municipalities',
           style: TextStyle(
-            color: Colors.white
+            color: Colors.white,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              opacity: 0.5,
+              image: AssetImage(
+                LocalImageConstants.bg2
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         actions: [

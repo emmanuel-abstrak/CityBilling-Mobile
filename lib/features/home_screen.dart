@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:utility_token_app/config/routes/router.dart';
@@ -6,6 +7,9 @@ import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
+
+import '../core/constants/image_asset_constants.dart';
+import '../widgets/tiles/profile_option_tile.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -67,15 +71,42 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           widget.selectedMunicipality.name,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              opacity: 0.5,
+              image: AssetImage(
+                  LocalImageConstants.bg2
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
         actions: [
           PopupMenuButton(
+            color: Colors.white,
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: const Text(
-                    'Municipalities'
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.buildingColumns,
+                        color: Colors.grey.shade700,
+                        size: 20,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text(
+                        'Municipalities',
+                      ),
+                    ],
                   ),
                   onTap: ()async{
                     await municipalityController.clearCachedMunicipality().then((_){
@@ -83,65 +114,167 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   },
                 ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.gear,
+                        color: Colors.grey.shade700,
+                        size: 20,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text(
+                        'Settings',
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{
+                    await municipalityController.clearCachedMunicipality().then((_){
+                      Get.offAllNamed(RoutesHelper.municipalitiesScreen);
+                    });
+                  },
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.circleInfo,
+                        color: Colors.grey.shade700,
+                        size: 20,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text(
+                        'Help',
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{
+
+                  },
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.xmark,
+                        color: Colors.grey.shade700,
+                        size: 20,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text(
+                        'Exit',
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{
+
+                  },
+                ),
               ];
             },
           ),
-
         ],
       ),
-      body: Obx(() {
-        final property = propertyController.property;
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Obx(() {
+          final property = propertyController.property;
 
-        if (property == null) {
-          // No property registered
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home_outlined, size: 100, color: Colors.grey),
-                SizedBox(height: 16),
-                Text(
-                  "No registered property",
-                  style: TextStyle(fontSize: 20, color: Colors.grey),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Tap the '+' button to add your first property.",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
-            ),
-          );
-        } else {
-          // Display property details
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+          if (property == null) {
+            // No property registered
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.home_outlined, size: 100, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text(
+                    "No registered property",
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "Tap the '+' button to add your first property.",
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      property.name,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Text("Address: ${property.address}"),
-                    const SizedBox(height: 4),
-                    Text("Meter Number: ${property.meterNumber}"),
-                  ],
-                ),
+            );
+          } else {
+            // Display property details
+            return Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-5, -5),
+                    blurRadius: 10,
+                  ),
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(5, 5),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
-            ),
-          );
-        }
-      }),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.house,
+                        color: Pallete.primary,
+                        size: 80,
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 24,
+                  ),
+
+                  ProfileOptionTile(
+                    title: "Property Name",
+                    value: property.name,
+                    icon: FontAwesomeIcons.building,
+                  ),
+
+                  const SizedBox(
+                    height: 16,
+                  ),
+
+                  ProfileOptionTile(
+                    title: "Property Address",
+                    value: property.address,
+                    icon: FontAwesomeIcons.locationDot,
+                  ),
+
+                  const SizedBox(
+                    height: 16,
+                  ),
+
+                  ProfileOptionTile(
+                    title: "Meter Number",
+                    value: property.meterNumber,
+                    icon: FontAwesomeIcons.gaugeHigh,
+                  ),
+                ],
+              ),
+            );
+          }
+        }),
+      ),
       floatingActionButton: Obx(() {
         final property = propertyController.property;
 
@@ -160,7 +293,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.toNamed(RoutesHelper.propertyDetails, arguments: property);
                 }
               },
-              child: Icon(property == null ? Icons.add : Icons.house),
+              backgroundColor: Pallete.primary,
+              child: Icon(property == null ? Icons.add : FontAwesomeIcons.house, color: Colors.white, size: 20),
             ),
 
             const SizedBox(
@@ -169,12 +303,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
             FloatingActionButton(
               heroTag: 'buyUtility',
+              backgroundColor: Pallete.success,
               onPressed: () {
                 final municipality = widget.selectedMunicipality;
 
                 Get.toNamed(RoutesHelper.buyScreen, arguments: municipality);
               },
-              child: const Icon(Icons.shopping_cart),
+              child: const Icon(FontAwesomeIcons.cartShopping, color: Colors.white, size: 20,),
             ),
           ],
         );

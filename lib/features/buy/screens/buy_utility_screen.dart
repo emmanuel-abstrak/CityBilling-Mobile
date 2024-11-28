@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
+import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/bottom_sheet/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
@@ -50,7 +51,21 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
       appBar: AppBar(
         title: const Text(
           'Buy Utility Tokens',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              opacity: 0.5,
+              image: AssetImage(
+                  LocalImageConstants.bg2
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -58,7 +73,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Municipality: ${widget.municipality!.name}'),
             const SizedBox(height: 16),
             CustomTextField(
               prefixIcon: const Icon(FontAwesomeIcons.gaugeHigh),
