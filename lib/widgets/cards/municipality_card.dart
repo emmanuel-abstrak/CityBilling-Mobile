@@ -48,7 +48,6 @@ class MunicipalityCard extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.bold),),
-          subtitle: Text(municipality.endpoint),
           trailing: const Icon(Icons.arrow_forward_ios),
         ),
       ),

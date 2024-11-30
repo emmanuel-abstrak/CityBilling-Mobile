@@ -49,7 +49,6 @@ class NoInternetDialog extends StatelessWidget {
             // Retry button
             ElevatedButton(
               onPressed: () {
-                // Retry the fetch operation
                 Get.back();
                 controller.retryFetchMunicipalities();
               },
