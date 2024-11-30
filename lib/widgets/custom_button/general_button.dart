@@ -28,7 +28,7 @@ class GeneralButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-          width: Dimensions.screenWidth * 0.5 ?? width,
+          width: width ?? Dimensions.screenWidth * 0.5,
           height: height ?? 45,
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/widgets/dialogs/no_internet.dart';
@@ -16,24 +17,12 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
+class _SplashScreenState extends State<SplashScreen>{
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
 
   @override
   void initState() {
     super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
 
     // Fetch municipalities
     municipalityController.fetchMunicipalities();
@@ -41,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -78,14 +66,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       }
 
       return Scaffold(
-        body: Center(
-          child: ScaleTransition(
-            scale: _animation,
-            child: SvgPicture.asset(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(),
+            const SizedBox(),
+            SvgPicture.asset(
               CustomIcons.logo,
               semanticsLabel: 'App Logo',
             ),
-          ),
+            LoadingAnimationWidget.hexagonDots(
+                color: Pallete.primary,
+                size: 45
+            ),
+            const SizedBox(),
+          ],
         ),
       );
     });
