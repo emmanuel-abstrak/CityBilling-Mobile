@@ -7,7 +7,8 @@ class ProfileOptionTile extends StatelessWidget {
   final String value;
   final IconData icon;
   final void Function()? onEdit;
-  const ProfileOptionTile({super.key, required this.title, required this.value, required this.icon, this.onEdit});
+  final Widget? trailing;
+  const ProfileOptionTile({super.key, required this.title, required this.value, required this.icon, this.onEdit, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class ProfileOptionTile extends StatelessWidget {
             icon: const Icon(
                 Icons.edit
             )
-        ): null
+        ): trailing
       ),
     );
   }

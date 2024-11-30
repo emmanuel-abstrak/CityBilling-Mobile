@@ -68,13 +68,21 @@ class MunicipalitySearchDelegate extends SearchDelegate {
         itemCount: suggestions.length,
         itemBuilder: (context, index) {
           final municipality = suggestions[index];
-          return ListTile(
-            title: Text(municipality.name),
-            subtitle: Text(municipality.endpoint),
-            onTap: () {
-              query = municipality.name;
-              showResults(context);
-            },
+          return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey.shade200
+                )
+              )
+            ),
+            child: ListTile(
+              title: Text(municipality.name),
+              onTap: () {
+                query = municipality.name;
+                showResults(context);
+              },
+            ),
           );
         },
       ),

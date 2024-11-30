@@ -24,12 +24,11 @@ class Pallete{
    elevation: 0,
    iconTheme: IconThemeData(color: Colors.white),
    centerTitle: true,
-
    backgroundColor: primary,
-   systemOverlayStyle: SystemUiOverlayStyle(
-    statusBarColor: surface,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarIconBrightness: Brightness.light,
+   titleTextStyle: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18
    ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

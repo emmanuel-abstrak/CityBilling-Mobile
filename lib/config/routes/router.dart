@@ -40,13 +40,19 @@ class RoutesHelper {
     ),
 
     GetPage(
-     name: buyScreen,
-     page: (){
-       final municipality = Get.arguments as Municipality;
-       return BuyUtilityScreen(municipality: municipality,);
-     }
+      name: buyScreen,
+      page: () {
+        final arguments = Get.arguments as List<dynamic>;
+        final municipality = arguments[0] as Municipality;
+        final meterNumber = arguments[1] as String?;
 
+        return BuyUtilityScreen(
+          municipality: municipality,
+          selectedMeterNumber: meterNumber,
+        );
+      },
     ),
+
 
     GetPage(
         name: webviewPaymentPage,

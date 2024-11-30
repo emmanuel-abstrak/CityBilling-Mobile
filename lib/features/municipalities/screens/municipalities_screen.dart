@@ -15,23 +15,9 @@ class MunicipalitiesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: const Text(
-          'Municipalities',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              opacity: 0.5,
-              image: AssetImage(
-                LocalImageConstants.bg2
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
+          'Providers',
         ),
         actions: [
           IconButton(

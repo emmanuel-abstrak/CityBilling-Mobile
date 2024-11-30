@@ -9,13 +9,13 @@ import '../../../widgets/bottom_sheet/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
 import '../../municipalities/models/municipality.dart';
-import '../../property/state/property_controller.dart';
 import '../helper/helper.dart';
 
 class BuyUtilityScreen extends StatefulWidget {
-  final Municipality? municipality;
+  final Municipality municipality;
+  final String? selectedMeterNumber;
 
-  const BuyUtilityScreen({super.key, this.municipality});
+  const BuyUtilityScreen({super.key,required this.municipality, this.selectedMeterNumber});
 
   @override
   State<BuyUtilityScreen> createState() => _BuyUtilityScreenState();
@@ -23,7 +23,6 @@ class BuyUtilityScreen extends StatefulWidget {
 
 class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
   final PaymentController paymentController = Get.find<PaymentController>();
-  final PropertyController propertyController = Get.find<PropertyController>();
   final _amountController = TextEditingController();
   TextEditingController _meterNumberController = TextEditingController();
   String selectedCurrency = 'USD';
@@ -32,9 +31,9 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
   @override
   void initState() {
     super.initState();
-    if (propertyController.property != null) {
+    if (widget.selectedMeterNumber != null) {
       _meterNumberController = TextEditingController(
-        text: propertyController.property!.meterNumber,
+        text: widget.selectedMeterNumber
       );
     }
   }
@@ -51,21 +50,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
       appBar: AppBar(
         title: const Text(
           'Buy Utility Tokens',
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              opacity: 0.5,
-              image: AssetImage(
-                  LocalImageConstants.bg2
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
         ),
       ),
       body: Padding(
