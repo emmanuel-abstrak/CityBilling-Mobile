@@ -32,7 +32,6 @@ class PaymentController extends GetxController {
         Get.back();
       } else {
         Get.back();
-        CustomSnackBar.showErrorSnackbar(message: response.message!);
       }
     } catch (e) {
       CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");

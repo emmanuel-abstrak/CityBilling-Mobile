@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:utility_token_app/widgets/dialogs/update_dialog.dart';
+import '../../buy/state/payment_controller.dart';
 import '../state/property_controller.dart';
 import 'package:utility_token_app/features/property/model/property.dart';
 import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
@@ -201,4 +202,39 @@ class PropertyHelper {
       return false;
     }
   }
+
+  static Future<bool> lookUpDetails({
+    required String meterNumber,
+  }) async {
+
+    // Show loading indicator while processing
+    Get.dialog(
+      barrierDismissible: false,
+      const CustomLoader(message: 'Checking meter number...'),
+    );
+
+    // Attempt to fetch customer details
+    try {
+      await Get.find<PropertyController>().fetchCustomerDetails(
+        accessToken: 'k6gX6nDH1ZuDvv0UOP41advUWhvRN0OzL7HR6q1Yop4VbVJT9vvTEyDBo6oHukey2AVSP8tZLS5FpP3gtQnCmyYDCReDyKSji2GDysnIfouTR2zRgeBVV6MSWgPzgd9su22OS2Z9fkxRt7Lzx0rOgPpk9BytVAiHDSdlrYMhYTAujaCf0uYS3Ffbg6klvf1KBsNmjPOhVPmzXMNXcGqq6vi52HHxzsyKGp21arz9ywXwkfaQ',
+        meterNumber: meterNumber,
+        currency: 'usd',
+        amount: 2,
+      ).then((success){
+        if(!success){
+          CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve property details. Please check your meter number and try again.", duration: 8);
+          return false;
+        }else{
+          CustomSnackBar.showErrorSnackbar(message: "Property saved successfully");
+          return true;
+        }
+      });
+      return true;
+    } catch (e) {
+      // Catch any errors during the fetch operation
+      CustomSnackBar.showErrorSnackbar(message: "Error during payment processing. Please try again.");
+      return false;
+    }
+  }
+
 }

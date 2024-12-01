@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
 import '../../core/constants/color_constants.dart';
 import '../../core/utils/dimensions.dart';
+import '../../features/property/helper/property_helper.dart';
+import '../../features/property/state/meter_number_controller.dart';
 import '../custom_button/general_button.dart';
 import '../text_fields/custom_text_field.dart';
 
 class AddMeterDialog extends StatefulWidget {
   final String title;
   final String initialValue;
-  final ValueChanged<String> onUpdate;
 
   const AddMeterDialog({
     super.key,
     required this.title,
     required this.initialValue,
-    required this.onUpdate,
   });
 
   @override
@@ -24,6 +25,7 @@ class AddMeterDialog extends StatefulWidget {
 
 class _AddMeterDialogState extends State<AddMeterDialog> {
   late TextEditingController controller;
+  final MeterNumberController meterStateNumberController = Get.find<MeterNumberController>();
 
   @override
   void initState() {
@@ -87,11 +89,17 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
               height: 16,
             ),
             GeneralButton(
-              onTap: isButtonDisabled
-                  ? null
-                  : () {
-                widget.onUpdate(controller.text.trim());
+              onTap: isButtonDisabled  ? null  : () async{
                 Get.back();
+                final value = controller.text;
+                if (value.isNotEmpty) {
+                  bool detailsValid = await PropertyHelper.lookUpDetails(
+                    meterNumber: value,
+                  );
+                  if(detailsValid){
+                    meterStateNumberController.addMeterNumber(value);
+                  }
+                }
               },
               width: Dimensions.screenWidth,
               btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,

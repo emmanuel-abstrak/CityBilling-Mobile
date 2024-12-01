@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     scale: 2,
                   ),
                   const Text(
-                    "No meter numbers Found.",
+                    "No saved properties",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.toNamed(RoutesHelper.buyScreen, arguments: [municipality, meterNumber]);
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     vertical: 6
                   ),
                   child: ProfileOptionTile(
@@ -221,12 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               Get.dialog(
                 barrierDismissible: false,
-                AddMeterDialog(
-                  onUpdate: (value){
-                    if (value.isNotEmpty) {
-                      meterStateNumberController.addMeterNumber(value);
-                    }
-                  },
+                const AddMeterDialog(
                   title: 'Meter Number',
                   initialValue: '',
                 )

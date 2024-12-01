@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 
+import '../../../core/utils/api_response.dart';
 import '../../../core/utils/logs.dart';
 import '../../../core/utils/shared_pref_methods.dart';
+import '../../../widgets/snackbar/custom_snackbar.dart';
+import '../../buy/models/purchase_summary.dart';
+import '../../buy/payment_services/payment_services.dart';
 import '../model/property.dart';
 
 /// PropertyController manages the state of the Property globally.
@@ -37,6 +41,38 @@ class PropertyController extends GetxController {
       await CacheUtils.savePropertyToCache(property: property);
     } catch (e) {
       DevLogs.logError('Error saving Property: $e');
+    }
+  }
+
+
+  Future<bool> fetchCustomerDetails({
+    required String accessToken,
+    required String meterNumber,
+    required String currency,
+    required double amount,
+  }) async {
+    isLoading.value = true;
+
+    try {
+      APIResponse<PurchaseSummary> response = await PaymentServices.lookUpCustomerDetails(
+        accessToken: accessToken,
+        meterNumber: meterNumber,
+        currency: currency,
+        amount: amount,
+      );
+
+      if (response.success) {
+        Get.back();
+        return response.success;
+      } else {
+        Get.back();
+        return response.success;
+      }
+    } catch (e) {
+      CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
+      return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 

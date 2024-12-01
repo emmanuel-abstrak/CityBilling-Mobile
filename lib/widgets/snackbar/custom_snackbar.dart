@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomSnackBar{
-  static void showErrorSnackbar({required String message}) {
+  static void showErrorSnackbar({required String message, int? duration}) {
     Get.snackbar(
       'Error',
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red,
       colorText: Colors.white,
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: duration ?? 3),
     );
   }
 

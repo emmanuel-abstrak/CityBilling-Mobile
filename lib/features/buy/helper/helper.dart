@@ -48,7 +48,7 @@ class PaymentHelper {
 
       // Check if purchase summary is available after fetching
       if (paymentController.purchaseSummary.value == null) {
-        CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve customer details. Please try again.");
+        CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve customer details. Please check your meter number and try again.", duration: 8);
         return false;
       }
 

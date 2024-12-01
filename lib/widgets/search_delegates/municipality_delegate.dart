@@ -55,6 +55,7 @@ class MunicipalitySearchDelegate extends SearchDelegate {
     );
   }
 
+
   @override
   Widget buildSuggestions(BuildContext context) {
     final suggestions = municipalityController.municipalities
@@ -72,12 +73,13 @@ class MunicipalitySearchDelegate extends SearchDelegate {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: Colors.grey.shade200
+                  color: Colors.grey.shade400
                 )
               )
             ),
             child: ListTile(
-              title: Text(municipality.name),
+              leading: const Icon(Icons.search, size: 20, color: Colors.grey,),
+              title: Text(municipality.name, style: const TextStyle(fontSize: 14),),
               onTap: () {
                 query = municipality.name;
                 showResults(context);
