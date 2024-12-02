@@ -93,12 +93,14 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
                 Get.back();
                 final value = controller.text;
                 if (value.isNotEmpty) {
-                  bool detailsValid = await PropertyHelper.lookUpDetails(
+                 await PropertyHelper.lookUpDetails(
                     meterNumber: value,
-                  );
-                  if(detailsValid){
-                    meterStateNumberController.addMeterNumber(value);
-                  }
+                  ).then((detailsFound){
+                   if(detailsFound!){
+                     meterStateNumberController.addMeterNumber(value);
+                   }
+                 });
+
                 }
               },
               width: Dimensions.screenWidth,

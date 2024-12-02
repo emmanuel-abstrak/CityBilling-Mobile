@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-
 import '../../../core/utils/shared_pref_methods.dart';
+
 class TutorialController extends GetxController {
   /// Observable to keep track of whether the tutorial has been shown.
   final RxBool hasSeenTutorial = false.obs;

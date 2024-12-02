@@ -203,10 +203,10 @@ class PropertyHelper {
     }
   }
 
+
   static Future<bool> lookUpDetails({
     required String meterNumber,
   }) async {
-
     // Show loading indicator while processing
     Get.dialog(
       barrierDismissible: false,
@@ -215,26 +215,36 @@ class PropertyHelper {
 
     // Attempt to fetch customer details
     try {
-      await Get.find<PropertyController>().fetchCustomerDetails(
-        accessToken: 'k6gX6nDH1ZuDvv0UOP41advUWhvRN0OzL7HR6q1Yop4VbVJT9vvTEyDBo6oHukey2AVSP8tZLS5FpP3gtQnCmyYDCReDyKSji2GDysnIfouTR2zRgeBVV6MSWgPzgd9su22OS2Z9fkxRt7Lzx0rOgPpk9BytVAiHDSdlrYMhYTAujaCf0uYS3Ffbg6klvf1KBsNmjPOhVPmzXMNXcGqq6vi52HHxzsyKGp21arz9ywXwkfaQ',
+      bool success = await Get.find<PropertyController>().fetchCustomerDetails(
+        accessToken: 'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
         meterNumber: meterNumber,
         currency: 'usd',
         amount: 2,
-      ).then((success){
-        if(!success){
-          CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve property details. Please check your meter number and try again.", duration: 8);
-          return false;
-        }else{
-          CustomSnackBar.showErrorSnackbar(message: "Property saved successfully");
-          return true;
-        }
-      });
-      return true;
+      );
+
+      Get.back();
+
+      if (!success) {
+        CustomSnackBar.showErrorSnackbar(
+          message: "Unable to retrieve property details. Please check your meter number and try again.",
+          duration: 8,
+        );
+        return false;
+      } else {
+        CustomSnackBar.showErrorSnackbar(
+          message: "Property saved successfully",
+        );
+        return true;
+      }
     } catch (e) {
-      // Catch any errors during the fetch operation
-      CustomSnackBar.showErrorSnackbar(message: "Error during payment processing. Please try again.");
+      Get.back();
+      DevLogs.logError(e.toString());
+      CustomSnackBar.showErrorSnackbar(
+        message: "Error during payment processing. Please try again.",
+      );
       return false;
     }
   }
+
 
 }

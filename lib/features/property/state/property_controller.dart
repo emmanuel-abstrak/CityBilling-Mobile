@@ -62,11 +62,9 @@ class PropertyController extends GetxController {
       );
 
       if (response.success) {
-        Get.back();
-        return response.success;
+        return true;
       } else {
-        Get.back();
-        return response.success;
+        return false;
       }
     } catch (e) {
       CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
