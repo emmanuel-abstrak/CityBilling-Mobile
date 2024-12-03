@@ -224,6 +224,7 @@ class PropertyHelper {
 
       Get.back();
 
+
       if (!success) {
         CustomSnackBar.showErrorSnackbar(
           message: "Unable to retrieve property details. Please check your meter number and try again.",
@@ -231,7 +232,7 @@ class PropertyHelper {
         );
         return false;
       } else {
-        CustomSnackBar.showErrorSnackbar(
+        CustomSnackBar.showSuccessSnackbar(
           message: "Property saved successfully",
         );
         return true;

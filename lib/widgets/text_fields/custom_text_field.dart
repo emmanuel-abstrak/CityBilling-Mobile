@@ -20,6 +20,7 @@ class CustomTextField extends StatefulWidget {
   final bool? enabled;
   final bool? readOnly;
   final double? borderRadius;
+  final FocusNode? focusNode; // Nullable focusNode property
 
   const CustomTextField({
     super.key,
@@ -41,24 +42,29 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.borderRadius,
+    this.focusNode, // Add focusNode to constructor
   });
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  late FocusNode _focusNode;
+  late FocusNode _internalFocusNode;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
+    // Use the provided focusNode or create an internal one
+    _internalFocusNode = widget.focusNode ?? FocusNode();
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    // Dispose the internal focusNode only if it was created internally
+    if (widget.focusNode == null) {
+      _internalFocusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -78,7 +84,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         readOnly: widget.readOnly ?? false,
         onSubmitted: widget.onSubmitted,
         enabled: widget.enabled ?? true,
-        focusNode: _focusNode, // Set the focus node
+        focusNode: _internalFocusNode, // Use the internal or external focusNode
         decoration: InputDecoration(
           fillColor: widget.fillColor,
           filled: widget.filled ?? false,

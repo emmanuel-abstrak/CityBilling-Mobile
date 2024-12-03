@@ -89,8 +89,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
               onTap: isButtonDisabled
                   ? null
                   : () {
-                widget.onUpdate(controller.text.trim());
                 Get.back();
+                widget.onUpdate(controller.text.trim());
               },
               width: Dimensions.screenWidth,
               btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,

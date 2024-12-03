@@ -7,6 +7,7 @@ import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/core/constants/image_asset_constants.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:utility_token_app/features/property/helper/property_helper.dart';
 import 'package:utility_token_app/features/property/state/meter_number_controller.dart';
 import 'package:utility_token_app/features/property/state/tutorial_controller.dart';
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
@@ -160,12 +161,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       title: 'Meter Number',
                                       initialValue: meterNumber,
                                       onUpdate: (value)async{
-                                        await meterStateNumberController.updateMeterNumber(
-                                          oldMeterNumber: meterNumber,
-                                          newMeterNumber: value,
-                                        );
-
-                                        CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
+                                        await PropertyHelper.lookUpDetails(
+                                          meterNumber: value,
+                                        ).then((detailsFound) async{
+                                          if(detailsFound){
+                                            await meterStateNumberController.updateMeterNumber(
+                                              oldMeterNumber: meterNumber,
+                                              newMeterNumber: value,
+                                            );
+                                          }
+                                        });
                                       }
                                   )
                               );

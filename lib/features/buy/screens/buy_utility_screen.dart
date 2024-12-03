@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
-import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/bottom_sheet/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
 import '../../municipalities/models/municipality.dart';
+import '../../property/state/meter_number_controller.dart';
 import '../helper/helper.dart';
 
 class BuyUtilityScreen extends StatefulWidget {
@@ -23,16 +23,19 @@ class BuyUtilityScreen extends StatefulWidget {
 
 class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
   final PaymentController paymentController = Get.find<PaymentController>();
+  final MeterNumberController meterStateNumberController = Get.find<MeterNumberController>();
   final _amountController = TextEditingController();
-  TextEditingController _meterNumberController = TextEditingController();
+  TextEditingController _meterNumberTextEditingController = TextEditingController();
   String selectedCurrency = 'USD';
   final RxBool showBottomSheet = false.obs;
+  List<String> cachedMeterNumber = [];
 
   @override
   void initState() {
     super.initState();
+    cachedMeterNumber = meterStateNumberController.meterNumbers;
     if (widget.selectedMeterNumber != null) {
-      _meterNumberController = TextEditingController(
+      _meterNumberTextEditingController = TextEditingController(
         text: widget.selectedMeterNumber
       );
     }
@@ -58,10 +61,33 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 16),
-            CustomTextField(
-              prefixIcon: const Icon(FontAwesomeIcons.gaugeHigh),
-              controller: _meterNumberController,
-              labelText: 'Meter Number',
+            Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<String>.empty();
+                }
+                return cachedMeterNumber.where((String option) {
+                  return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                });
+              },
+              onSelected: (String selection) {
+                _meterNumberTextEditingController.text = selection;
+              },
+              fieldViewBuilder: (
+                  BuildContext context,
+                  TextEditingController textEditingController,
+                  FocusNode focusNode,
+                  VoidCallback onFieldSubmitted,
+                  ) {
+                _meterNumberTextEditingController = textEditingController;
+                return CustomTextField(
+                  prefixIcon: const Icon(FontAwesomeIcons.gaugeHigh),
+                  controller: textEditingController,
+                  labelText: 'Meter Number',
+                  focusNode: focusNode,
+                );
+              },
+
             ),
             const SizedBox(height: 16),
             CustomTextField(
@@ -91,7 +117,7 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                   child: GeneralButton(
                     onTap: () async {
                       bool detailsValid = await PaymentHelper.validatePaymentDetails(
-                        meterNumber: _meterNumberController.text,
+                        meterNumber: _meterNumberTextEditingController.text,
                         amount: _amountController.text,
                         selectedCurrency: selectedCurrency,
                       );
