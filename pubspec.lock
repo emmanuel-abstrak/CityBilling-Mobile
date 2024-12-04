@@ -22,6 +22,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.0"
+  animated_search_bar:
+    dependency: "direct main"
+    description:
+      name: animated_search_bar
+      sha256: "86bd5e22a92dd87a48f123b6965d798884d12c365aa7f94acb59ff97a2d2cb95"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.2"
   animated_splash_screen:
     dependency: "direct main"
     description:
@@ -291,14 +299,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_feather_icons:
-    dependency: transitive
-    description:
-      name: flutter_feather_icons
-      sha256: b33b9c276fc8108254632da6644cf01f71af6c17fbfb26e136a86945f5ff9b67
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0+1"
   flutter_inappwebview:
     dependency: "direct main"
     description:
@@ -387,14 +387,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.3"
-  flutter_searchbox:
-    dependency: "direct main"
-    description:
-      name: flutter_searchbox
-      sha256: c83073ca395195d9669dfe34d97b292baa8fa709c15445c186fb75079dc761b5
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -637,14 +629,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.4"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   nm:
     dependency: transitive
     description:
@@ -741,14 +725,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.2"
   pub_semver:
     dependency: transitive
     description:
@@ -773,14 +749,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.1"
-  searchbase:
-    dependency: transitive
+  searchfield:
+    dependency: "direct main"
     description:
-      name: searchbase
-      sha256: "31c6b3eba880354b261d80dd9bcead4d20733586a648c626214b716bfe86132f"
+      name: searchfield
+      sha256: "8d23d53967ac5b0774611150b286dacd70c9c5de74d3db433bda2104b4803755"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "1.2.0"
   shared_preferences:
     dependency: "direct main"
     description:

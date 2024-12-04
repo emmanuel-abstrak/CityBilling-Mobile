@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/cards/municipality_card.dart';
-
-import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/search_delegates/municipality_delegate.dart';
 
 class MunicipalitiesScreen extends StatelessWidget {
