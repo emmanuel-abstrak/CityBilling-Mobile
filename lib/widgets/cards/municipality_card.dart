@@ -6,6 +6,7 @@ import 'package:utility_token_app/features/home_screen.dart';
 import '../../core/constants/icon_asset_constants.dart';
 import '../../features/municipalities/models/municipality.dart';
 import '../../features/municipalities/state/municipalities_controller.dart';
+import '../circular_loader/circular_loader.dart';
 
 class MunicipalityCard extends StatelessWidget {
   final Municipality municipality;
@@ -21,12 +22,20 @@ class MunicipalityCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        // Cache the selected municipality
-        await municipalityController.cacheMunicipality(municipality);
+        Get.showOverlay(
+          asyncFunction: () async {
+            await municipalityController.cacheMunicipality(municipality);
 
-        Get.offAll(()=> HomeScreen(selectedMunicipality: municipality));
-
+            Get.offAll(() => HomeScreen(selectedMunicipality: municipality));
+          },
+          loadingWidget: const Center(
+            child: CustomLoader(
+              message: 'Please wait',
+            ),
+          ),
+        );
       },
+
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Container(

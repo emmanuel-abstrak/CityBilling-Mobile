@@ -26,7 +26,7 @@ class Pallete{
    iconTheme: const IconThemeData(color: onSurface),
    centerTitle: true,
    backgroundColor: surface,
-   titleTextStyle: CustomTypography.poppinsTextTheme.titleLarge?.copyWith(color: onSurface)
+   titleTextStyle: CustomTypography.poppinsTextTheme.titleMedium?.copyWith(color: onSurface, fontWeight: FontWeight.bold)
   ),
   textTheme: CustomTypography.poppinsTextTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(

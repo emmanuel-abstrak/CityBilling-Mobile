@@ -89,31 +89,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: widget.fillColor,
           filled: widget.filled ?? false,
           counterText: '',
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.all(16),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIconButton,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 20,),
             borderSide: BorderSide(color: widget.defaultBoarderColor ?? Colors.grey),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 20.0),
             borderSide: BorderSide(color: widget.defaultBoarderColor ?? Colors.grey),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 10.0),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 20.0),
             borderSide: BorderSide(color: widget.focusedBoarderColor ?? Pallete.primary),
           ),
           labelText: widget.labelText ?? '',
-          labelStyle: widget.labelStyle ?? const TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-          ),
+          labelStyle: widget.labelStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.grey)
         ),
-        style: widget.inputTextStyle ?? const TextStyle(
-          color: Pallete.primary,
-          fontSize: 12,
-        ),
+        style: widget.inputTextStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(color: Pallete.primary)
       ),
     );
   }
