@@ -4,23 +4,26 @@ import '../../core/constants/color_constants.dart';
 class CustomTextField extends StatefulWidget {
   final Color? fillColor;
   final bool? filled;
-  final Color? focusedBoarderColor;
-  final Color? defaultBoarderColor;
+  final Color? focusedBorderColor;
+  final Color? defaultBorderColor;
   final TextEditingController? controller;
   final String? labelText;
   final void Function(String?)? onChanged;
   final void Function(String?)? onSubmitted;
+  final VoidCallback? onEditingComplete;
+  final void Function(PointerDownEvent?)? onTapOutSide;
   final bool? obscureText;
   final TextStyle? labelStyle;
   final TextStyle? inputTextStyle;
-  final TextInputType? keyBoardType;
-  final Icon? prefixIcon;
+  final TextInputType? keyboardType;
+  final Widget? prefixIcon;
   final int? maxLength;
   final Widget? suffixIconButton;
   final bool? enabled;
   final bool? readOnly;
   final double? borderRadius;
-  final FocusNode? focusNode; // Nullable focusNode property
+  final EdgeInsets? contentPadding; // Added customizable padding
+  final FocusNode? focusNode;
 
   const CustomTextField({
     super.key,
@@ -29,20 +32,23 @@ class CustomTextField extends StatefulWidget {
     this.controller,
     this.fillColor,
     this.filled,
-    this.defaultBoarderColor,
-    this.focusedBoarderColor,
+    this.defaultBorderColor,
+    this.focusedBorderColor,
     required this.labelText,
     this.labelStyle,
     this.inputTextStyle,
-    this.keyBoardType,
+    this.keyboardType,
     required this.prefixIcon,
     this.obscureText,
     this.suffixIconButton,
     this.enabled,
     this.onChanged,
     this.onSubmitted,
+    this.onEditingComplete,
+    this.onTapOutSide,
     this.borderRadius,
-    this.focusNode, // Add focusNode to constructor
+    this.contentPadding, // Add contentPadding to constructor
+    this.focusNode,
   });
 
   @override
@@ -55,13 +61,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
-    // Use the provided focusNode or create an internal one
     _internalFocusNode = widget.focusNode ?? FocusNode();
   }
 
   @override
   void dispose() {
-    // Dispose the internal focusNode only if it was created internally
     if (widget.focusNode == null) {
       _internalFocusNode.dispose();
     }
@@ -72,42 +76,44 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Unfocus the text field when tapping outside to close the keyboard
-        FocusScope.of(context).requestFocus(FocusNode());
+        FocusScope.of(context).unfocus(); // Close the keyboard when tapping outside
       },
       child: TextField(
         maxLength: widget.maxLength,
-        keyboardType: widget.keyBoardType ?? TextInputType.text,
+        keyboardType: widget.keyboardType ?? TextInputType.text,
         obscureText: widget.obscureText ?? false,
         controller: widget.controller,
         onChanged: widget.onChanged,
         readOnly: widget.readOnly ?? false,
         onSubmitted: widget.onSubmitted,
+        onEditingComplete: widget.onEditingComplete,
+        onTapOutside: widget.onTapOutSide,
         enabled: widget.enabled ?? true,
-        focusNode: _internalFocusNode, // Use the internal or external focusNode
+        focusNode: _internalFocusNode,
         decoration: InputDecoration(
-          fillColor: widget.fillColor,
-          filled: widget.filled ?? false,
+          fillColor: widget.fillColor ?? Colors.grey.shade100,
+          filled: widget.filled ?? true,
           counterText: '',
-          contentPadding: const EdgeInsets.all(16),
+          contentPadding: widget.contentPadding ?? const EdgeInsets.all(16), // Use customizable padding
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIconButton,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 20,),
-            borderSide: BorderSide(color: widget.defaultBoarderColor ?? Colors.grey),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 20.0),
+            borderSide: BorderSide(color: widget.defaultBorderColor ?? Colors.grey.shade400),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 20.0),
-            borderSide: BorderSide(color: widget.defaultBoarderColor ?? Colors.grey),
+            borderSide: BorderSide(color: widget.defaultBorderColor ?? Colors.grey.shade400),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 20.0),
-            borderSide: BorderSide(color: widget.focusedBoarderColor ?? Pallete.primary),
+            borderSide: BorderSide(color: widget.focusedBorderColor ?? Pallete.primary),
           ),
           labelText: widget.labelText ?? '',
-          labelStyle: widget.labelStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.grey)
+          labelStyle: widget.labelStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.grey),
         ),
-        style: widget.inputTextStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(color: Pallete.primary)
+        style: widget.inputTextStyle ??
+            Theme.of(context).textTheme.labelMedium?.copyWith(color: Pallete.primary),
       ),
     );
   }

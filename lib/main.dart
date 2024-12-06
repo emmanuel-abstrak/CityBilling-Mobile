@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/config/routes/router.dart';
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RoutesHelper.splashScreen,
       getPages: RoutesHelper.routes,
       home: cachedMunicipality != null
-          ? HomeScreen(selectedMunicipality: cachedMunicipality!)
+          ? const HomeScreen()
           : const MunicipalitiesScreen(),
     );
   }

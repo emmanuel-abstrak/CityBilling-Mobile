@@ -11,6 +11,9 @@ class MunicipalityController extends GetxController {
   /// List of municipalities that are fetched from the API.
   var municipalities = <Municipality>[].obs;
 
+
+  var selectedMunicipality = Rx<Municipality?>(null);
+
   /// List of municipalities filtered by search query.
   var filteredMunicipalities = <Municipality>[].obs;
 
@@ -98,7 +101,8 @@ class MunicipalityController extends GetxController {
   /// returns it if found, otherwise returns `null`.
   Future<Municipality?> checkCachedMunicipality() async {
     try {
-      return await CacheUtils.getMunicipalityCache();
+      selectedMunicipality.value = await CacheUtils.getMunicipalityCache();
+      return selectedMunicipality.value;
     } catch (e) {
       DevLogs.logError('Error checking cached municipality: $e');
       return null;
@@ -114,7 +118,8 @@ class MunicipalityController extends GetxController {
   Future<void> cacheMunicipality(Municipality municipality) async {
     try {
       await CacheUtils.cacheMunicipality(municipality: municipality);
-      DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
+      selectedMunicipality.value = municipality;
+          DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
     } catch (e) {
       DevLogs.logError('Error caching municipality: $e');
     }

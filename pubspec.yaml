@@ -29,6 +29,7 @@ dependencies:
   animated_search_bar: ^2.7.2
   searchfield: ^1.2.0
   google_fonts: ^6.2.1
+  dropdown_search: ^6.0.1
 
 dev_dependencies:
   flutter_test:

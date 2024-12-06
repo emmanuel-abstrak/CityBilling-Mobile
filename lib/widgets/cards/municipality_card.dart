@@ -26,7 +26,7 @@ class MunicipalityCard extends StatelessWidget {
           asyncFunction: () async {
             await municipalityController.cacheMunicipality(municipality);
 
-            Get.offAll(() => HomeScreen(selectedMunicipality: municipality));
+            Get.offAll(() => const HomeScreen());
           },
           loadingWidget: const Center(
             child: CustomLoader(

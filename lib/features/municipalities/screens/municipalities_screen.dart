@@ -52,28 +52,30 @@ class MunicipalitiesScreen extends StatelessWidget {
 
 
       ),
-      body: Obx(() {
-        // Check if municipalities are loaded
-        if (municipalityController.municipalities.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Obx(() {
+          // Check if municipalities are loaded
+          if (municipalityController.municipalities.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        return ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          itemCount: municipalityController.municipalities.length,
-          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
-          itemBuilder: (context, index) {
-            final municipality = municipalityController.municipalities[index];
-            return Column(
-              children: [
-                MunicipalityCard(
-                  municipality: municipality,
-                ),
-              ],
-            );
-          },
-        );
-      }),
+          return ListView.separated(
+            itemCount: municipalityController.municipalities.length,
+            separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+            itemBuilder: (context, index) {
+              final municipality = municipalityController.municipalities[index];
+              return Column(
+                children: [
+                  MunicipalityCard(
+                    municipality: municipality,
+                  ),
+                ],
+              );
+            },
+          );
+        }),
+      ),
     );
   }
 }

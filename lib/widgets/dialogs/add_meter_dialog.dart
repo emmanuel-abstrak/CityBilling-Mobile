@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
 import '../../core/constants/color_constants.dart';
