@@ -97,7 +97,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: widget.fillColor ?? Colors.grey.shade100,
           filled: widget.filled ?? true,
           counterText: '',
-          contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIconButton,
           border: OutlineInputBorder(
