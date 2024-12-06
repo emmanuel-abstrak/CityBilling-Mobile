@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/cards/municipality_card.dart';
-
-import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/search_delegates/municipality_delegate.dart';
 
 class MunicipalitiesScreen extends StatelessWidget {
@@ -15,36 +13,64 @@ class MunicipalitiesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
         title: const Text(
           'Providers',
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: MunicipalitySearchDelegate(municipalityController),
+          GestureDetector(
+            onTap: (){
+              Get.to(
+                  ModernSearchPage(municipalityController: municipalityController)
               );
             },
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 16
+              ),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-5, -5),
+                    blurRadius: 10,
+                  ),
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(5, 5),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.search),
+            ),
           ),
         ],
+        
+
+
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Obx(() {
           // Check if municipalities are loaded
           if (municipalityController.municipalities.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return ListView.builder(
+          return ListView.separated(
             itemCount: municipalityController.municipalities.length,
+            separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
             itemBuilder: (context, index) {
               final municipality = municipalityController.municipalities[index];
-              return MunicipalityCard(
-                municipality: municipality,
+              return Column(
+                children: [
+                  MunicipalityCard(
+                    municipality: municipality,
+                  ),
+                ],
               );
             },
           );

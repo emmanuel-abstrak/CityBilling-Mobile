@@ -3,14 +3,11 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
-import 'package:utility_token_app/core/constants/url_constants.dart';
 import 'package:utility_token_app/core/utils/dimensions.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/custom_button/general_button.dart';
 import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
-
-import '../../../core/constants/image_asset_constants.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
   final String redirectUrl;
@@ -25,6 +22,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   late InAppWebViewController _controller;
   late InAppWebView _webView;
   bool showProceedButton = false;
+  bool isLoading = true; // To track the loading state
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
 
   @override
@@ -38,6 +36,19 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           CustomSnackBar.showSuccessSnackbar(message: 'Payment Successful');
           setState(() {
             showProceedButton = true;
+            isLoading = false; // Stop the loading indicator
+          });
+        }
+      },
+      onLoadStart: (controller, url) {
+        setState(() {
+          isLoading = true; // Show loading indicator when the page starts loading
+        });
+      },
+      onProgressChanged: (controller, progress) {
+        if (progress == 100) {
+          setState(() {
+            isLoading = false; // Hide the loading indicator when the page is fully loaded
           });
         }
       },
@@ -50,29 +61,34 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            _webView,
+            _webView, // The WebView
 
-            if(showProceedButton)Positioned(
-              bottom: 0,
-              right: 36,
-              left: 36,
-              child: GeneralButton(
-                onTap: ()async{
-                  final cachedMunicipality = await municipalityController.checkCachedMunicipality();
+            if (isLoading)
+              const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Pallete.primary),
+                ),
+              ),
 
-                  Get.offAllNamed(RoutesHelper.initialScreen, arguments: cachedMunicipality);
-                },
-                btnColor: Pallete.primary,
-                width: Dimensions.screenWidth * .8,
-                child: const Text(
-                  'Proceed to Home',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
+            // If payment is successful, show the "Proceed to Home" button
+            if (showProceedButton)
+              Positioned(
+                bottom: 30,
+                right: 36,
+                left: 36,
+                child: GeneralButton(
+                  onTap: () async {
+                    final cachedMunicipality = await municipalityController.checkCachedMunicipality();
+                    Get.offAllNamed(RoutesHelper.initialScreen, arguments: cachedMunicipality);
+                  },
+                  btnColor: Pallete.primary,
+                  width: Dimensions.screenWidth * .8,
+                  child: const Text(
+                    'Proceed to Home',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-            )
           ],
         ),
       ),

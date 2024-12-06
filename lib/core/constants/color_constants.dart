@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:utility_token_app/widgets/custom_typography/typography.dart';
 
 class Pallete{
- static const Color primary = Color(0xFF1E88E5);
- static const Color secondary = Color(0xFF26A69A);
- static const Color background = Color(0xFFF5F5F5);
+ static const Color secondary = Color(0xFF0B378F);
+ static const Color orange = Color(0xFFF57F00);
+ static const Color primary = Color(0xFF1690ED);
  static const Color surface = Colors.white;
  static var success = Colors.green[600];
  static const Color error = Color(0xFFD32F2F);
@@ -17,23 +19,20 @@ class Pallete{
 
 
  static ThemeData appTheme = ThemeData(
-  primarySwatch: Colors.blue,
   brightness: Brightness.light,
   scaffoldBackgroundColor: surface,
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
    elevation: 0,
-   iconTheme: IconThemeData(color: Colors.white),
+   iconTheme: const IconThemeData(color: onSurface),
    centerTitle: true,
-   backgroundColor: primary,
-   titleTextStyle: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 18
-   ),
+   backgroundColor: surface,
+   titleTextStyle: CustomTypography.poppinsTextTheme.titleMedium?.copyWith(color: onSurface, fontWeight: FontWeight.bold)
   ),
+  textTheme: CustomTypography.poppinsTextTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
    style: ElevatedButton.styleFrom(
-    foregroundColor: Colors.white, backgroundColor: Colors.blue,
+    foregroundColor: Colors.white,
+    backgroundColor: primary,
     shape: RoundedRectangleBorder(
      borderRadius: BorderRadius.circular(8),
     ),
@@ -45,7 +44,7 @@ class Pallete{
    ),
    focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.blue, width: 2),
+    borderSide: const BorderSide(color: primary, width: 2),
    ),
   ),
   cardTheme: CardTheme(

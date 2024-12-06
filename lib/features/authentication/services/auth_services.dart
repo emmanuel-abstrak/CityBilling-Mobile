@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:utility_token_app/core/constants/url_constants.dart';
 import 'package:utility_token_app/core/utils/api_response.dart';
 import 'package:utility_token_app/core/utils/logs.dart';

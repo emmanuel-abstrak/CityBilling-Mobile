@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
-import '../../features/property/model/property.dart';
 import 'logs.dart';
 
 /// A utility class for caching and retrieving application data using
@@ -16,13 +15,12 @@ class CacheUtils {
   static const _hasSeenTutorialCacheKey = 'hasSeenOnboarding';
 
   /// Key for storing a cached property in the cache.
-  static const _propertyCacheKey = 'cached_property';
+  static const _propertiesCacheKey = 'cached_properties';
 
   /// Key for storing a cached municipality in the cache.
   static const _municipalityCacheKey = 'cached_municipality';
 
   /// Key for storing a list of meter numbers in the cache.
-  static const _meterNumbersCacheKey = 'cached_meter_numbers';
 
 
   // --- Onboarding Methods ---
@@ -85,68 +83,6 @@ class CacheUtils {
     }
   }
 
-  // --- Property Methods ---
-
-  /// Saves a property object to the cache.
-  ///
-  /// This method serializes the given [property] to JSON and stores it in the
-  /// cache under a specific key.
-  ///
-  /// Parameters:
-  /// - [property]: The property to be cached.
-  ///
-  /// Returns:
-  /// - Nothing. Logs an error if caching fails.
-  static Future<void> savePropertyToCache({required Property property}) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final propertyJson = jsonEncode(property.toJson());
-      await prefs.setString(_propertyCacheKey, propertyJson);
-    } catch (e) {
-      DevLogs.logError('Error saving Property to cache: $e');
-    }
-  }
-
-  /// Retrieves a property object from the cache.
-  ///
-  /// This method deserializes the JSON stored in the cache back into a [Property]
-  /// object. If no property is cached or if deserialization fails, `null` is
-  /// returned.
-  ///
-  /// Returns:
-  /// - A [Property] object if the cache contains valid data.
-  /// - `null` otherwise or in case of an error.
-  static Future<Property?> getPropertyCache() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final propertyJson = prefs.getString(_propertyCacheKey);
-      if (propertyJson != null) {
-        final hostData = jsonDecode(propertyJson) as Map<String, dynamic>;
-        return Property.fromJson(hostData);
-      }
-    } catch (e) {
-      DevLogs.logError('Error retrieving Property from cache: $e');
-    }
-    return null;
-  }
-
-  /// Clears the cached property data.
-  ///
-  /// This method removes the property data stored in the cache.
-  ///
-  /// Returns:
-  /// - Nothing. Logs an error if clearing fails.
-  static Future<void> clearPropertyCache() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_propertyCacheKey);
-    } catch (e) {
-      DevLogs.logError('Error clearing Property cache: $e');
-    }
-  }
-
-  // --- Municipality Methods ---
-
   /// Caches a municipality object.
   ///
   /// This method serializes the given [municipality] to JSON and stores it in the
@@ -205,97 +141,97 @@ class CacheUtils {
     }
   }
 
+  // --- Property List Methods ---
 
-  // --- Meter Numbers Methods ---
-
-  /// Caches a list of meter numbers.
+  /// Caches a list of properties.
   ///
-  /// This method serializes the given list of [meterNumbers] and stores it in the cache.
+  /// This method serializes the given list of [properties] to JSON and stores
+  /// it in the cache.
   ///
   /// Parameters:
-  /// - [meterNumbers]: The list of meter numbers to cache.
+  /// - [properties]: The list of properties to cache.
   ///
   /// Returns:
   /// - Nothing. Logs an error if caching fails.
-  static Future<void> cacheMeterNumbers({required List<String> meterNumbers}) async {
+  static Future<void> cachePropertyList({required List<MeterDetails> properties}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final meterNumbersJson = jsonEncode(meterNumbers);
-      await prefs.setString(_meterNumbersCacheKey, meterNumbersJson);
+      final propertiesJson = jsonEncode(properties.map((e) => e.toJson()).toList());
+      await prefs.setString(_propertiesCacheKey, propertiesJson);
     } catch (e) {
-      DevLogs.logError('Error saving meter numbers to cache: $e');
+      DevLogs.logError('Error saving Property List to cache: $e');
     }
   }
 
-  /// Retrieves the cached list of meter numbers.
+  /// Retrieves the cached list of properties.
   ///
-  /// This method deserializes the JSON stored in the cache back into a list of strings.
-  /// If no meter numbers are cached or if deserialization fails, an empty list is returned.
+  /// This method deserializes the JSON stored in the cache back into a list of
+  /// [MeterDetails] objects. If no properties are cached or if deserialization fails,
+  /// an empty list is returned.
   ///
   /// Returns:
-  /// - A list of meter numbers if the cache contains valid data.
+  /// - A list of [MeterDetails] objects if the cache contains valid data.
   /// - An empty list otherwise or in case of an error.
-  static Future<List<String>> getMeterNumbersCache() async {
+  static Future<List<MeterDetails>> getPropertyListCache() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final meterNumbersJson = prefs.getString(_meterNumbersCacheKey);
-      if (meterNumbersJson != null) {
-        return List<String>.from(jsonDecode(meterNumbersJson));
+      final propertiesJson = prefs.getString(_propertiesCacheKey);
+      if (propertiesJson != null) {
+        final decoded = jsonDecode(propertiesJson) as List;
+        return decoded.map((e) => MeterDetails.fromJson(e as Map<String, dynamic>)).toList();
       }
     } catch (e) {
-      DevLogs.logError('Error retrieving meter numbers from cache: $e');
+      DevLogs.logError('Error retrieving Property List from cache: $e');
     }
     return [];
   }
 
-  /// Deletes a specific meter number from the cache.
+  /// Deletes a specific property from the cached list.
   ///
-  /// This method retrieves the cached list of meter numbers, removes the specified
-  /// [meterNumber] if it exists, and updates the cache.
+  /// This method retrieves the cached list of properties, removes the specified
+  /// [property] if it exists, and updates the cache.
   ///
   /// Parameters:
-  /// - [meterNumber]: The meter number to remove.
+  /// - [meterNumber]: The ID of the property to remove.
   ///
   /// Returns:
   /// - Nothing. Logs an error if deletion fails.
-  static Future<void> deleteMeterNumber({required String meterNumber}) async {
+  static Future<void> deleteProperty({required String meterNumber}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final currentMeterNumbers = await getMeterNumbersCache();
-      currentMeterNumbers.remove(meterNumber);
-      final updatedMeterNumbersJson = jsonEncode(currentMeterNumbers);
-      await prefs.setString(_meterNumbersCacheKey, updatedMeterNumbersJson);
+      final currentProperties = await getPropertyListCache();
+      final updatedProperties = currentProperties
+          .where((property) => property.number != meterNumber)
+          .toList();
+      final updatedPropertiesJson = jsonEncode(updatedProperties.map((e) => e.toJson()).toList());
+      await prefs.setString(_propertiesCacheKey, updatedPropertiesJson);
     } catch (e) {
-      DevLogs.logError('Error deleting meter number from cache: $e');
+      DevLogs.logError('Error deleting Property from cache: $e');
     }
   }
 
-  /// Updates a specific meter number in the cache.
+  /// Updates a specific property in the cached list.
   ///
-  /// This method retrieves the cached list of meter numbers, replaces the [oldMeterNumber]
-  /// with the [newMeterNumber] if it exists, and updates the cache.
+  /// This method retrieves the cached list of properties, replaces the property
+  /// with the same ID as [updatedProperty] if it exists, and updates the cache.
   ///
   /// Parameters:
-  /// - [oldMeterNumber]: The meter number to update.
-  /// - [newMeterNumber]: The new meter number to replace the old one.
+  /// - [updatedProperty]: The updated property object.
   ///
   /// Returns:
   /// - Nothing. Logs an error if updating fails.
-  static Future<void> updateMeterNumber({
-    required String oldMeterNumber,
-    required String newMeterNumber,
-  }) async {
+  static Future<void> updateProperty({required MeterDetails updatedProperty}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final currentMeterNumbers = await getMeterNumbersCache();
-      final index = currentMeterNumbers.indexOf(oldMeterNumber);
+      final currentProperties = await getPropertyListCache();
+      final index = currentProperties.indexWhere((property) => property.number == updatedProperty.number);
       if (index != -1) {
-        currentMeterNumbers[index] = newMeterNumber;
-        final updatedMeterNumbersJson = jsonEncode(currentMeterNumbers);
-        await prefs.setString(_meterNumbersCacheKey, updatedMeterNumbersJson);
+        currentProperties[index] = updatedProperty;
+        final updatedPropertiesJson = jsonEncode(currentProperties.map((e) => e.toJson()).toList());
+        await prefs.setString(_propertiesCacheKey, updatedPropertiesJson);
       }
     } catch (e) {
-      DevLogs.logError('Error updating meter number in cache: $e');
+      DevLogs.logError('Error updating Property in cache: $e');
     }
   }
 

@@ -32,7 +32,6 @@ class PaymentController extends GetxController {
         Get.back();
       } else {
         Get.back();
-        CustomSnackBar.showErrorSnackbar(message: response.message!);
       }
     } catch (e) {
       CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
@@ -42,7 +41,7 @@ class PaymentController extends GetxController {
   }
 
   /// Initiates the payment and provides the redirect URL for payment processing.
-  Future<void> initiatePayment({
+  Future<APIResponse<String>> initiatePayment({
     required String accessToken,
     required String meterNumber,
     required String currency,
@@ -58,18 +57,23 @@ class PaymentController extends GetxController {
         amount: amount,
       );
 
-      if (response.success) {
-        String redirectUrl = response.data!;
+      // Log success
+      DevLogs.logInfo('Customer details lookup successful for meter number: $meterNumber');
 
-        DevLogs.logSuccess(redirectUrl);
-        Get.back();
-        Get.toNamed(RoutesHelper.webviewPaymentPage, arguments: redirectUrl);
-      } else {
-        Get.back();
-        CustomSnackBar.showErrorSnackbar(message: response.message!);
-      }
-    } catch (e) {
-      CustomSnackBar.showErrorSnackbar(message: "Failed to initiate payment. Please try again.");
+      return response;
+    } catch (e, stackTrace) {
+      // Log the error and stack trace for detailed debugging
+      DevLogs.logError('Error fetching customer details for meter number $meterNumber: $e');
+      DevLogs.logError('Stack trace: $stackTrace');
+
+      // Show a custom snackbar with the error message
+      CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
+
+      // Return a response indicating failure
+      return APIResponse(
+        success: false,
+        message: e.toString(),
+      );
     } finally {
       isLoading.value = false;
     }

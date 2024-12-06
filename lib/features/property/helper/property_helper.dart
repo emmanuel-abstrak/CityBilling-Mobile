@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:utility_token_app/widgets/dialogs/update_dialog.dart';
 import '../state/property_controller.dart';
-import 'package:utility_token_app/features/property/model/property.dart';
 import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
 import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
 
@@ -24,62 +23,62 @@ class PropertyHelper {
   /// Returns:
   /// - `true` if the property was successfully added.
   /// - `false` if there was an error during validation or saving.
-  static Future<bool> validateAndSubmit({
-    required String name,
-    required String address,
-    required String meter,
-  }) async {
-    // Input validation
-    if (name.trim().isEmpty) {
-      CustomSnackBar.showErrorSnackbar(message: 'Property name cannot be empty.');
-      return false;
-    }
-
-    if (address.trim().isEmpty) {
-      CustomSnackBar.showErrorSnackbar(message: 'Property address cannot be empty.');
-      return false;
-    }
-
-    if (meter.trim().isEmpty) {
-      CustomSnackBar.showErrorSnackbar(message: 'Meter number cannot be empty.');
-      return false;
-    }
-
-    if (!RegExp(r'^[0-9]+$').hasMatch(meter)) {
-      CustomSnackBar.showErrorSnackbar(message: 'Meter number must be numeric.');
-      return false;
-    }
-
-    try {
-      // Construct the Property object
-      final property = Property(
-        id: DateTime.now().toIso8601String(),
-        name: name.trim(),
-        address: address.trim(),
-        meterNumber: meter.trim(),
-      );
-
-      // Show a loading dialog
-      Get.dialog(
-        barrierDismissible: false,
-        const CustomLoader(message: 'Adding property...'),
-      );
-
-      // Save property via controller
-      final propertyController = Get.find<PropertyController>();
-      await propertyController.saveProperty(property);
-
-      // Dismiss loader and show success message
-      Get.back();
-      return true;
-    } catch (e) {
-      // Dismiss loader and show error message
-      Get.back();
-      CustomSnackBar.showErrorSnackbar(message: 'Failed to add property. Please try again.');
-      DevLogs.logError('Error in validateAndSubmit: $e');
-      return false;
-    }
-  }
+  // static Future<bool> validateAndSubmit({
+  //   required String name,
+  //   required String address,
+  //   required String meter,
+  // }) async {
+  //   // Input validation
+  //   if (name.trim().isEmpty) {
+  //     CustomSnackBar.showErrorSnackbar(message: 'Property name cannot be empty.');
+  //     return false;
+  //   }
+  //
+  //   if (address.trim().isEmpty) {
+  //     CustomSnackBar.showErrorSnackbar(message: 'Property address cannot be empty.');
+  //     return false;
+  //   }
+  //
+  //   if (meter.trim().isEmpty) {
+  //     CustomSnackBar.showErrorSnackbar(message: 'Meter number cannot be empty.');
+  //     return false;
+  //   }
+  //
+  //   if (!RegExp(r'^[0-9]+$').hasMatch(meter)) {
+  //     CustomSnackBar.showErrorSnackbar(message: 'Meter number must be numeric.');
+  //     return false;
+  //   }
+  //
+  //   try {
+  //     // Construct the Property object
+  //     final property = Property(
+  //       id: DateTime.now().toIso8601String(),
+  //       name: name.trim(),
+  //       address: address.trim(),
+  //       meterNumber: meter.trim(),
+  //     );
+  //
+  //     // Show a loading dialog
+  //     Get.dialog(
+  //       barrierDismissible: false,
+  //       const CustomLoader(message: 'Adding property...'),
+  //     );
+  //
+  //     // Save property via controller
+  //     final propertyController = Get.find<PropertyController>();
+  //     await propertyController.addProperty(property);
+  //
+  //     // Dismiss loader and show success message
+  //     Get.back();
+  //     return true;
+  //   } catch (e) {
+  //     // Dismiss loader and show error message
+  //     Get.back();
+  //     CustomSnackBar.showErrorSnackbar(message: 'Failed to add property. Please try again.');
+  //     DevLogs.logError('Error in validateAndSubmit: $e');
+  //     return false;
+  //   }
+  // }
 
 
   /// Confirms if the user wants to discard unsaved changes.
@@ -149,56 +148,57 @@ class PropertyHelper {
   /// Returns:
   /// - `true` if the property was successfully updated.
   /// - `false` otherwise.
-  static Future<bool> editProperty({
-    required PropertyController propertyController,
-    required String name,
-    required String address,
-    required String meter,
-  }) async {
-    try {
-      // Input validation
-      if (name.trim().isEmpty) {
-        CustomSnackBar.showErrorSnackbar(message: 'Property name cannot be empty.');
-        return false;
-      }
+  // static Future<bool> editProperty({
+  //   required PropertyController propertyController,
+  //   required String name,
+  //   required String address,
+  //   required String meter,
+  // }) async {
+  //   try {
+  //     // Input validation
+  //     if (name.trim().isEmpty) {
+  //       CustomSnackBar.showErrorSnackbar(message: 'Property name cannot be empty.');
+  //       return false;
+  //     }
+  //
+  //     if (address.trim().isEmpty) {
+  //       CustomSnackBar.showErrorSnackbar(message: 'Property address cannot be empty.');
+  //       return false;
+  //     }
+  //
+  //     if (meter.trim().isEmpty || !RegExp(r'^[0-9]+$').hasMatch(meter)) {
+  //       CustomSnackBar.showErrorSnackbar(message: 'Meter number must be numeric and not empty.');
+  //       return false;
+  //     }
+  //
+  //     // Show a loading dialog
+  //     Get.dialog(
+  //       barrierDismissible: false,
+  //       const CustomLoader(message: 'Updating property...'),
+  //     );
+  //
+  //     // Retrieve the selected property and update its fields
+  //     final selectedProperty = propertyController.property!;
+  //     final updatedProperty = selectedProperty.copyWith(
+  //       name: name.trim(),
+  //       address: address.trim(),
+  //       meterNumber: meter.trim(),
+  //     );
+  //
+  //     // Save the updated property
+  //     await propertyController.updateProperty(updatedProperty: updatedProperty);
+  //
+  //     // Dismiss the loader and show success message
+  //     Get.back();
+  //     CustomSnackBar.showSuccessSnackbar(message: 'Property updated successfully.');
+  //     return true;
+  //   } catch (e) {
+  //     // Dismiss the loader and show error message
+  //     Get.back();
+  //     CustomSnackBar.showErrorSnackbar(message: 'Failed to update property. Please try again.');
+  //     DevLogs.logError('Error in editProperty: $e');
+  //     return false;
+  //   }
+  // }
 
-      if (address.trim().isEmpty) {
-        CustomSnackBar.showErrorSnackbar(message: 'Property address cannot be empty.');
-        return false;
-      }
-
-      if (meter.trim().isEmpty || !RegExp(r'^[0-9]+$').hasMatch(meter)) {
-        CustomSnackBar.showErrorSnackbar(message: 'Meter number must be numeric and not empty.');
-        return false;
-      }
-
-      // Show a loading dialog
-      Get.dialog(
-        barrierDismissible: false,
-        const CustomLoader(message: 'Updating property...'),
-      );
-
-      // Retrieve the selected property and update its fields
-      final selectedProperty = propertyController.property!;
-      final updatedProperty = selectedProperty.copyWith(
-        name: name.trim(),
-        address: address.trim(),
-        meterNumber: meter.trim(),
-      );
-
-      // Save the updated property
-      await propertyController.updateProperty(updatedProperty: updatedProperty);
-
-      // Dismiss the loader and show success message
-      Get.back();
-      CustomSnackBar.showSuccessSnackbar(message: 'Property updated successfully.');
-      return true;
-    } catch (e) {
-      // Dismiss the loader and show error message
-      Get.back();
-      CustomSnackBar.showErrorSnackbar(message: 'Failed to update property. Please try again.');
-      DevLogs.logError('Error in editProperty: $e');
-      return false;
-    }
-  }
 }

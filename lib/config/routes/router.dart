@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
+import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/buy/screens/buy_utility_screen.dart';
 import 'package:utility_token_app/features/buy/screens/payment_webview.dart';
 import 'package:utility_token_app/features/home_screen.dart';
-import 'package:utility_token_app/features/municipalities/models/municipality.dart';
-import 'package:utility_token_app/features/property/screens/add_property_screen.dart';
-import 'package:utility_token_app/features/property/screens/property_detail_screen.dart';
 import 'package:utility_token_app/features/splash/splash/splash_screen.dart';
 import '../../features/municipalities/screens/municipalities_screen.dart';
+import '../../features/property/screens/property_detail_screen.dart';
 
 class RoutesHelper {
   static String initialScreen = "/";
@@ -20,35 +19,31 @@ class RoutesHelper {
   static List<GetPage> routes = [
     GetPage(name: splashScreen, page: ()=> const SplashScreen()),
     GetPage(name: municipalitiesScreen, page: ()=> const MunicipalitiesScreen()),
-    GetPage(name: addProperty, page: ()=> const AddPropertyScreen()),
-
 
 
     GetPage(
       name: initialScreen,
       page: (){
-        final municipality = Get.arguments as Municipality;
-        return HomeScreen(selectedMunicipality: municipality);
+        return const HomeScreen();
       }
     ),
 
     GetPage(
       name: propertyDetails,
       page: (){
-        return const EditPropertyScreen();
+        final property = Get.arguments as MeterDetails;
+
+        return PropertyDetailsScreen(property: property);
       }
     ),
 
     GetPage(
       name: buyScreen,
       page: () {
-        final arguments = Get.arguments as List<dynamic>;
-        final municipality = arguments[0] as Municipality;
-        final meterNumber = arguments[1] as String?;
+        final MeterDetails? property = Get.arguments as MeterDetails?;
 
         return BuyUtilityScreen(
-          municipality: municipality,
-          selectedMeterNumber: meterNumber,
+          selectedProperty: property,
         );
       },
     ),

@@ -5,29 +5,23 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/core/constants/image_asset_constants.dart';
-import 'package:utility_token_app/features/municipalities/models/municipality.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
-import 'package:utility_token_app/features/property/state/meter_number_controller.dart';
+import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/features/property/state/tutorial_controller.dart';
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
-import 'package:utility_token_app/widgets/dialogs/delete_dialog.dart';
-import 'package:utility_token_app/widgets/dialogs/update_dialog.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
-import 'package:utility_token_app/widgets/tiles/profile_option_tile.dart';
+import '../widgets/cards/property_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Municipality selectedMunicipality;
-  const HomeScreen({super.key, required this.selectedMunicipality});
+  const HomeScreen({super.key,});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final MeterNumberController meterStateNumberController = Get.find<MeterNumberController>();
+  final PropertyController propertyController = Get.find<PropertyController>();
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
   final TutorialController tutorialController = Get.find<TutorialController>();
-
   late TutorialCoachMark tutorialCoachMark;
   final GlobalKey addPropertyKey = GlobalKey();
 
@@ -75,140 +69,80 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.selectedMunicipality.name,
+        title: Obx(() {
+            return Text(
+              municipalityController.selectedMunicipality.value!.name
+            );
+          }
         ),
         leading: Builder(
           builder: (context) {
-            return IconButton(
-              onPressed: () async {
+            return GestureDetector(
+              onTap: ()async{
                 await municipalityController.clearCachedMunicipality().then((_) {
                   Get.offAllNamed(RoutesHelper.municipalitiesScreen);
                 });
               },
-              icon: Icon(
-                GetPlatform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-5, -5),
+                      blurRadius: 10,
+                    ),
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(5, 5),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),
             );
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          final meterNumbers = meterStateNumberController.meterNumbers;
+      body: Obx(() {
+        final properties = propertyController.properties;
 
-          if (meterNumbers.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    LocalImageConstants.emptyBox,
-                    scale: 2,
-                  ),
-                  const Text(
-                    "No meter numbers Found.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: meterNumbers.length,
-            itemBuilder: (context, index) {
-              final meterNumber = meterNumbers[index];
-              final municipality = widget.selectedMunicipality;
-              return GestureDetector(
-                onTap: (){
-                  Get.toNamed(RoutesHelper.buyScreen, arguments: [municipality, meterNumber]);
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 6
-                  ),
-                  child: ProfileOptionTile(
-                    title: 'Meter Number',
-                    value: meterNumber,
-                    icon: FontAwesomeIcons.gaugeHigh,
-                    trailing: PopupMenuButton(
-                      color: Colors.white,
-                      itemBuilder: (BuildContext context) {
-                        return [
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.pen,
-                                  color: Colors.grey.shade700,
-                                  size: 20,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Text(
-                                  'Edit',
-                                ),
-                              ],
-                            ),
-                            onTap: (){
-                              Get.dialog(
-                                  UpdateDialog(
-                                      title: 'Meter Number',
-                                      initialValue: meterNumber,
-                                      onUpdate: (value)async{
-                                        await meterStateNumberController.updateMeterNumber(
-                                          oldMeterNumber: meterNumber,
-                                          newMeterNumber: value,
-                                        );
-
-                                        CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
-                                      }
-                                  )
-                              );
-                            },
-                          ),
-                          PopupMenuItem(
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.trashCan,
-                                  color: Colors.redAccent,
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'Delete',
-                                ),
-                              ],
-                            ),
-                            onTap: (){
-                              Get.dialog(
-                                  DeleteDialog(
-                                    itemName: 'Meter Number: $meterNumber',
-                                    onConfirm: ()async{
-                                      await meterStateNumberController.deleteMeterNumber(meterNumber);
-                                      CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
-                                    },
-                                  )
-                              );
-                            },
-                          ),
-                        ];
-                      },
-                    )
-                  ),
+        if (properties.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  LocalImageConstants.emptyBox,
+                  scale: 2,
                 ),
-              );
-            },
+                const Text(
+                  "No saved properties",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           );
-        }),
-      ),
+        }
+
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          itemCount: properties.length,
+          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+          itemBuilder: (context, index) {
+            final property = properties[index];
+            return MeterDetailsTile(
+              meter: property,
+              icon: FontAwesomeIcons.gaugeHigh,
+            );
+          },
+        );
+      }),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -221,12 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               Get.dialog(
                 barrierDismissible: false,
-                AddMeterDialog(
-                  onUpdate: (value){
-                    if (value.isNotEmpty) {
-                      meterStateNumberController.addMeterNumber(value);
-                    }
-                  },
+                const AddMeterDialog(
                   title: 'Meter Number',
                   initialValue: '',
                 )
@@ -240,8 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
             heroTag: 'buyUtility',
             backgroundColor: Pallete.success,
             onPressed: () {
-              final municipality = widget.selectedMunicipality;
-              Get.toNamed(RoutesHelper.buyScreen, arguments: [municipality, null]);
+              Get.toNamed(RoutesHelper.buyScreen, arguments: null);
             },
             child: const Icon(
               FontAwesomeIcons.cartShopping,

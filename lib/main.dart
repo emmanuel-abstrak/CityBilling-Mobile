@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
-import 'package:utility_token_app/features/property/state/meter_number_controller.dart';
+import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'core/constants/color_constants.dart';
 import 'features/municipalities/screens/municipalities_screen.dart';
 import 'features/home_screen.dart';
@@ -17,7 +16,7 @@ Future<void> main() async {
   Get.put(ConnectivityController());
   Get.put(MunicipalityController());
   Get.put(TutorialController());
-  Get.put(MeterNumberController());
+  Get.put(PropertyController());
   Get.put(PaymentController());
 
 
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RoutesHelper.splashScreen,
       getPages: RoutesHelper.routes,
       home: cachedMunicipality != null
-          ? HomeScreen(selectedMunicipality: cachedMunicipality!)
+          ? const HomeScreen()
           : const MunicipalitiesScreen(),
     );
   }

@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:utility_token_app/features/property/model/property.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:utility_token_app/config/routes/router.dart';
+import 'package:utility_token_app/features/buy/models/meter_details.dart';
 
-class PropertyCard extends StatelessWidget {
-  final Property property;
-  final VoidCallback onTap;
+import '../../core/constants/color_constants.dart';
+import '../../core/constants/icon_asset_constants.dart';
 
-  const PropertyCard({
-    Key? key,
-    required this.property,
-    required this.onTap,
-  }) : super(key: key);
+class MeterDetailsTile extends StatelessWidget {
+  final MeterDetails meter;
+  final IconData icon;
+  const MeterDetailsTile({super.key, required this.icon, required this.meter,});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: ListTile(
-        title: Text(
-          property.name,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(property.address),
-            Text('Meter Number: ${property.meterNumber}'),
-          ],
-        ),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: onTap,
+    return ListTile(
+      leading: SvgPicture.asset(
+        CustomIcons.meter,
+        semanticsLabel: 'view property',
+        color: Pallete.primary,
+        height: 40,
       ),
+      title: Text(
+        meter.customerName,
+        style: const TextStyle(
+            color: Colors.grey,
+            fontSize: 12
+        ),
+      ),
+      subtitle: Text(
+        meter.number,
+        style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold
+        ),
+      ),
+      trailing: SvgPicture.asset(
+        CustomIcons.forward,
+        semanticsLabel: 'view property',
+        color: Colors.grey,
+        height: 15,
+      ),
+      onTap: (){
+        Get.toNamed(RoutesHelper.propertyDetails, arguments: meter);
+      },
     );
   }
 }
-

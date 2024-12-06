@@ -1,17 +1,21 @@
 import 'package:get/get.dart';
-
 import '../../../core/utils/logs.dart';
 import '../../../core/utils/shared_pref_methods.dart';
 import '../api_services/municpalities.dart';
 import '../models/municipality.dart';
 
 /// `MunicipalityController` is a controller responsible for managing
-/// the state of municipalities in the application. It handles the fetching
-/// of municipalities from an API and manages the cache for storing a selected municipality.
+/// the state of municipalities in the application, including fetching,
+/// caching, and searching.
 class MunicipalityController extends GetxController {
-
   /// List of municipalities that are fetched from the API.
   var municipalities = <Municipality>[].obs;
+
+
+  var selectedMunicipality = Rx<Municipality?>(null);
+
+  /// List of municipalities filtered by search query.
+  var filteredMunicipalities = <Municipality>[].obs;
 
   /// Boolean to track loading state while fetching municipalities.
   var isLoading = false.obs;
@@ -19,18 +23,29 @@ class MunicipalityController extends GetxController {
   /// Error message to display in case of failed fetch operations.
   var errorMessage = ''.obs;
 
-  /// Error code to trigger retry logic
+  /// Boolean to track if an error occurred during fetch.
   var isError = false.obs;
 
+  /// Current search query for filtering municipalities.
+  var searchQuery = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    // Listen to changes in the search query and update filtered municipalities.
+    debounce(
+      searchQuery,
+          (_) => filterMunicipalities(),
+      time: const Duration(milliseconds: 300),
+    );
+  }
 
   /// Fetches municipalities from the API and updates the state.
   ///
   /// This method makes an API call to retrieve a list of municipalities.
-  /// If successful, it updates the `municipalities` list, otherwise, it
-  /// updates the `errorMessage` state.
-
-
-  // Fetches municipalities from the API and updates the state.
+  /// If successful, it updates the `municipalities` list; otherwise,
+  /// it updates the `errorMessage` state.
   Future<void> fetchMunicipalities() async {
     try {
       isLoading.value = true;
@@ -42,6 +57,7 @@ class MunicipalityController extends GetxController {
       if (response.success) {
         // Update the list of municipalities
         municipalities.value = response.data ?? [];
+        filteredMunicipalities.value = municipalities; // Initialize filtered list
         DevLogs.logInfo("Municipalities loaded successfully");
       } else {
         // Update the error message
@@ -59,23 +75,34 @@ class MunicipalityController extends GetxController {
     }
   }
 
-  // Retry fetching municipalities when there is a network error
+  /// Retry fetching municipalities when there is a network error.
   Future<void> retryFetchMunicipalities() async {
     await fetchMunicipalities();
   }
 
+  /// Filters municipalities based on the current search query.
+  ///
+  /// Updates the `filteredMunicipalities` list to show only municipalities
+  /// whose names match the search query.
+  void filterMunicipalities() {
+    if (searchQuery.isEmpty) {
+      filteredMunicipalities.value = municipalities;
+    } else {
+      filteredMunicipalities.value = municipalities
+          .where((municipality) =>
+          municipality.name.toLowerCase().contains(searchQuery.value.toLowerCase()))
+          .toList();
+    }
+  }
 
   /// Checks if a municipality is saved in the cache.
   ///
   /// This method checks if a municipality is available in the cache and
   /// returns it if found, otherwise returns `null`.
-  ///
-  /// Returns:
-  /// - A `Municipality` object if a cached municipality is found.
-  /// - `null` if no cached municipality is found.
   Future<Municipality?> checkCachedMunicipality() async {
     try {
-      return await CacheUtils.getMunicipalityCache();
+      selectedMunicipality.value = await CacheUtils.getMunicipalityCache();
+      return selectedMunicipality.value;
     } catch (e) {
       DevLogs.logError('Error checking cached municipality: $e');
       return null;
@@ -91,7 +118,8 @@ class MunicipalityController extends GetxController {
   Future<void> cacheMunicipality(Municipality municipality) async {
     try {
       await CacheUtils.cacheMunicipality(municipality: municipality);
-      DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
+      selectedMunicipality.value = municipality;
+          DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
     } catch (e) {
       DevLogs.logError('Error caching municipality: $e');
     }

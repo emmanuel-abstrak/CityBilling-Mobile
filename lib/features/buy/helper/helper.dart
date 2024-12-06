@@ -48,7 +48,7 @@ class PaymentHelper {
 
       // Check if purchase summary is available after fetching
       if (paymentController.purchaseSummary.value == null) {
-        CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve customer details. Please try again.");
+        CustomSnackBar.showErrorSnackbar(message: "Unable to retrieve customer details. Please check your meter number and try again.", duration: 8);
         return false;
       }
 
@@ -80,4 +80,10 @@ class PaymentHelper {
   static bool _isValidCurrency(String selectedCurrency) {
     return selectedCurrency.isNotEmpty;
   }
+
+  static String capitalizeFirstLetter(String word) {
+    if (word.isEmpty) return word;
+    return word[0].toUpperCase() + word.substring(1).toLowerCase();
+  }
+
 }

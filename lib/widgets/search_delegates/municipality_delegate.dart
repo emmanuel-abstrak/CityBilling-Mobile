@@ -1,87 +1,172 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
+import 'package:utility_token_app/core/utils/logs.dart';
+import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
+import 'package:utility_token_app/widgets/text_fields/custom_text_field.dart';
+import '../../core/constants/color_constants.dart';
+import '../../core/constants/icon_asset_constants.dart';
+import '../../features/home_screen.dart';
 import '../../features/municipalities/state/municipalities_controller.dart';
-import '../cards/municipality_card.dart';
 
-class MunicipalitySearchDelegate extends SearchDelegate {
+class ModernSearchPage extends StatefulWidget {
   final MunicipalityController municipalityController;
 
-  MunicipalitySearchDelegate(this.municipalityController);
+  const ModernSearchPage({required this.municipalityController, super.key});
 
   @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
+  State<ModernSearchPage> createState() => _ModernSearchPageState();
+}
+
+class _ModernSearchPageState extends State<ModernSearchPage> {
+  String query = '';
+  List suggestions = [];
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildSearchAppBar(),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: query.isEmpty
+            ? _buildSuggestionPrompt()
+            : suggestions.isEmpty
+            ? _buildNoResultsFound()
+            : _buildListView(suggestions),
       ),
-    ];
+    );
   }
 
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        GetPlatform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios
+  PreferredSizeWidget _buildSearchAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      toolbarHeight: 80,
+      automaticallyImplyLeading: false,
+      title: CustomTextField(
+        suffixIconButton: query.isNotEmpty
+            ? IconButton(
+          icon: const Icon(Icons.clear, color: Colors.grey),
+          onPressed: () {
+            setState(() {
+              query = '';
+              suggestions = [];
+              searchController.clear();
+            });
+          },
+        ) : null,
+        focusNode: FocusNode(
+          canRequestFocus: true
+        ),
+        onChanged: (value) {
+          setState(() {
+            DevLogs.logSuccess('');
+            query = value!;
+            suggestions = widget.municipalityController.municipalities
+                .where((municipality) =>
+                municipality.name.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          });
+        },
+        labelText: 'Search Provider...',
+        controller: searchController,
+        prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass, color: Colors.grey,),
       ),
-      onPressed: () {
-        close(context, null);
+    );
+  }
+
+  Widget _buildSuggestionPrompt() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            FontAwesomeIcons.magnifyingGlass,
+            size: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Start typing to search',
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoResultsFound() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            FontAwesomeIcons.folderOpen,
+            size: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No results found',
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListView(List municipalities) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        // Optionally refresh the data
+        setState(() {});
       },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final results = municipalityController.municipalities
-        .where((municipality) =>
-        municipality.name.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView.builder(
-        itemCount: results.length,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        itemCount: municipalities.length,
+        separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
         itemBuilder: (context, index) {
-          final municipality = results[index];
-          return MunicipalityCard(
-            municipality: municipality,
-          );
-        },
-      ),
-    );
-  }
+          final municipality = municipalities[index];
+          return GestureDetector(
+            onTap: () async {
+              Get.showOverlay(
+                asyncFunction: () async {
+                  await widget.municipalityController.cacheMunicipality(municipality);
 
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestions = municipalityController.municipalities
-        .where((municipality) =>
-        municipality.name.toLowerCase().startsWith(query.toLowerCase()))
-        .toList();
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          final municipality = suggestions[index];
-          return Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey.shade200
-                )
-              )
-            ),
+                  Get.offAll(() => const HomeScreen());
+                },
+                loadingWidget: const Center(
+                  child: CustomLoader(
+                    message: 'Please wait',
+                  ),
+                ),
+              );
+            },
             child: ListTile(
-              title: Text(municipality.name),
-              onTap: () {
-                query = municipality.name;
-                showResults(context);
-              },
+              contentPadding: EdgeInsets.zero,
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Pallete.primary.withOpacity(0.3),
+                ),
+                child: SvgPicture.asset(
+                  CustomIcons.secure,
+                  //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
+                  semanticsLabel: 'Provider type',
+                  height: 35,
+                ),
+              ),
+              title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.w500),),
+              trailing: SvgPicture.asset(
+                CustomIcons.forward,
+                color: Colors.grey,
+                //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
+                semanticsLabel: 'forward',
+                height: 15,
+              ),
             ),
           );
         },

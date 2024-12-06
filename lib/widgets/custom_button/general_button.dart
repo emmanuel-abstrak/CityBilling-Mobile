@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/dimensions.dart';
 
-class GeneralButton extends StatelessWidget {
+class GeneralButton extends StatefulWidget {
   final Color btnColor;
   final double? width;
   final double? height;
   final double? borderRadius;
   final BoxBorder? boxBorder;
+  final Color? hoverColor;
+  final Color? pressedColor;
   final Widget child;
   final void Function()? onTap;
 
@@ -15,28 +17,87 @@ class GeneralButton extends StatelessWidget {
     super.key,
     required this.btnColor,
     this.width,
-    this.borderRadius,
     this.height,
-    required this.child,
+    this.borderRadius,
     this.boxBorder,
+    this.hoverColor,
+    this.pressedColor,
+    required this.child,
     this.onTap,
   });
 
+  @override
+  State<GeneralButton> createState() => _GeneralButtonState();
+}
+
+class _GeneralButtonState extends State<GeneralButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+      lowerBound: 0.95,
+      upperBound: 1.0,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-          width: width ?? Dimensions.screenWidth * 0.5,
-          height: height ?? 45,
+      onTapDown: (_) => _controller.reverse(),
+      onTapUp: (_) {
+        _controller.forward();
+        if (widget.onTap != null) widget.onTap!();
+      },
+      onTapCancel: () => _controller.forward(),
+      child: ScaleTransition(
+        scale: _controller,
+        child: Container(
+          width: widget.width ?? Dimensions.screenWidth * 0.5,
+          height: widget.height ?? 50,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
-              color: btnColor,
-              borderRadius: BorderRadius.circular(borderRadius ?? 10),
-              border: boxBorder),
-          child: child),
+            color: widget.btnColor,
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
+            border: widget.boxBorder,
+            boxShadow: [
+              BoxShadow(
+                color: widget.btnColor,
+                offset: Offset(4, 4),
+                blurRadius: 10,
+              ),
+              BoxShadow(
+                color: Colors.white,
+                offset: Offset(-4, -4),
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
+              splashColor: widget.pressedColor?.withOpacity(0.5) ?? Colors.black12,
+              hoverColor: widget.hoverColor ?? Colors.black.withOpacity(0.05),
+              onTap: widget.onTap,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                child: widget.child,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
