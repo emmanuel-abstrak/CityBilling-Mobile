@@ -6,8 +6,11 @@ import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import '../../../config/routes/router.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/icon_asset_constants.dart';
+import '../../../widgets/circular_loader/circular_loader.dart';
 import '../../../widgets/custom_button/general_button.dart';
+import '../../../widgets/dialogs/delete_dialog.dart';
 import '../../../widgets/dialogs/update_dialog.dart';
+import '../../../widgets/snackbar/custom_snackbar.dart';
 import '../state/property_controller.dart';
 
 class PropertyDetailsScreen extends StatefulWidget {
@@ -128,16 +131,28 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                 title: 'Meter Number',
                                 initialValue: widget.property.number,
                                 onUpdate: (value)async{
-                                  // await PropertyHelper.lookUpDetails(
-                                  //   meterNumber: value,
-                                  // ).then((detailsFound) async{
-                                  //   if(detailsFound){
-                                  //     await meterStateNumberController.updateMeterNumber(
-                                  //       oldMeterNumber: meterNumber,
-                                  //       newMeterNumber: value,
-                                  //     );
-                                  //   }
-                                  // });
+                                  Get.showOverlay(
+                                    asyncFunction: () async {
+                                      await propertyController.lookUpProperty(
+                                        meterNumber: value,
+                                      ).then((response){
+                                        if(response.success == true){
+                                          propertyController.updateProperty(
+                                            number: response.data.meter,
+                                            updatedProperty: response.data
+                                          );
+                                          CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
+                                        }else{
+                                          CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
+                                        }
+                                      });
+                                    },
+                                    loadingWidget: const Center(
+                                      child: CustomLoader(
+                                        message: 'Updating property...',
+                                      ),
+                                    ),
+                                  );
                                 }
                             )
                         );
@@ -160,15 +175,29 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                         ],
                       ),
                       onTap: (){
-                        // Get.dialog(
-                        //     DeleteDialog(
-                        //       itemName: 'Meter Number: $meterNumber',
-                        //       onConfirm: ()async{
-                        //         await meterStateNumberController.deleteMeterNumber(meterNumber);
-                        //         CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
-                        //       },
-                        //     )
-                        // );
+                        Get.dialog(
+                            DeleteDialog(
+                              itemName: 'Property with meter number ${widget.property.number}',
+                              onConfirm: ()async{
+                                Get.showOverlay(
+                                  asyncFunction: () async {
+                                    await propertyController.deleteProperty(
+                                      widget.property.number
+                                    ).then((_){
+                                      Get.toNamed(RoutesHelper.initialScreen);
+                                    });
+                                  },
+                                  loadingWidget: const Center(
+                                    child: CustomLoader(
+                                      message: 'Deleting property...',
+                                    ),
+                                  ),
+                                );
+
+                                CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
+                              },
+                            )
+                        );
                       },
                     ),
                   ];

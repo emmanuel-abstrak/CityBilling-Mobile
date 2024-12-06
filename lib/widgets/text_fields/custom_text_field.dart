@@ -22,7 +22,7 @@ class CustomTextField extends StatefulWidget {
   final bool? enabled;
   final bool? readOnly;
   final double? borderRadius;
-  final EdgeInsets? contentPadding; // Added customizable padding
+  final EdgeInsets? contentPadding;
   final FocusNode? focusNode;
 
   const CustomTextField({
@@ -87,14 +87,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
         readOnly: widget.readOnly ?? false,
         onSubmitted: widget.onSubmitted,
         onEditingComplete: widget.onEditingComplete,
-        onTapOutside: widget.onTapOutSide,
+        onTapOutside: widget.onTapOutSide ?? (event){
+          FocusScope.of(context).unfocus();
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         enabled: widget.enabled ?? true,
         focusNode: _internalFocusNode,
         decoration: InputDecoration(
           fillColor: widget.fillColor ?? Colors.grey.shade100,
           filled: widget.filled ?? true,
           counterText: '',
-          contentPadding: widget.contentPadding ?? const EdgeInsets.all(16), // Use customizable padding
+          contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIconButton,
           border: OutlineInputBorder(

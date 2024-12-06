@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../core/constants/color_constants.dart';
-import '../../core/utils/dimensions.dart';
+import '../../core/constants/icon_asset_constants.dart';
 import '../custom_button/general_button.dart';
 import '../text_fields/custom_text_field.dart';
 
@@ -18,7 +19,7 @@ class UpdateDialog extends StatefulWidget {
   });
 
   @override
-  _UpdateDialogState createState() => _UpdateDialogState();
+  State<UpdateDialog> createState() => _UpdateDialogState();
 }
 
 class _UpdateDialogState extends State<UpdateDialog> {
@@ -39,7 +40,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       insetPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       child: Container(
-        height: 200,
+        height: 350,
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 4),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -65,6 +66,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 Expanded(flex: 3, child: Container()),
               ],
             ),
+
+            SvgPicture.asset(
+              CustomIcons.meter,
+              semanticsLabel: 'meter',
+              color: Pallete.primary,
+              height: 100,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -76,6 +84,11 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 ),
               ],
             ),
+
+            const SizedBox(
+              height: 16,
+            ),
+
             CustomTextField(
               prefixIcon: const Icon(Icons.location_city),
               labelText: widget.title,
@@ -85,19 +98,40 @@ class _UpdateDialogState extends State<UpdateDialog> {
             const SizedBox(
               height: 16,
             ),
-            GeneralButton(
-              onTap: isButtonDisabled
-                  ? null
-                  : () {
-                Get.back();
-                widget.onUpdate(controller.text.trim());
-              },
-              width: Dimensions.screenWidth,
-              btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,
-              child: const Text(
-                'Update',
-                style: TextStyle(color: Colors.white),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GeneralButton(
+                  onTap: (){
+                    Get.back();
+                  },
+                  width: 60,
+                  btnColor: Colors.grey,
+                  child: SvgPicture.asset(
+                    CustomIcons.back,
+                    semanticsLabel: 'meter',
+                    color: Pallete.surface,
+                    height: 20,
+                  ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                GeneralButton(
+                  onTap: isButtonDisabled
+                      ? null
+                      : () {
+                    Get.back();
+                    widget.onUpdate(controller.text.trim());
+                  },
+                  width: 200,
+                  btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,
+                  child: const Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -5,4 +5,5 @@ class CustomIcons {
   static const secure= 'assets/icons/secure_icon.svg';
   static const meter= 'assets/icons/meter.svg';
   static const back = 'assets/icons/back-icon.svg';
+  static const confirmPayment = 'assets/icons/confirm_payment.svg';
 }

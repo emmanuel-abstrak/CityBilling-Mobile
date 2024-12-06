@@ -96,7 +96,7 @@ class PaymentServices {
         DevLogs.logError(response.body);
         return APIResponse(
           success: false,
-          message: 'Unauthorized',
+          message: 'Payment confirmation failed. Please try again!',
         );
       }
     } catch (e, stacktrace) {

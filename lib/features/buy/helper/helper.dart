@@ -80,4 +80,10 @@ class PaymentHelper {
   static bool _isValidCurrency(String selectedCurrency) {
     return selectedCurrency.isNotEmpty;
   }
+
+  static String capitalizeFirstLetter(String word) {
+    if (word.isEmpty) return word;
+    return word[0].toUpperCase() + word.substring(1).toLowerCase();
+  }
+
 }

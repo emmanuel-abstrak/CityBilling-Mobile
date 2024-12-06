@@ -70,9 +70,9 @@ class _GeneralButtonState extends State<GeneralButton>
             color: widget.btnColor,
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
             border: widget.boxBorder,
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Colors.black12,
+                color: widget.btnColor,
                 offset: Offset(4, 4),
                 blurRadius: 10,
               ),

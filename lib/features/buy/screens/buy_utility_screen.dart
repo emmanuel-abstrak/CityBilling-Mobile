@@ -8,7 +8,7 @@ import 'package:utility_token_app/features/property/state/property_controller.da
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/icon_asset_constants.dart';
-import '../../../widgets/bottom_sheet/payment_summary.dart';
+import '../../../widgets/dialogs/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
 import '../helper/helper.dart';
@@ -28,7 +28,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
   final _amountController = TextEditingController();
   late TextEditingController _meterNumberTextEditingController;
   String selectedCurrency = 'USD';
-  final RxBool showBottomSheet = false.obs;
   List<MeterDetails> cachedProperties = [];
 
   @override
@@ -202,16 +201,13 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
               isEnabled: true,
             ),
             const Spacer(),
-            Obx(() => showBottomSheet.value
-                ? const SizedBox.shrink()
-                : Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: GeneralButton(
                     onTap: () async {
-                      bool detailsValid =
-                      await PaymentHelper.validatePaymentDetails(
+                      bool detailsValid =  await PaymentHelper.validatePaymentDetails(
                         meterNumber:
                         _meterNumberTextEditingController.text,
                         amount: _amountController.text,
@@ -219,7 +215,15 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                       );
 
                       if (detailsValid) {
-                        showBottomSheet.value = true;
+                        Get.dialog(
+                          barrierDismissible: false,
+                            PurchaseSummaryDialog(
+                              paymentController: paymentController,
+                              onClose: (){
+                                Get.back();
+                              },
+                            )
+                        );
                       }
                     },
                     width: MediaQuery.of(context).size.width * 0.8,
@@ -234,17 +238,9 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                   ),
                 ),
               ],
-            )),
+            )
           ],
         ),
-      ),
-      bottomSheet: Obx(
-            () => showBottomSheet.value
-            ? PurchaseSummaryBottomSheet(
-          paymentController: paymentController,
-          onClose: () => showBottomSheet.value = false,
-        )
-            : const SizedBox.shrink(),
       ),
     );
   }

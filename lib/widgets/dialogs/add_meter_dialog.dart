@@ -43,7 +43,7 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
       insetPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       child: Container(
-        height: 400,
+        height: 380,
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 4),
         decoration: const BoxDecoration(
           color: Colors.white,
