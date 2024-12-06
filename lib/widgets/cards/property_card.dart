@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:utility_token_app/features/property/model/property.dart';
+import 'package:utility_token_app/features/buy/models/meter_details.dart';
 
 class PropertyCard extends StatelessWidget {
-  final Property property;
+  final MeterDetails property;
   final VoidCallback onTap;
 
   const PropertyCard({
-    Key? key,
+    super.key,
     required this.property,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +18,14 @@ class PropertyCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: ListTile(
         title: Text(
-          property.name,
+          property.number,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(property.address),
-            Text('Meter Number: ${property.meterNumber}'),
+            Text(property.customerAddress),
+            Text('Meter Number: ${property.number}'),
           ],
         ),
         trailing: const Icon(Icons.arrow_forward_ios),

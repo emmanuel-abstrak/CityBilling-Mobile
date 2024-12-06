@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
 import 'package:utility_token_app/widgets/text_fields/custom_text_field.dart';
-
 import '../../core/constants/color_constants.dart';
 import '../../core/constants/icon_asset_constants.dart';
 import '../../features/home_screen.dart';

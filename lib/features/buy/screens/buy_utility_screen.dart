@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
+import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../widgets/bottom_sheet/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
 import '../../municipalities/models/municipality.dart';
-import '../../property/state/meter_number_controller.dart';
 import '../helper/helper.dart';
 
 class BuyUtilityScreen extends StatefulWidget {
@@ -23,17 +24,17 @@ class BuyUtilityScreen extends StatefulWidget {
 
 class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
   final PaymentController paymentController = Get.find<PaymentController>();
-  final MeterNumberController meterStateNumberController = Get.find<MeterNumberController>();
+  final PropertyController propertyController = Get.find<PropertyController>();
   final _amountController = TextEditingController();
   TextEditingController _meterNumberTextEditingController = TextEditingController();
   String selectedCurrency = 'USD';
   final RxBool showBottomSheet = false.obs;
-  List<String> cachedMeterNumber = [];
+  List<MeterDetails> cachedProperties = [];
 
   @override
   void initState() {
     super.initState();
-    cachedMeterNumber = meterStateNumberController.meterNumbers;
+    cachedProperties = propertyController.properties;
     if (widget.selectedMeterNumber != null) {
       _meterNumberTextEditingController = TextEditingController(
         text: widget.selectedMeterNumber
@@ -66,8 +67,18 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                 if (textEditingValue.text.isEmpty) {
                   return const Iterable<String>.empty();
                 }
-                return cachedMeterNumber.where((String option) {
-                  return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+
+                // Filter cached properties by checking if either customerName or meterNumber contains the search text
+                return cachedProperties.where((MeterDetails property) {
+                  // Get the customerName and meterNumber from each Property object
+                  final customerName = property.customerName ?? '';
+                  final meterNumber = property.number ?? '';
+
+                  return customerName.toLowerCase().contains(textEditingValue.text.toLowerCase()) ||
+                      meterNumber.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                }).map((MeterDetails property) {
+                  // Return the customerName and meterNumber as a string, formatted as needed
+                  return '${property.customerName} - ${property.number}';
                 });
               },
               onSelected: (String selection) {
@@ -87,8 +98,9 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                   focusNode: focusNode,
                 );
               },
-
             ),
+
+
             const SizedBox(height: 16),
             CustomTextField(
               prefixIcon: const Icon(FontAwesomeIcons.moneyBill),

@@ -20,8 +20,8 @@ class RoutesHelper {
   static List<GetPage> routes = [
     GetPage(name: splashScreen, page: ()=> const SplashScreen()),
     GetPage(name: municipalitiesScreen, page: ()=> const MunicipalitiesScreen()),
-    GetPage(name: addProperty, page: ()=> const AddPropertyScreen()),
-
+    // GetPage(name: addProperty, page: ()=> const AddPropertyScreen()),
+    //
 
 
     GetPage(
@@ -32,12 +32,12 @@ class RoutesHelper {
       }
     ),
 
-    GetPage(
-      name: propertyDetails,
-      page: (){
-        return const EditPropertyScreen();
-      }
-    ),
+    // GetPage(
+    //   name: propertyDetails,
+    //   page: (){
+    //     return const EditPropertyScreen();
+    //   }
+    // ),
 
     GetPage(
       name: buyScreen,

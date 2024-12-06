@@ -5,7 +5,6 @@ import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
-import 'package:utility_token_app/features/property/state/meter_number_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'core/constants/color_constants.dart';
 import 'features/municipalities/screens/municipalities_screen.dart';
@@ -19,7 +18,6 @@ Future<void> main() async {
   Get.put(MunicipalityController());
   Get.put(TutorialController());
   Get.put(PropertyController());
-  Get.put(MeterNumberController());
   Get.put(PaymentController());
 
 

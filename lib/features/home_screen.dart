@@ -8,7 +8,7 @@ import 'package:utility_token_app/core/constants/image_asset_constants.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/property/helper/property_helper.dart';
-import 'package:utility_token_app/features/property/state/meter_number_controller.dart';
+import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/features/property/state/tutorial_controller.dart';
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
 import 'package:utility_token_app/widgets/dialogs/delete_dialog.dart';
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final MeterNumberController meterStateNumberController = Get.find<MeterNumberController>();
+  final PropertyController propertyController = Get.find<PropertyController>();
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
   final TutorialController tutorialController = Get.find<TutorialController>();
 
@@ -81,14 +81,32 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         leading: Builder(
           builder: (context) {
-            return IconButton(
-              onPressed: () async {
+            return GestureDetector(
+              onTap: ()async{
                 await municipalityController.clearCachedMunicipality().then((_) {
                   Get.offAllNamed(RoutesHelper.municipalitiesScreen);
                 });
               },
-              icon: Icon(
-                GetPlatform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-5, -5),
+                      blurRadius: 10,
+                    ),
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(5, 5),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),
             );
           },
@@ -97,9 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
-          final meterNumbers = meterStateNumberController.meterNumbers;
+          final properties = propertyController.properties;
 
-          if (meterNumbers.isEmpty) {
+          if (properties.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -119,13 +137,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return ListView.builder(
-            itemCount: meterNumbers.length,
+            itemCount: properties.length,
             itemBuilder: (context, index) {
-              final meterNumber = meterNumbers[index];
+              final property = properties[index];
               final municipality = widget.selectedMunicipality;
               return GestureDetector(
                 onTap: (){
-                  Get.toNamed(RoutesHelper.buyScreen, arguments: [municipality, meterNumber]);
+                  Get.toNamed(RoutesHelper.buyScreen, arguments: [municipality, property]);
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(
@@ -133,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: ProfileOptionTile(
                     title: 'Meter Number',
-                    value: meterNumber,
+                    value: property.number,
                     icon: FontAwesomeIcons.gaugeHigh,
                     trailing: PopupMenuButton(
                       color: Colors.white,
@@ -159,15 +177,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               Get.dialog(
                                   UpdateDialog(
                                       title: 'Meter Number',
-                                      initialValue: meterNumber,
+                                      initialValue: property.number,
                                       onUpdate: (value)async{
-                                        await PropertyHelper.lookUpDetails(
+                                        await propertyController.lookUpProperty(
                                           meterNumber: value,
-                                        ).then((detailsFound) async{
-                                          if(detailsFound){
-                                            await meterStateNumberController.updateMeterNumber(
-                                              oldMeterNumber: meterNumber,
-                                              newMeterNumber: value,
+                                        ).then((response) async{
+                                          if(response.success == true){
+                                            await propertyController.updateProperty(
+                                              number: property.number,
+                                              updatedProperty: property,
                                             );
                                           }
                                         });
@@ -195,9 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: (){
                               Get.dialog(
                                   DeleteDialog(
-                                    itemName: 'Meter Number: $meterNumber',
+                                    itemName: 'Meter Number: $property',
                                     onConfirm: ()async{
-                                      await meterStateNumberController.deleteMeterNumber(meterNumber);
+                                      await propertyController.deleteProperty(property.number);
                                       CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
                                     },
                                   )
