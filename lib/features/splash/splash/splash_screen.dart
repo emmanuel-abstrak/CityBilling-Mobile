@@ -5,8 +5,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/widgets/dialogs/no_internet.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart'; // Import Snackbar
-
 import '../../../core/constants/icon_asset_constants.dart';
 import '../../municipalities/state/municipalities_controller.dart';
 
@@ -71,13 +69,23 @@ class _SplashScreenState extends State<SplashScreen>{
           children: [
             const SizedBox(),
             const SizedBox(),
-            SvgPicture.asset(
-              CustomIcons.logo,
-              semanticsLabel: 'App Logo',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  CustomIcons.logo,
+                  semanticsLabel: 'App Logo',
+                  height: 40,
+                ),
+              ],
             ),
-            LoadingAnimationWidget.hexagonDots(
-                color: Pallete.primary,
-                size: 45
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  color: Pallete.primary,
+                ),
+              ],
             ),
             const SizedBox(),
           ],

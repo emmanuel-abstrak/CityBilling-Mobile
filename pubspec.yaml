@@ -28,6 +28,7 @@ dependencies:
   flutter_native_splash: ^2.4.3
   animated_search_bar: ^2.7.2
   searchfield: ^1.2.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

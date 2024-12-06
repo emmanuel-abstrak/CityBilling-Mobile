@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/cards/municipality_card.dart';
 import '../../../widgets/search_delegates/municipality_delegate.dart';
@@ -13,7 +14,6 @@ class MunicipalitiesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
         title: const Text(
           'Providers',
         ),
@@ -29,25 +29,28 @@ class MunicipalitiesScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          // Check if municipalities are loaded
-          if (municipalityController.municipalities.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Obx(() {
+        // Check if municipalities are loaded
+        if (municipalityController.municipalities.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          return ListView.builder(
-            itemCount: municipalityController.municipalities.length,
-            itemBuilder: (context, index) {
-              final municipality = municipalityController.municipalities[index];
-              return MunicipalityCard(
-                municipality: municipality,
-              );
-            },
-          );
-        }),
-      ),
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          itemCount: municipalityController.municipalities.length,
+          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+          itemBuilder: (context, index) {
+            final municipality = municipalityController.municipalities[index];
+            return Column(
+              children: [
+                MunicipalityCard(
+                  municipality: municipality,
+                ),
+              ],
+            );
+          },
+        );
+      }),
     );
   }
 }

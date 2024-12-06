@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
+import '../../core/constants/icon_asset_constants.dart';
 import '../../features/home_screen.dart';
 import '../../features/municipalities/state/municipalities_controller.dart';
-import '../cards/municipality_card.dart';
 
 class MunicipalitySearchDelegate extends SearchDelegate {
   final MunicipalityController municipalityController;
@@ -42,7 +44,7 @@ class MunicipalitySearchDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(
-        GetPlatform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
+        GetPlatform.isAndroid ? FontAwesomeIcons.chevronLeft : Icons.arrow_back_ios,
         color: Colors.white,
       ),
       onPressed: () {
@@ -123,22 +125,28 @@ class MunicipalitySearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         final municipality = municipalities[index];
         return ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-          leading: CircleAvatar(
-            backgroundColor: Colors.blueAccent,
-            child: Text(
-              municipality.name.substring(0, 1).toUpperCase(),
-              style: const TextStyle(color: Colors.white),
+          contentPadding: EdgeInsets.zero,
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Pallete.primary.withOpacity(0.3),
+            ),
+            child: SvgPicture.asset(
+              CustomIcons.secure,
+              //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
+              semanticsLabel: 'Provider type',
+              height: 35,
             ),
           ),
-          title: Text(
-            municipality.name,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.w500),),
+          trailing: SvgPicture.asset(
+            CustomIcons.forward,
+            color: Colors.grey,
+            //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
+            semanticsLabel: 'forward',
+            height: 15,
           ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
           onTap: () async{
             query = municipality.name;
             showResults(context);
