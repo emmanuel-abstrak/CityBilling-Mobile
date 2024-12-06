@@ -15,10 +15,11 @@ class MeterDetailsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        icon,
-        size: 30,
-        color: Colors.grey.shade700,
+      leading: SvgPicture.asset(
+        CustomIcons.meter,
+        semanticsLabel: 'view property',
+        color: Pallete.primary,
+        height: 40,
       ),
       title: Text(
         meter.customerName,

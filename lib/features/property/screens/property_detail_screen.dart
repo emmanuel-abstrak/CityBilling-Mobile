@@ -85,7 +85,6 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
           },
         ),
         actions: [
-
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -204,14 +203,17 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 },
               ),
           )
-
         ],
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(
+
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            alignment: Alignment.bottomLeft,
+            decoration: BoxDecoration(
+              color: Pallete.surface
+            ),
+            child: Text(
               'Recent Purchases',
               style: TextStyle(
                   color: Colors.grey,
@@ -219,6 +221,329 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                   fontWeight: FontWeight.w400
               ),
             ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '1048 7837 8467 8974',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+
+                  SvgPicture.asset(
+                    CustomIcons.forward,
+                    semanticsLabel: 'meter',
+                    color: Colors.grey
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '06/07/2023',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount Paid',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$100.20',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Token Amount',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$60.00',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey,),
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '1048 7837 8467 8974',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+
+                  SvgPicture.asset(
+                      CustomIcons.forward,
+                      semanticsLabel: 'meter',
+                      color: Colors.grey
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '06/07/2023',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount Paid',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$100.20',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Token Amount',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$60.00',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey,),
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '1048 7837 8467 8974',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+
+                  SvgPicture.asset(
+                      CustomIcons.forward,
+                      semanticsLabel: 'meter',
+                      color: Colors.grey
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '06/07/2023',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount Paid',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$100.20',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Token Amount',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$60.00',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey,),
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '1048 7837 8467 8974',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+
+                  SvgPicture.asset(
+                      CustomIcons.forward,
+                      semanticsLabel: 'meter',
+                      color: Colors.grey
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '06/07/2023',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount Paid',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$100.20',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Token Amount',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                      Text(
+                        '\$60.00',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey,),
           ],
         ),
       ),
