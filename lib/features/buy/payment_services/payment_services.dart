@@ -107,4 +107,49 @@ class PaymentServices {
       );
     }
   }
+
+
+
+  static Future<APIResponse<String>> getPurchaseDetails({
+    required int purchaseId,
+    required String accessToken
+  }) async {
+    final String url = "${UrlConstants.paymentsBaseUrl}vending/water-purchases/$purchaseId";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'Application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        DevLogs.logSuccess(response.body);
+
+        final data = jsonDecode(response.body)['result'];
+
+        final String redirectUrl = data['redirect_url'];
+
+        return APIResponse(
+          success: true,
+          message: 'Payment Initiated Successfully',
+          data: redirectUrl,
+        );
+      } else {
+        DevLogs.logError(response.body);
+        return APIResponse(
+          success: false,
+          message: 'Payment confirmation failed. Please try again!',
+        );
+      }
+    } catch (e, stacktrace) {
+      DevLogs.logError("Error: $e, Stacktrace: $stacktrace");
+      return APIResponse(
+        success: false,
+        message: e.toString(),
+      );
+    }
+  }
 }
