@@ -115,13 +115,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 ),
                 GeneralButton(
                   onTap: () {
-                    final value = controller.text;
-                    if((value.isNotEmpty && value.length >= 8)){
-                      Get.back();
                       widget.onUpdate(controller.text.trim());
-                    }else{
-                      CustomSnackBar.showErrorSnackbar(message: 'Meter Number number must have at least 8 digits');
-                    }
                   },
                   width: 200,
                   btnColor: Pallete.primary,
