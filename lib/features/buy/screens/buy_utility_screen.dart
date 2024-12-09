@@ -62,18 +62,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-5, -5),
-                      blurRadius: 10,
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(5, 5),
-                      blurRadius: 10,
-                    ),
-                  ],
                 ),
                 child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),

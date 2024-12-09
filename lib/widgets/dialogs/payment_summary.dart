@@ -107,12 +107,16 @@ class PurchaseSummaryDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GeneralButton(
-                      onTap: onClose,
-                      btnColor: Colors.grey,
-                      width: 60,
-                      child: const Icon(Icons.close, color: Colors.white),
+                        onTap: onClose,
+                        width: 60,
+                        btnColor: Colors.grey.shade300,
+                        child: const Icon(
+                            Icons.close
+                        )
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(
+                      width: 16,
+                    ),
                     GeneralButton(
                       onTap: () async {
                         Get.showOverlay(

@@ -36,8 +36,6 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final isButtonDisabled = controller.text.length < 5 || widget.initialValue == controller.text;
-
     return Dialog(
       alignment: Alignment.bottomCenter,
       insetPadding: EdgeInsets.zero,
@@ -95,6 +93,7 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
             ),
             CustomTextField(
               prefixIcon: const Icon(FontAwesomeIcons.gaugeHigh),
+              keyboardType: TextInputType.number,
               labelText: widget.title,
               controller: controller,
               onChanged: (_) => setState(() {}),
@@ -110,51 +109,55 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
                     Get.back();
                   },
                   width: 60,
-                  btnColor: Colors.grey,
-                  child: SvgPicture.asset(
-                    CustomIcons.back,
-                    semanticsLabel: 'meter',
-                    color: Pallete.surface,
-                    height: 20,
-                  ),
+                  btnColor: Colors.grey.shade300,
+                  child: const Icon(
+                    Icons.close
+                  )
                 ),
                 const SizedBox(
                   width: 16,
                 ),
                 GeneralButton(
-                  onTap: isButtonDisabled  ? null  : () async{
-                    Get.back();
+                  onTap: () async{
                     final value = controller.text;
-                    if (value.isNotEmpty) {
+                    if (value.isNotEmpty && value.length >= 8) {
+                      Get.back();
+                       Get.showOverlay(
+                         asyncFunction: () async {
+                           await propertyController.lookUpProperty(
+                             meterNumber: value,
+                           ).then((response) async{
+                             if(response.success == true){
+                               await propertyController.addNonExistantProperty(response.data.meter).then((exists){
+                                 if(exists == true){
+                                   CustomSnackBar.showErrorSnackbar(message: 'Property already exists');
+                                 }
 
 
-                     Get.showOverlay(
-                       asyncFunction: () async {
-                         await propertyController.lookUpProperty(
-                           meterNumber: value,
-                         ).then((response){
-                           if(response.success == true){
-                             propertyController.addProperty(response.data.meter);
-                             CustomSnackBar.showSuccessSnackbar(message: 'Property Added Successfully');
-                           }else{
-                             CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to add property, check your Meter Number and try again');
-                           }
-                         });
-                       },
-                       loadingWidget: const Center(
-                         child: CustomLoader(
-                           message: 'Checking meter number...',
+                                 if(exists == false){
+                                   CustomSnackBar.showSuccessSnackbar(message: 'Property Added Successfully');
+                                 }
+                               });
+                             }else{
+                               CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to add property, check your Meter Number and try again');
+                             }
+                           });
+                         },
+                         loadingWidget: const Center(
+                           child: CustomLoader(
+                             message: 'Checking meter number...',
+                           ),
                          ),
-                       ),
-                     );
-
+                       );
+                    }else{
+                      CustomSnackBar.showErrorSnackbar(message: 'Meter Number number must have at least 8 digits');
                     }
                   },
                   width: 200,
-                  btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,
+                  btnColor: Pallete.primary,
                   child: const Text(
                     'Save',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
                   ),
                 ),
               ],

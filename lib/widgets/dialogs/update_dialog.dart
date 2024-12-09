@@ -110,7 +110,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   child: SvgPicture.asset(
                     CustomIcons.back,
                     semanticsLabel: 'meter',
-                    color: Pallete.surface,
+                    color: Colors.white,
                     height: 20,
                   ),
                 ),

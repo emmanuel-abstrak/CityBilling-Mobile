@@ -66,18 +66,6 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-5, -5),
-                      blurRadius: 10,
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(5, 5),
-                      blurRadius: 10,
-                    ),
-                  ],
                 ),
                 child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),
@@ -90,18 +78,6 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-5, -5),
-                  blurRadius: 10,
-                ),
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(5, 5),
-                  blurRadius: 10,
-                ),
-              ],
             ),
             child: PopupMenuButton(
                 color: Colors.white,
@@ -206,14 +182,11 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         ],
 
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(70),
+          preferredSize: const Size.fromHeight(70),
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             alignment: Alignment.bottomLeft,
-            decoration: BoxDecoration(
-              color: Pallete.surface
-            ),
-            child: Text(
+            child: const Text(
               'Recent Purchases',
               style: TextStyle(
                   color: Colors.grey,
@@ -225,7 +198,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             ListTile(
@@ -249,7 +222,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -306,7 +279,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 ],
               ),
             ),
-            Divider(color: Colors.grey,),
+            const Divider(color: Colors.grey,),
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,7 +301,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -385,7 +358,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 ],
               ),
             ),
-            Divider(color: Colors.grey,),
+            const Divider(color: Colors.grey,),
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -407,7 +380,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -464,7 +437,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 ],
               ),
             ),
-            Divider(color: Colors.grey,),
+            const Divider(color: Colors.grey,),
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -486,7 +459,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -543,28 +516,24 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 ],
               ),
             ),
-            Divider(color: Colors.grey,),
+            const Divider(color: Colors.grey,),
           ],
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 80,
-        color: Pallete.surface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GeneralButton(
-              onTap: (){
-                Get.back();
-              },
-              width: 60,
-              btnColor: Colors.grey,
-              child: SvgPicture.asset(
-                CustomIcons.back,
-                semanticsLabel: 'meter',
-                color: Pallete.surface,
-                height: 20,
-              ),
+                onTap: (){
+                  Get.back();
+                },
+                width: 60,
+                btnColor: Colors.grey.shade300,
+                child: const Icon(
+                    Icons.close
+                )
             ),
             const SizedBox(
               width: 16,
@@ -577,7 +546,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               btnColor: Pallete.primary,
               child: const Text(
                 'Buy Token',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
           ],

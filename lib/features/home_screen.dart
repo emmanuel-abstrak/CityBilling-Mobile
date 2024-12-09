@@ -89,18 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-5, -5),
-                      blurRadius: 10,
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(5, 5),
-                      blurRadius: 10,
-                    ),
-                  ],
                 ),
                 child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),
@@ -146,11 +134,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
+          FloatingActionButton.extended(
             heroTag: 'AddProperty',
             key: addPropertyKey,
             onPressed: () {
-              if(!tutorialController.hasSeenTutorial.value){
+              if (!tutorialController.hasSeenTutorial.value) {
                 tutorialController.markTutorialAsSeen();
               }
               Get.dialog(
@@ -158,27 +146,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 const AddMeterDialog(
                   title: 'Meter Number',
                   initialValue: '',
-                )
+                ),
               );
             },
-            backgroundColor: Pallete.primary,
-            child: const Icon(Icons.add, color: Colors.white, size: 20),
+            backgroundColor: Pallete.secondary,
+            icon: const Icon(Icons.add, color: Colors.white),
+            label: const Text(
+              'Add Meter',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
             heroTag: 'buyUtility',
-            backgroundColor: Pallete.success,
+            backgroundColor: Pallete.orange,
             onPressed: () {
               Get.toNamed(RoutesHelper.buyScreen, arguments: null);
             },
-            child: const Icon(
+            icon: const Icon(
               FontAwesomeIcons.cartShopping,
               color: Colors.white,
-              size: 20,
+            ),
+            label: const Text(
+              'Buy Utility',
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
       ),
+
     );
   }
 }
