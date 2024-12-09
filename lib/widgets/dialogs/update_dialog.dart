@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../core/constants/color_constants.dart';
 import '../../core/constants/icon_asset_constants.dart';
 import '../custom_button/general_button.dart';
+import '../snackbar/custom_snackbar.dart';
 import '../text_fields/custom_text_field.dart';
 
 class UpdateDialog extends StatefulWidget {
@@ -33,8 +34,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final isButtonDisabled = controller.text.length < 5 || widget.initialValue == controller.text;
-
     return Dialog(
       alignment: Alignment.bottomCenter,
       insetPadding: EdgeInsets.zero,
@@ -102,30 +101,30 @@ class _UpdateDialogState extends State<UpdateDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GeneralButton(
-                  onTap: (){
-                    Get.back();
-                  },
-                  width: 60,
-                  btnColor: Colors.grey,
-                  child: SvgPicture.asset(
-                    CustomIcons.back,
-                    semanticsLabel: 'meter',
-                    color: Pallete.surface,
-                    height: 20,
-                  ),
+                    onTap: (){
+                      Get.back();
+                    },
+                    width: 60,
+                    btnColor: Colors.grey.shade300,
+                    child: const Icon(
+                        Icons.close
+                    )
                 ),
                 const SizedBox(
                   width: 16,
                 ),
                 GeneralButton(
-                  onTap: isButtonDisabled
-                      ? null
-                      : () {
-                    Get.back();
-                    widget.onUpdate(controller.text.trim());
+                  onTap: () {
+                    final value = controller.text;
+                    if((value.isNotEmpty && value.length >= 8)){
+                      Get.back();
+                      widget.onUpdate(controller.text.trim());
+                    }else{
+                      CustomSnackBar.showErrorSnackbar(message: 'Meter Number number must have at least 8 digits');
+                    }
                   },
                   width: 200,
-                  btnColor: isButtonDisabled ? Colors.grey : Pallete.primary,
+                  btnColor: Pallete.primary,
                   child: const Text(
                     'Update',
                     style: TextStyle(color: Colors.white),

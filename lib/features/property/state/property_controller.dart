@@ -81,13 +81,16 @@ class PropertyController extends GetxController {
   ///
   /// Returns:
   /// - Nothing. Logs an error if adding the MeterDetails fails.
-  Future<void> addProperty(MeterDetails property) async {
+  Future<bool?> addNonExistantProperty(MeterDetails property) async {
     try {
       if (!_properties.any((p) => p.number == property.number)) {
         _properties.add(property);
         await CacheUtils.cachePropertyList(properties: _properties);
+
+        return false;
       } else {
-        DevLogs.logInfo('MeterDetails already exists: ${property.number}');
+        DevLogs.logError('MeterDetails already exists: ${property.number}');
+        return true;
       }
     } catch (e) {
       DevLogs.logError('Error adding MeterDetails: $e');

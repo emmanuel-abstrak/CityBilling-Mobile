@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
@@ -62,18 +63,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-5, -5),
-                      blurRadius: 10,
-                    ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(5, 5),
-                      blurRadius: 10,
-                    ),
-                  ],
                 ),
                 child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
               ),
@@ -217,11 +206,13 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                       if (detailsValid) {
                         Get.dialog(
                           barrierDismissible: false,
-                            PurchaseSummaryDialog(
-                              paymentController: paymentController,
-                              onClose: (){
-                                Get.back();
-                              },
+                            SlideTransitionDialog(
+                              child: PurchaseSummaryDialog(
+                                paymentController: paymentController,
+                                onClose: (){
+                                  Get.back();
+                                },
+                              ),
                             )
                         );
                       }

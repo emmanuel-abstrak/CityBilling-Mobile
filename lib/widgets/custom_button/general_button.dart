@@ -55,16 +55,17 @@ class _GeneralButtonState extends State<GeneralButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (_) => _controller.reverse(),
-      onTapUp: (_) {
-        _controller.forward();
-        if (widget.onTap != null) widget.onTap!();
+      onTapUp: (_) async {
+        _controller.forward(); // Restore the scale
+        await Future.delayed(const Duration(milliseconds: 150)); // Wait for the animation to finish
+        if (widget.onTap != null) widget.onTap!(); // Perform the action
       },
       onTapCancel: () => _controller.forward(),
       child: ScaleTransition(
         scale: _controller,
         child: Container(
           width: widget.width ?? Dimensions.screenWidth * 0.5,
-          height: widget.height ?? 50,
+          height: widget.height ?? 60,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: widget.btnColor,
@@ -73,10 +74,10 @@ class _GeneralButtonState extends State<GeneralButton>
             boxShadow: [
               BoxShadow(
                 color: widget.btnColor,
-                offset: Offset(4, 4),
+                offset: const Offset(4, 4),
                 blurRadius: 10,
               ),
-              BoxShadow(
+              const BoxShadow(
                 color: Colors.white,
                 offset: Offset(-4, -4),
                 blurRadius: 10,
@@ -89,7 +90,12 @@ class _GeneralButtonState extends State<GeneralButton>
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
               splashColor: widget.pressedColor?.withOpacity(0.5) ?? Colors.black12,
               hoverColor: widget.hoverColor ?? Colors.black.withOpacity(0.05),
-              onTap: widget.onTap,
+              onTap: () async {
+                _controller.reverse();
+                await Future.delayed(const Duration(milliseconds: 300));
+                _controller.forward();
+                if (widget.onTap != null) widget.onTap!(); // Perform the action
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: widget.child,

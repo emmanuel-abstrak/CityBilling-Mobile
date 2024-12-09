@@ -42,11 +42,10 @@ class MunicipalityCard extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Pallete.primary.withOpacity(0.3),
+            color: Pallete.orange.withOpacity(0.3),
           ),
           child: SvgPicture.asset(
             CustomIcons.secure,
-            //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
             semanticsLabel: 'Provider type',
             height: 35,
           ),
@@ -54,8 +53,6 @@ class MunicipalityCard extends StatelessWidget {
         title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.w500),),
         trailing: SvgPicture.asset(
           CustomIcons.forward,
-          color: Colors.grey,
-          //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
           semanticsLabel: 'forward',
           height: 15,
         ),

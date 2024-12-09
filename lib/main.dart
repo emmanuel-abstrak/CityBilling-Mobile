@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      defaultTransition: Transition.leftToRightWithFade,
+      transitionDuration: const Duration(milliseconds: 700),
       theme: Pallete.appTheme,
       supportedLocales: const [
         Locale('en'), // English
