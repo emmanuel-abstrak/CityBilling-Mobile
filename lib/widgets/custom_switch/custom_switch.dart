@@ -9,7 +9,8 @@ class CustomSwitch extends StatefulWidget {
   final double height;
   final EdgeInsets padding;
 
-  const CustomSwitch({super.key,
+  const CustomSwitch({
+    super.key,
     required this.value,
     required this.onChanged,
     this.activeColor = Colors.blue,
@@ -53,10 +54,10 @@ class _CustomSwitchState extends State<CustomSwitch> {
           alignment: switchValue ? Alignment.centerRight : Alignment.centerLeft,
           children: [
             AnimatedContainer(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               width: widget.height - widget.padding.vertical,
               height: widget.height - widget.padding.vertical,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/widgets/dialogs/no_internet.dart';
@@ -15,8 +14,9 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>{
-  final MunicipalityController municipalityController = Get.find<MunicipalityController>();
+class _SplashScreenState extends State<SplashScreen> {
+  final MunicipalityController municipalityController =
+      Get.find<MunicipalityController>();
 
   @override
   void initState() {
@@ -38,11 +38,10 @@ class _SplashScreenState extends State<SplashScreen>{
         // Show an error dialog if fetching municipalities fails
         Future.delayed(Duration.zero, () {
           Get.dialog(
-            barrierDismissible: false,
-            NoInternetDialog(
-              controller: municipalityController,
-            )
-          );
+              barrierDismissible: false,
+              NoInternetDialog(
+                controller: municipalityController,
+              ));
         });
       }
 
@@ -56,7 +55,6 @@ class _SplashScreenState extends State<SplashScreen>{
                 Get.offAllNamed(
                   RoutesHelper.initialScreen,
                   arguments: municipality,
-
                 );
               } else {
                 // If no cached municipality, navigate to MunicipalitiesScreen

@@ -10,11 +10,9 @@ class NotFoundScreen extends StatefulWidget {
 class _NotFoundScreenState extends State<NotFoundScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text(
-          '404'
-        ),
+        child: Text('404'),
       ),
     );
   }

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:utility_token_app/widgets/dialogs/update_dialog.dart';
-import '../state/property_controller.dart';
-import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
 
 /// A utility class for managing property-related operations.
 class PropertyHelper {
@@ -80,7 +76,6 @@ class PropertyHelper {
   //   }
   // }
 
-
   /// Confirms if the user wants to discard unsaved changes.
   ///
   /// Parameters:
@@ -89,13 +84,15 @@ class PropertyHelper {
   /// Returns:
   /// - `true` if the user confirms to discard changes.
   /// - `false` otherwise.
-  static Future<bool> confirmDiscardChanges({required bool hasUnsavedChanges}) async {
+  static Future<bool> confirmDiscardChanges(
+      {required bool hasUnsavedChanges}) async {
     if (!hasUnsavedChanges) return true;
 
     final result = await Get.dialog<bool>(
       AlertDialog(
         title: const Text("Unsaved Changes"),
-        content: const Text("You have unsaved changes. Are you sure you want to discard them?"),
+        content: const Text(
+            "You have unsaved changes. Are you sure you want to discard them?"),
         actions: [
           TextButton(
             onPressed: () => Get.back(result: false),
@@ -108,7 +105,6 @@ class PropertyHelper {
         ],
       ),
     );
-
 
     return result ?? false;
   }
@@ -200,5 +196,4 @@ class PropertyHelper {
   //     return false;
   //   }
   // }
-
 }

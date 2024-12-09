@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/utils/api_response.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
@@ -20,7 +19,8 @@ class PaymentController extends GetxController {
     isLoading.value = true;
 
     try {
-      APIResponse<PurchaseSummary> response = await PaymentServices.lookUpCustomerDetails(
+      APIResponse<PurchaseSummary> response =
+          await PaymentServices.lookUpCustomerDetails(
         accessToken: accessToken,
         meterNumber: meterNumber,
         currency: currency,
@@ -34,7 +34,8 @@ class PaymentController extends GetxController {
         Get.back();
       }
     } catch (e) {
-      CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
+      CustomSnackBar.showErrorSnackbar(
+          message: "Failed to fetch customer details. Please try again.");
     } finally {
       isLoading.value = false;
     }
@@ -58,16 +59,19 @@ class PaymentController extends GetxController {
       );
 
       // Log success
-      DevLogs.logInfo('Customer details lookup successful for meter number: $meterNumber');
+      DevLogs.logInfo(
+          'Customer details lookup successful for meter number: $meterNumber');
 
       return response;
     } catch (e, stackTrace) {
       // Log the error and stack trace for detailed debugging
-      DevLogs.logError('Error fetching customer details for meter number $meterNumber: $e');
+      DevLogs.logError(
+          'Error fetching customer details for meter number $meterNumber: $e');
       DevLogs.logError('Stack trace: $stackTrace');
 
       // Show a custom snackbar with the error message
-      CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
+      CustomSnackBar.showErrorSnackbar(
+          message: "Failed to fetch customer details. Please try again.");
 
       // Return a response indicating failure
       return APIResponse(

@@ -1,12 +1,12 @@
 name: utility_token_app
 description: A Flutter app for buying utility tokens from different municipalities.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -47,12 +47,16 @@ flutter:
         - asset: assets/fonts/Nunito-Regular.ttf
         - asset: assets/fonts/Nunito-Bold.ttf
           weight: 700
-
+        - asset: assets/fonts/Nunito-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Nunito-BoldItalic.ttf
+          weight: 700
+          style: italic
 
   assets:
     - assets/images/
     - assets/icons/
-    - assets/animations/
+    - assets/illustrations/
 
 flutter_launcher_icons:
   android: "launcher_icon"

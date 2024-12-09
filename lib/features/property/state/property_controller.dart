@@ -95,6 +95,7 @@ class PropertyController extends GetxController {
     } catch (e) {
       DevLogs.logError('Error adding MeterDetails: $e');
     }
+    return null;
   }
 
   /// Deletes a MeterDetails from the list and updates the cache.
@@ -213,24 +214,29 @@ class PropertyController extends GetxController {
 
     try {
       // Attempt to look up customer details using PaymentServices API
-      APIResponse<PurchaseSummary> response = await PaymentServices.lookUpCustomerDetails(
-        accessToken: 'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
+      APIResponse<PurchaseSummary> response =
+          await PaymentServices.lookUpCustomerDetails(
+        accessToken:
+            'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
         meterNumber: meterNumber,
         currency: 'usd',
         amount: 2,
       );
 
       // Log success
-      DevLogs.logInfo('Customer details lookup successful for meter number: $meterNumber');
+      DevLogs.logInfo(
+          'Customer details lookup successful for meter number: $meterNumber');
 
       return response;
     } catch (e, stackTrace) {
       // Log the error and stack trace for detailed debugging
-      DevLogs.logError('Error fetching customer details for meter number $meterNumber: $e');
+      DevLogs.logError(
+          'Error fetching customer details for meter number $meterNumber: $e');
       DevLogs.logError('Stack trace: $stackTrace');
 
       // Show a custom snackbar with the error message
-      CustomSnackBar.showErrorSnackbar(message: "Failed to fetch customer details. Please try again.");
+      CustomSnackBar.showErrorSnackbar(
+          message: "Failed to fetch customer details. Please try again.");
 
       // Return a response indicating failure
       return APIResponse(

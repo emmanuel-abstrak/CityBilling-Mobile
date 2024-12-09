@@ -39,22 +39,22 @@ class MunicipalityCard extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Pallete.orange.withOpacity(0.3),
+            color: Pallete.orange.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: SvgPicture.asset(
             CustomIcons.secure,
             semanticsLabel: 'Provider type',
-            height: 35,
+            height: 25,
           ),
         ),
-        title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.w500),),
+        title: Text(municipality.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15,),),
         trailing: SvgPicture.asset(
           CustomIcons.forward,
           semanticsLabel: 'forward',
-          height: 15,
+          height: 12,
         ),
       ),
     );

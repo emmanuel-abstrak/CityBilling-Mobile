@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/config/routes/router.dart';
@@ -105,10 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  LocalImageConstants.emptyBox,
-                  scale: 2,
-                ),
+                SvgPicture.asset('assets/illustrations/not-found.svg'),
                 const Text(
                   "No saved properties",
                   textAlign: TextAlign.center,
@@ -132,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       }),
-      floatingActionButton: Column(
+      floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           // Add Meter Button
