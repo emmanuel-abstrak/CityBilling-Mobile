@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import '../../../config/routes/router.dart';
 import '../../../core/constants/color_constants.dart';
@@ -102,33 +103,35 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                       ),
                       onTap: (){
                         Get.dialog(
-                            UpdateDialog(
-                                title: 'Meter Number',
-                                initialValue: widget.property.number,
-                                onUpdate: (value)async{
-                                  Get.showOverlay(
-                                    asyncFunction: () async {
-                                      await propertyController.lookUpProperty(
-                                        meterNumber: value,
-                                      ).then((response){
-                                        if(response.success == true){
-                                          propertyController.updateProperty(
-                                            number: response.data.meter,
-                                            updatedProperty: response.data
-                                          );
-                                          CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
-                                        }else{
-                                          CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
-                                        }
-                                      });
-                                    },
-                                    loadingWidget: const Center(
-                                      child: CustomLoader(
-                                        message: 'Updating property...',
+                            SlideTransitionDialog(
+                              child: UpdateDialog(
+                                  title: 'Meter Number',
+                                  initialValue: widget.property.number,
+                                  onUpdate: (value)async{
+                                    Get.showOverlay(
+                                      asyncFunction: () async {
+                                        await propertyController.lookUpProperty(
+                                          meterNumber: value,
+                                        ).then((response){
+                                          if(response.success == true){
+                                            propertyController.updateProperty(
+                                              number: response.data.meter,
+                                              updatedProperty: response.data
+                                            );
+                                            CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
+                                          }else{
+                                            CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
+                                          }
+                                        });
+                                      },
+                                      loadingWidget: const Center(
+                                        child: CustomLoader(
+                                          message: 'Updating property...',
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }
+                                    );
+                                  }
+                              ),
                             )
                         );
                       },

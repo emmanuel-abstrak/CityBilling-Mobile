@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/core/constants/image_asset_constants.dart';
@@ -134,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          // Add Meter Button
           FloatingActionButton.extended(
             heroTag: 'AddProperty',
             key: addPropertyKey,
@@ -143,44 +145,62 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               Get.dialog(
                 barrierDismissible: false,
-                const AddMeterDialog(
-                  title: 'Meter Number',
-                  initialValue: '',
+                const SlideTransitionDialog(
+                  child: AddMeterDialog(
+                    title: 'Meter Number',
+                    initialValue: '',
+                  ),
                 ),
               );
             },
             backgroundColor: Pallete.secondary,
-            icon: const Icon(Icons.add, color: Colors.white),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
+            ),
             label: const Text(
               'Add Meter',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14, // Slightly smaller text
+                fontWeight: FontWeight.bold,
+              ),
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(26),
             ),
+            elevation: 8, // Added shadow
           ),
           const SizedBox(height: 12),
+          // Buy Utility Button
           FloatingActionButton.extended(
             heroTag: 'buyUtility',
-            backgroundColor: Pallete.orange,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(26),
-            ),
             onPressed: () {
               Get.toNamed(RoutesHelper.buyScreen, arguments: null);
             },
+            backgroundColor: Pallete.orange,
             icon: const Icon(
               FontAwesomeIcons.cartShopping,
               color: Colors.white,
+              size: 20,
             ),
             label: const Text(
-              'Buy Utility',
-              style: TextStyle(color: Colors.white),
+              'Buy Token',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14, // Slightly smaller text
+                fontWeight: FontWeight.bold,
+              ),
+
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(26),
+            ),
+            elevation: 8, // Added shadow
           ),
         ],
       ),
-
 
     );
   }
