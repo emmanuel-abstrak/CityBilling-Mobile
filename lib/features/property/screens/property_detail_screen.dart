@@ -108,28 +108,33 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                   title: 'Meter Number',
                                   initialValue: widget.property.number,
                                   onUpdate: (value)async{
-                                    Get.showOverlay(
-                                      asyncFunction: () async {
-                                        await propertyController.lookUpProperty(
-                                          meterNumber: value,
-                                        ).then((response){
-                                          if(response.success == true){
-                                            propertyController.updateProperty(
-                                              number: response.data.meter,
-                                              updatedProperty: response.data
-                                            );
-                                            CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
-                                          }else{
-                                            CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
-                                          }
-                                        });
-                                      },
-                                      loadingWidget: const Center(
-                                        child: CustomLoader(
-                                          message: 'Updating property...',
+                                    if((value.isNotEmpty && value.length >= 8)){
+                                      Get.back();
+                                      Get.showOverlay(
+                                        asyncFunction: () async {
+                                          await propertyController.lookUpProperty(
+                                            meterNumber: value,
+                                          ).then((response){
+                                            if(response.success == true){
+                                              propertyController.updateProperty(
+                                                  number: response.data.meter,
+                                                  updatedProperty: response.data
+                                              );
+                                              CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
+                                            }else{
+                                              CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
+                                            }
+                                          });
+                                        },
+                                        loadingWidget: const Center(
+                                          child: CustomLoader(
+                                            message: 'Updating property...',
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }else{
+                                      CustomSnackBar.showErrorSnackbar(message: 'Meter Number number must have at least 8 digits');
+                                    }
                                   }
                               ),
                             )
