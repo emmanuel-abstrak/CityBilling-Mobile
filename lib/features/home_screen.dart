@@ -155,11 +155,17 @@ class _HomeScreenState extends State<HomeScreen> {
               'Add Meter',
               style: TextStyle(color: Colors.white),
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(26),
+            ),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
             heroTag: 'buyUtility',
             backgroundColor: Pallete.orange,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(26),
+            ),
             onPressed: () {
               Get.toNamed(RoutesHelper.buyScreen, arguments: null);
             },
@@ -174,6 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
 
     );
   }

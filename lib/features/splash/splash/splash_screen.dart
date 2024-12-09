@@ -53,7 +53,11 @@ class _SplashScreenState extends State<SplashScreen>{
             Future.delayed(Duration.zero, () {
               if (municipality != null) {
                 // If municipality is cached, navigate to HomeScreen
-                Get.offAllNamed(RoutesHelper.initialScreen, arguments: municipality);
+                Get.offAllNamed(
+                  RoutesHelper.initialScreen,
+                  arguments: municipality,
+
+                );
               } else {
                 // If no cached municipality, navigate to MunicipalitiesScreen
                 Get.offAllNamed(RoutesHelper.municipalitiesScreen);

@@ -48,9 +48,9 @@ class NoInternetDialog extends StatelessWidget {
             const SizedBox(height: 24),
             // Retry button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
                 Get.back();
-                controller.retryFetchMunicipalities();
+                await controller.retryFetchMunicipalities();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Pallete.primary,
