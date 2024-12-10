@@ -48,9 +48,9 @@ class MunicipalitiesScreen extends StatelessWidget {
 
           return ListView.separated(
             itemCount: municipalityController.municipalities.length,
-            separatorBuilder: (_, __) => Divider(color: Color(0xFFF4F5FA)),
+            separatorBuilder: (_, __) => const Divider(color: Color(0xFFF4F5FA)),
             itemBuilder: (context, index) {
-              final municipality = municipalityController.municipalities[index];
+              final municipality = municipalityController.municipalities.reversed.toList()[index];
               return Column(
                 children: [
                   MunicipalityCard(
