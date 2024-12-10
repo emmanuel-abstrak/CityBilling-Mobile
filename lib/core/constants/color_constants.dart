@@ -32,10 +32,10 @@ class Pallete {
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      titleTextStyle: CustomTypography.poppinsTextTheme.titleMedium
+      titleTextStyle: CustomTypography.nunitoTextTheme.titleMedium
           ?.copyWith(color: onSurface, fontWeight: FontWeight.bold),
     ),
-    textTheme: CustomTypography.poppinsTextTheme,
+    textTheme: CustomTypography.nunitoTextTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,

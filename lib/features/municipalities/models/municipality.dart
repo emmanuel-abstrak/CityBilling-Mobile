@@ -7,12 +7,14 @@ class Municipality {
   final String id;
   final String name;
   final String endpoint;
+  final String type;
   final int active;
 
   Municipality({
     required this.id,
     required this.name,
     required this.endpoint,
+    required this.type,
     required this.active,
   });
 

@@ -45,7 +45,7 @@ class MunicipalityCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
           ),
           child: SvgPicture.asset(
-            CustomIcons.secure,
+            municipality.type == 'private' ? CustomIcons.secure : CustomIcons.location,
             semanticsLabel: 'Provider type',
             height: 25,
           ),
