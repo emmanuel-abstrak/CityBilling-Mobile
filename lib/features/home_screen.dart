@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: paymentController.purchaseHistories.length,
               separatorBuilder: (context, index) => const Divider(color: Colors.grey),
               itemBuilder: (context, index) {
-                final purchase = paymentController.purchaseHistories[index];
+                final purchase = paymentController.purchaseHistories.reversed.toList()[index];
                 return PurchaseHistoryTile(
                     purchase: purchase
                 );
