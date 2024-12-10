@@ -31,9 +31,7 @@ class RoutesHelper {
     GetPage(
       name: propertyDetails,
       page: (){
-        final property = Get.arguments as MeterDetails;
-
-        return PropertyDetailsScreen(property: property);
+        return PropertyDetailsScreen();
       }
     ),
 

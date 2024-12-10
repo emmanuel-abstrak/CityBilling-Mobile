@@ -24,7 +24,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
-  final PaymentController paymentController = Get.put(PaymentController());
+  final PaymentController paymentController = Get.find<PaymentController>();
+  final PropertyController propertyController = Get.find<PropertyController>();
   final TutorialController tutorialController = Get.find<TutorialController>();
   late TutorialCoachMark tutorialCoachMark;
   final GlobalKey addPropertyKey = GlobalKey();
@@ -98,6 +99,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
+        ),
+
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.bottomLeft,
+            child: const Text(
+              'Recent Purchases',
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400
+              ),
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -212,27 +229,32 @@ class _HomeScreenState extends State<HomeScreen> {
               if (!tutorialController.hasSeenTutorial.value) {
                 tutorialController.markTutorialAsSeen();
               }
-              Get.dialog(
-                barrierDismissible: false,
-                const SlideTransitionDialog(
-                  child: AddMeterDialog(
-                    title: 'Meter Number',
-                    initialValue: '',
+
+              if(propertyController.properties.isEmpty){
+                Get.dialog(
+                  barrierDismissible: false,
+                  const SlideTransitionDialog(
+                    child: AddMeterDialog(
+                      title: 'Meter Number',
+                      initialValue: '',
+                    ),
                   ),
-                ),
-              );
+                );
+              }else{
+                Get.toNamed(RoutesHelper.propertyDetails);
+              }
             },
             backgroundColor: Pallete.secondary,
-            icon: const Icon(
-              Icons.add,
+            icon: Icon(
+              propertyController.properties.isEmpty ? Icons.add :FontAwesomeIcons.gaugeHigh,
               color: Colors.white,
               size: 20,
             ),
-            label: const Text(
-              'Add Meter',
-              style: TextStyle(
+            label: Text(
+              propertyController.properties.isEmpty ? 'Add Meter' : 'Saved Meters',
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: 14, // Slightly smaller text
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
