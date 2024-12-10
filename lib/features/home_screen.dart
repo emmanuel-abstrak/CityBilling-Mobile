@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -10,7 +11,9 @@ import 'package:utility_token_app/features/municipalities/state/municipalities_c
 import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/features/property/state/tutorial_controller.dart';
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
+import '../core/constants/icon_asset_constants.dart';
 import '../widgets/cards/property_card.dart';
+import 'buy/state/payment_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key,});
@@ -20,8 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PropertyController propertyController = Get.find<PropertyController>();
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
+  final PaymentController paymentController = Get.put(PaymentController());
   final TutorialController tutorialController = Get.find<TutorialController>();
   late TutorialCoachMark tutorialCoachMark;
   final GlobalKey addPropertyKey = GlobalKey();
@@ -97,41 +100,107 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      body: Obx(() {
-        final properties = propertyController.properties;
-
-        if (properties.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  LocalImageConstants.emptyBox,
-                  scale: 2,
-                ),
-                const Text(
-                  "No saved properties",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          itemCount: properties.length,
-          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
-          itemBuilder: (context, index) {
-            final property = properties[index];
-            return MeterDetailsTile(
-              meter: property,
-              icon: FontAwesomeIcons.gaugeHigh,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Obx(() {
+          // Observe changes in the purchase history
+          if (paymentController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        );
-      }),
+          } else if (paymentController.purchaseHistories.isEmpty) {
+            return const Center(
+              child: Text(
+                'No recent purchases available.',
+                style: TextStyle(color: Colors.grey, fontSize: 16),
+              ),
+            );
+          } else {
+            return ListView.separated(
+              itemCount: paymentController.purchaseHistories.length,
+              separatorBuilder: (context, index) => const Divider(color: Colors.grey),
+              itemBuilder: (context, index) {
+                final purchase = paymentController.purchaseHistories[index];
+                return ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        purchase.token,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SvgPicture.asset(
+                        CustomIcons.forward,
+                        semanticsLabel: 'meter',
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Date',
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            purchase.createdAt.toString(),
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Amount Paid',
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            '\$${purchase.amount}',
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       'Token Amount',
+                      //       style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //     Text(
+                      //       '\$${purchase..toStringAsFixed(2)}',
+                      //       style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        }),
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

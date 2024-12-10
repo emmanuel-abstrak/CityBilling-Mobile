@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:utility_token_app/features/buy/models/tariff.dart';
-
 part 'purchase_history.g.dart';
 
 @JsonSerializable()
@@ -29,8 +30,24 @@ class PurchaseHistory {
     required this.createdAt,
   });
 
-  factory PurchaseHistory.fromJson(Map<String, dynamic> json) =>
-      _$PurchaseHistoryFromJson(json);
+  factory PurchaseHistory.fromJson(Map<String, dynamic> json) {
+    return PurchaseHistory(
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      meter: json['meter'] as String,
+      currency: json['currency'] as String,
+      amount: json['amount'] as String,
+      unitPrice: json['unitPrice'] as String,
+      vat: json['vat'] as String,
+      tariffs: (json['tariffs'] != null && json['tariffs'] is String)
+          ? (jsonDecode(json['tariffs']) as List<dynamic>)
+          .map((e) => Tariff.fromJson(e as Map<String, dynamic>))
+          .toList()
+          : [],
+      volume: json['volume'] as String,
+      token: json['token'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+  }
 
   Map<String, dynamic> toJson() => _$PurchaseHistoryToJson(this);
 }

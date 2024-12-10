@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';
+import '../../features/buy/models/purchase_history.dart';
 import 'logs.dart';
 
 /// A utility class for caching and retrieving application data using
@@ -20,8 +21,8 @@ class CacheUtils {
   /// Key for storing a cached municipality in the cache.
   static const _municipalityCacheKey = 'cached_municipality';
 
-  /// Key for storing a list of meter numbers in the cache.
-
+  /// Key for storing the cached purchase history in the cache.
+  static const _purchaseHistoryCacheKey = 'cached_purchase_history';
 
   // --- Onboarding Methods ---
 
@@ -234,5 +235,49 @@ class CacheUtils {
       DevLogs.logError('Error updating Property in cache: $e');
     }
   }
+
+
+
+
+  /// Caches the list of purchase history after a successful purchase.
+  ///
+  /// This method serializes the list of [PurchaseHistory] to JSON and stores it
+  /// in the cache.
+  ///
+  /// Parameters:
+  /// - [history]: The list of purchase history to cache.
+  static Future<void> cachePurchaseHistory({required List<PurchaseHistory> history}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final historyJson = jsonEncode(history.map((e) => e.toJson()).toList());
+      await prefs.setString(_purchaseHistoryCacheKey, historyJson);
+    } catch (e) {
+      DevLogs.logError('Error saving Purchase History to cache: $e');
+    }
+  }
+
+  /// Retrieves the cached list of purchase history.
+  ///
+  /// This method deserializes the JSON stored in the cache back into a list of
+  /// [PurchaseHistory] objects.
+  ///
+  /// Returns:
+  /// - A list of [PurchaseHistory] objects if the cache contains valid data.
+  /// - An empty list otherwise or in case of an error.
+  static Future<List<PurchaseHistory>> getPurchaseHistoryCache() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final historyJson = prefs.getString(_purchaseHistoryCacheKey);
+      if (historyJson != null) {
+        final decoded = jsonDecode(historyJson) as List;
+        return decoded.map((e) => PurchaseHistory.fromJson(e as Map<String, dynamic>)).toList();
+      }
+    } catch (e) {
+      DevLogs.logError('Error retrieving Purchase History from cache: $e');
+    }
+    return [];
+  }
+
+
 
 }

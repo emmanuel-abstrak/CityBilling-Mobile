@@ -4,9 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
+import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import '../../../config/routes/router.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/icon_asset_constants.dart';
+import '../../../core/constants/image_asset_constants.dart';
+import '../../../widgets/cards/property_card.dart';
 import '../../../widgets/circular_loader/circular_loader.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/dialogs/delete_dialog.dart';
@@ -23,13 +26,14 @@ class PropertyDetailsScreen extends StatefulWidget {
 }
 
 class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
-  final PropertyController propertyController = Get.put(PropertyController());
+  final PropertyController propertyController = Get.find<PropertyController>();
 
 
 
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -205,329 +209,42 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '1048 7837 8467 8974',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
+      body: Obx(() {
+        final properties = propertyController.properties;
 
-                  SvgPicture.asset(
-                    CustomIcons.forward,
-                    semanticsLabel: 'meter',
-                    color: Colors.grey
-                  ),
-                ],
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Date',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '06/07/2023',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount Paid',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$100.20',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Token Amount',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$60.00',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        if (properties.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  LocalImageConstants.emptyBox,
+                  scale: 2,
+                ),
+                const Text(
+                  "No saved properties",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            const Divider(color: Colors.grey,),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '1048 7837 8467 8974',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
+          );
+        }
 
-                  SvgPicture.asset(
-                      CustomIcons.forward,
-                      semanticsLabel: 'meter',
-                      color: Colors.grey
-                  ),
-                ],
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Date',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '06/07/2023',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount Paid',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$100.20',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Token Amount',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$60.00',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Divider(color: Colors.grey,),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '1048 7837 8467 8974',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          itemCount: properties.length,
+          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+          itemBuilder: (context, index) {
+            final property = properties[index];
+            return MeterDetailsTile(
+              meter: property,
+              icon: FontAwesomeIcons.gaugeHigh,
+            );
+          },
+        );
+      }),
 
-                  SvgPicture.asset(
-                      CustomIcons.forward,
-                      semanticsLabel: 'meter',
-                      color: Colors.grey
-                  ),
-                ],
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Date',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '06/07/2023',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount Paid',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$100.20',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Token Amount',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$60.00',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Divider(color: Colors.grey,),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '1048 7837 8467 8974',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-
-                  SvgPicture.asset(
-                      CustomIcons.forward,
-                      semanticsLabel: 'meter',
-                      color: Colors.grey
-                  ),
-                ],
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Date',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '06/07/2023',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount Paid',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$100.20',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Token Amount',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                      Text(
-                        '\$60.00',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Divider(color: Colors.grey,),
-          ],
-        ),
-      ),
       bottomNavigationBar: SizedBox(
         height: 80,
         child: Row(

@@ -5,6 +5,8 @@ import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/core/utils/dimensions.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
+import 'package:utility_token_app/features/buy/payment_services/payment_services.dart';
+import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/widgets/custom_button/general_button.dart';
 import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
@@ -24,16 +26,29 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   bool showProceedButton = false;
   bool isLoading = true; // To track the loading state
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
+  final PaymentController paymentController = Get.find<PaymentController>();
 
   @override
   void initState() {
     super.initState();
     _webView = InAppWebView(
       initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(widget.redirectUrl))),
-      onLoadStop: (controller, url) {
+      onLoadStop: (controller, url) async{
         DevLogs.logSuccess(url.toString());
         if (url.toString().contains("https://api-masvingo.abstrak.agency/payment/settle")) {
           CustomSnackBar.showSuccessSnackbar(message: 'Payment Successful');
+
+          // Parse the URL
+          final uri = Uri.parse(url.toString());
+
+          final purchaseId = int.parse(uri.pathSegments.last);
+
+          DevLogs.logInfo(purchaseId.toString());
+
+          await paymentController.fetchPurchaseDetailsAndStoreToCache(
+            purchaseId: purchaseId,
+            accessToken: 'k6gX6nDH1ZuDvv0UOP41advUWhvRN0OzL7HR6q1Yop4VbVJT9vvTEyDBo6oHukey2AVSP8tZLS5FpP3gtQnCmyYDCReDyKSji2GDysnIfouTR2zRgeBVV6MSWgPzgd9su22OS2Z9fkxRt7Lzx0rOgPpk9BytVAiHDSdlrYMhYTAujaCf0uYS3Ffbg6klvf1KBsNmjPOhVPmzXMNXcGqq6vi52HHxzsyKGp21arz9ywXwkfaQ',
+          );
           setState(() {
             showProceedButton = true;
             isLoading = false; // Stop the loading indicator

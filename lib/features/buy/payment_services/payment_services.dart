@@ -4,6 +4,7 @@ import 'package:utility_token_app/core/constants/url_constants.dart';
 import 'package:utility_token_app/core/utils/api_response.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
 import 'package:http/http.dart' as http;
+import 'package:utility_token_app/features/buy/models/purchase_history.dart';
 import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
 
 class PaymentServices {
@@ -110,11 +111,11 @@ class PaymentServices {
 
 
 
-  static Future<APIResponse<String>> getPurchaseDetails({
+  static Future<APIResponse<PurchaseHistory>> getPurchaseDetails({
     required int purchaseId,
     required String accessToken
   }) async {
-    final String url = "${UrlConstants.paymentsBaseUrl}vending/water-purchases/$purchaseId";
+    final String url = "${UrlConstants.paymentsBaseUrl}/vending/water-purchases/$purchaseId";
 
     try {
       final response = await http.get(
@@ -128,14 +129,15 @@ class PaymentServices {
       if (response.statusCode == 200) {
         DevLogs.logSuccess(response.body);
 
-        final data = jsonDecode(response.body)['result'];
+        final data = jsonDecode(response.body);
 
-        final String redirectUrl = data['redirect_url'];
+        DevLogs.logWarning(data.toString());
+        final PurchaseHistory purchaseHistory = PurchaseHistory.fromJson(data);
 
         return APIResponse(
           success: true,
           message: 'Payment Initiated Successfully',
-          data: redirectUrl,
+          data: purchaseHistory,
         );
       } else {
         DevLogs.logError(response.body);

@@ -42,8 +42,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
 
   @override
   void dispose() {
-    _amountController.dispose();
-    _meterNumberTextEditingController.dispose();
     super.dispose();
   }
 
