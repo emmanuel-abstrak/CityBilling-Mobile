@@ -19,16 +19,14 @@ Future<void> main() async {
   Get.put(PropertyController());
   Get.put(PaymentController());
 
-
   // Fetch municipalities on startup
   final municipalityController = Get.find<MunicipalityController>();
 
   // Check if a municipality is cached
-  final cachedMunicipality = await municipalityController.checkCachedMunicipality();
+  final cachedMunicipality =
+      await municipalityController.checkCachedMunicipality();
 
-  runApp(
-      MyApp(cachedMunicipality: cachedMunicipality)
-  );
+  runApp(MyApp(cachedMunicipality: cachedMunicipality));
 }
 
 class MyApp extends StatelessWidget {
@@ -42,6 +40,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 700),
       theme: Pallete.appTheme,
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [
         Locale('en'), // English
         Locale('sh'), // Shona

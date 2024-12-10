@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/animations/slide_transition_dialog.dart';
@@ -8,7 +7,6 @@ import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/widgets/dropdown/custom_dropdown.dart';
 import '../../../core/constants/color_constants.dart';
-import '../../../core/constants/icon_asset_constants.dart';
 import '../../../widgets/dialogs/payment_summary.dart';
 import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/text_fields/custom_text_field.dart';
@@ -50,9 +48,9 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
-          builder: (context){
+          builder: (context) {
             return GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.back();
               },
               child: Container(
@@ -62,7 +60,10 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
                 ),
-                child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
+                child: const Icon(
+                  FontAwesomeIcons.chevronLeft,
+                  size: 20,
+                ),
               ),
             );
           },
@@ -77,29 +78,33 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
             const SizedBox(height: 16),
             Autocomplete<MeterDetails>(
               optionsBuilder: (TextEditingValue textEditingValue) {
-                if (textEditingValue.text.isEmpty) return const Iterable<MeterDetails>.empty();
+                if (textEditingValue.text.isEmpty)
+                  return const Iterable<MeterDetails>.empty();
 
                 return cachedProperties.where((property) {
-                  final customerName = property.customerName.toLowerCase() ?? '';
+                  final customerName =
+                      property.customerName.toLowerCase() ?? '';
                   final meterNumber = property.number.toLowerCase() ?? '';
                   final query = textEditingValue.text.toLowerCase();
-                  return customerName.contains(query) || meterNumber.contains(query);
+                  return customerName.contains(query) ||
+                      meterNumber.contains(query);
                 });
               },
               displayStringForOption: (MeterDetails property) =>
-              '${property.customerName} - ${property.number}',
+                  '${property.customerName} - ${property.number}',
               onSelected: (MeterDetails selection) {
                 _meterNumberTextEditingController.text = selection.number ?? '';
                 FocusScope.of(context).unfocus(); // Close the keyboard
               },
               fieldViewBuilder: (
-                  BuildContext context,
-                  TextEditingController textEditingController,
-                  FocusNode focusNode,
-                  VoidCallback onFieldSubmitted,
-                  ) {
+                BuildContext context,
+                TextEditingController textEditingController,
+                FocusNode focusNode,
+                VoidCallback onFieldSubmitted,
+              ) {
                 _meterNumberTextEditingController = textEditingController;
-                if (widget.selectedProperty != null && textEditingController.text.isEmpty) {
+                if (widget.selectedProperty != null &&
+                    textEditingController.text.isEmpty) {
                   textEditingController.text = widget.selectedProperty!.number;
                 }
                 return CustomTextField(
@@ -110,16 +115,16 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                   },
-                  onTapOutSide: (event){
+                  onTapOutSide: (event) {
                     FocusScope.of(context).unfocus();
                   },
                 );
               },
               optionsViewBuilder: (
-                  BuildContext context,
-                  AutocompleteOnSelected<MeterDetails> onSelected,
-                  Iterable<MeterDetails> options,
-                  ) {
+                BuildContext context,
+                AutocompleteOnSelected<MeterDetails> onSelected,
+                Iterable<MeterDetails> options,
+              ) {
                 return Align(
                   alignment: Alignment.topLeft,
                   child: Material(
@@ -132,16 +137,14 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                       ),
                       child: ListView.separated(
                         itemCount: options.length,
-                        separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+                        separatorBuilder: (_, __) =>
+                            Divider(color: Colors.grey.shade300),
                         itemBuilder: (BuildContext context, int index) {
                           final MeterDetails option = options.elementAt(index);
                           return ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16
-                            ),
-                            leading: const Icon(
-                              FontAwesomeIcons.gaugeHigh
-                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            leading: const Icon(FontAwesomeIcons.gaugeHigh),
                             title: Text(
                               option.customerName,
                               style: const TextStyle(
@@ -152,12 +155,13 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                             ),
                             subtitle: Text(
                               option.number,
-                              style: const TextStyle(fontWeight: FontWeight.w500),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                             ),
-
                             onTap: () {
                               onSelected(option); // Handle option selection
-                              FocusScope.of(context).unfocus(); // Close the keyboard
+                              FocusScope.of(context)
+                                  .unfocus(); // Close the keyboard
                             },
                           );
                         },
@@ -167,7 +171,6 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                 );
               },
             ),
-
             const SizedBox(height: 16),
             CustomTextField(
               prefixIcon: const Icon(FontAwesomeIcons.moneyBill),
@@ -194,25 +197,24 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
                 Expanded(
                   child: GeneralButton(
                     onTap: () async {
-                      bool detailsValid =  await PaymentHelper.validatePaymentDetails(
-                        meterNumber:
-                        _meterNumberTextEditingController.text,
+                      bool detailsValid =
+                          await PaymentHelper.validatePaymentDetails(
+                        meterNumber: _meterNumberTextEditingController.text,
                         amount: _amountController.text,
                         selectedCurrency: selectedCurrency,
                       );
 
                       if (detailsValid) {
                         Get.dialog(
-                          barrierDismissible: false,
+                            barrierDismissible: false,
                             SlideTransitionDialog(
                               child: PurchaseSummaryDialog(
                                 paymentController: paymentController,
-                                onClose: (){
+                                onClose: () {
                                   Get.back();
                                 },
                               ),
-                            )
-                        );
+                            ));
                       }
                     },
                     width: MediaQuery.of(context).size.width * 0.8,

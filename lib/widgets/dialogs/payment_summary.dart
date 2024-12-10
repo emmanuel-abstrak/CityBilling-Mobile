@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/features/buy/helper/helper.dart';
 import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
@@ -76,18 +75,19 @@ class PurchaseSummaryDialog extends StatelessWidget {
                 Text(
                   'Confirm Payment',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 32),
 
                 // Customer Info
                 _buildInfoRow('Customer:', summary.meter.customerName),
                 _buildInfoRow('Meter Number:', summary.meter.number),
-                _buildInfoRow('Amount To Pay:', '\$${summary.amount.toStringAsFixed(2)}'),
+                _buildInfoRow(
+                    'Amount To Pay:', '\$${summary.amount.toStringAsFixed(2)}'),
                 if (summary.balances.isNotEmpty)
                   ...summary.balances.map(
-                        (balance) {
+                    (balance) {
                       if (balance.amount > 0) {
                         return _buildInfoRow(
                           balance.name,
@@ -98,7 +98,8 @@ class PurchaseSummaryDialog extends StatelessWidget {
                       return const SizedBox.shrink();
                     },
                   ),
-                _buildInfoRow('Token Amount:', '\$${summary.tokenAmount.toStringAsFixed(2)}'),
+                _buildInfoRow('Token Amount:',
+                    '\$${summary.tokenAmount.toStringAsFixed(2)}'),
 
                 const SizedBox(height: 20),
 
@@ -110,10 +111,7 @@ class PurchaseSummaryDialog extends StatelessWidget {
                         onTap: onClose,
                         width: 60,
                         btnColor: Colors.grey.shade300,
-                        child: const Icon(
-                            Icons.close
-                        )
-                    ),
+                        child: const Icon(Icons.close)),
                     const SizedBox(
                       width: 16,
                     ),
@@ -121,16 +119,22 @@ class PurchaseSummaryDialog extends StatelessWidget {
                       onTap: () async {
                         Get.showOverlay(
                           asyncFunction: () async {
-                            await paymentController.initiatePayment(
-                              accessToken: 'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
+                            await paymentController
+                                .initiatePayment(
+                              accessToken:
+                                  'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
                               meterNumber: summary.meter.number,
                               currency: summary.currency,
                               amount: summary.amount,
-                            ).then((response){
-                              if(response.success){
-                                Get.toNamed(RoutesHelper.webviewPaymentPage, arguments: response.data);
-                              }else{
-                                CustomSnackBar.showErrorSnackbar(duration: 8,message: response.message ?? '');
+                            )
+                                .then((response) {
+                              if (response.success) {
+                                Get.toNamed(RoutesHelper.webviewPaymentPage,
+                                    arguments: response.data);
+                              } else {
+                                CustomSnackBar.showErrorSnackbar(
+                                    duration: 8,
+                                    message: response.message ?? '');
                               }
                             });
                           },

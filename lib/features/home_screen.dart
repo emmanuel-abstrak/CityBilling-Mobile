@@ -37,34 +37,34 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Show the tutorial if it hasn't been shown
       if (!tutorialController.hasSeenTutorial.value) {
-       tutorialCoachMark = TutorialCoachMark(
-         targets: [
-           TargetFocus(
-             identify: "AddProperty",
+        tutorialCoachMark = TutorialCoachMark(
+          targets: [
+            TargetFocus(
+              identify: "AddProperty",
 
-             keyTarget: addPropertyKey,
-             contents: [
-               TargetContent(
-                 align: ContentAlign.top,
-                 child: const Text(
-                   "It looks like you haven't added a Meter Number yet. Tap the + button to save your Meter Number",
-                   style: TextStyle(color: Colors.white, fontSize: 16),
-                 ),
-               ),
-             ],
-           ),
-         ],
-         alignSkip: Alignment.bottomRight,
-         skipWidget: const Padding(
-           padding: EdgeInsets.all(8.0),
-           child: Text("SKIP", style: TextStyle(color: Pallete.primary)),
-         ),
-         onSkip: () {
-           tutorialCoachMark.finish();
-           tutorialController.markTutorialAsSeen();
-           return true;
-         },
-       )..show(context: context);
+              keyTarget: addPropertyKey,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.top,
+                  child: const Text(
+                    "It looks like you haven't added a Meter Number yet. Tap the + button to save your Meter Number",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          alignSkip: Alignment.bottomRight,
+          skipWidget: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("SKIP", style: TextStyle(color: Pallete.primary)),
+          ),
+          onSkip: () {
+            tutorialCoachMark.finish();
+            tutorialController.markTutorialAsSeen();
+            return true;
+          },
+        )..show(context: context);
       }
     });
   }
@@ -76,10 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
-            return Text(
+          return Text(
               municipalityController.selectedMunicipality.value!.name
-            );
-          }
+          );
+        }
         ),
         leading: Builder(
           builder: (context) {
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 final purchase = paymentController.purchaseHistories[index];
                 return PurchaseHistoryTile(
-                  purchase: purchase
+                    purchase: purchase
                 );
               },
             );
