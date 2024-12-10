@@ -50,5 +50,14 @@ class PurchaseHistory {
   }
 
   Map<String, dynamic> toJson() => _$PurchaseHistoryToJson(this);
+
+  /// Calculates the total amount by adding the `amount` and tariffs' amounts.
+  double get totalAmount {
+    final double parsedAmount = double.tryParse(amount) ?? 0.0;
+
+    final double tariffsTotal = tariffs.fold(0.0, (sum, tariff) => sum + tariff.amount);
+
+    return parsedAmount + tariffsTotal;
+  }
 }
 

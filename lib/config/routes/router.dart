@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
+import 'package:utility_token_app/features/buy/models/purchase_history.dart';
 import 'package:utility_token_app/features/buy/screens/buy_utility_screen.dart';
 import 'package:utility_token_app/features/buy/screens/payment_webview.dart';
 import 'package:utility_token_app/features/home_screen.dart';
 import 'package:utility_token_app/features/splash/splash/splash_screen.dart';
+import '../../features/buy/screens/purchase_history.dart';
 import '../../features/municipalities/screens/municipalities_screen.dart';
 import '../../features/property/screens/property_detail_screen.dart';
 
@@ -14,6 +16,7 @@ class RoutesHelper {
   static String buyScreen = '/buy';
   static String addProperty = '/addProperty';
   static String propertyDetails = '/propertyDetails';
+  static String historyDetails = '/historyDetails';
   static String webviewPaymentPage = '/payment-webview';
 
   static List<GetPage> routes = [
@@ -42,6 +45,17 @@ class RoutesHelper {
 
         return BuyUtilityScreen(
           selectedProperty: property,
+        );
+      },
+    ),
+
+    GetPage(
+      name: historyDetails,
+      page: () {
+        final PurchaseHistory purchase = Get.arguments as PurchaseHistory;
+
+        return PurchaseHistoryDetailsScreen(
+          purchase: purchase,
         );
       },
     ),

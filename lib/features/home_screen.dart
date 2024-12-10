@@ -13,6 +13,7 @@ import 'package:utility_token_app/features/property/state/tutorial_controller.da
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
 import '../core/constants/icon_asset_constants.dart';
 import '../widgets/cards/property_card.dart';
+import '../widgets/cards/purchase_history_tile.dart';
 import 'buy/state/payment_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -138,80 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (context, index) => const Divider(color: Colors.grey),
               itemBuilder: (context, index) {
                 final purchase = paymentController.purchaseHistories[index];
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        purchase.token,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SvgPicture.asset(
-                        CustomIcons.forward,
-                        semanticsLabel: 'meter',
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Date',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            purchase.createdAt.toString(),
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Amount Paid',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            '\$${purchase.amount}',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       'Token Amount',
-                      //       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      //         color: Colors.grey,
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       '\$${purchase..toStringAsFixed(2)}',
-                      //       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      //         color: Colors.grey,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  ),
+                return PurchaseHistoryTile(
+                  purchase: purchase
                 );
               },
             );
