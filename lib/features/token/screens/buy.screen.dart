@@ -33,6 +33,13 @@ class _BuyScreenState extends State<BuyScreen> {
   List<MeterDetails> cachedProperties = [];
 
   @override
+  void initState() {
+    super.initState();
+    cachedProperties = propertyController.properties;
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -41,9 +48,9 @@ class _BuyScreenState extends State<BuyScreen> {
         children: [
           Autocomplete<MeterDetails>(
             optionsBuilder: (TextEditingValue textEditingValue) {
-              if (textEditingValue.text.isEmpty)
+              if (textEditingValue.text.isEmpty) {
                 return const Iterable<MeterDetails>.empty();
-
+              }
               return cachedProperties.where((property) {
                 final customerName =
                     property.customerName.toLowerCase() ?? '';
@@ -103,7 +110,18 @@ class _BuyScreenState extends State<BuyScreen> {
                         return ListTile(
                           contentPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
-                          leading: const Icon(FontAwesomeIcons.gaugeHigh),
+                          leading: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Pallete.orange.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: SvgPicture.asset(
+                              CustomIcons.meter,
+                              semanticsLabel: 'view property',
+                              height: 20,
+                            ),
+                          ),
                           title: Text(
                             option.customerName,
                             style: const TextStyle(

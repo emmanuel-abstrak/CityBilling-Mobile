@@ -38,16 +38,6 @@ class RoutesHelper {
       }
     ),
 
-    GetPage(
-      name: buyScreen,
-      page: () {
-        final MeterDetails? property = Get.arguments as MeterDetails?;
-
-        return BuyUtilityScreen(
-          selectedProperty: property,
-        );
-      },
-    ),
 
     GetPage(
       name: historyDetails,
