@@ -39,7 +39,7 @@ class PurchaseSummaryDialog extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -53,27 +53,26 @@ class PurchaseSummaryDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(),
                 Row(
                   children: [
-                    Expanded(flex: 3, child: Container()),
-                    const Expanded(
+                    Expanded(flex: 2, child: Container()),
+                    Expanded(
                       flex: 1,
-                      child: Divider(
-                        thickness: 5,
-                        color: Colors.grey,
+                      child: Container(
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                     ),
-                    Expanded(flex: 3, child: Container()),
+                    Expanded(flex: 2, child: Container()),
                   ],
                 ),
-                SvgPicture.asset(
-                  CustomIcons.confirmPayment,
-                  //colorFilter: ColorFilter.mode(Colors.red, BlendMode.clear),
-                  semanticsLabel: 'confrim payment',
-                  height: 200,
-                ),
+                SizedBox(height: 15),
                 Text(
-                  'Confirm Payment',
+                  'Confirm Purchase',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -108,22 +107,25 @@ class PurchaseSummaryDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GeneralButton(
-                        onTap: onClose,
-                        width: 60,
-                        btnColor: Colors.grey.shade300,
-                        child: const Icon(Icons.close)
+                      onTap: (){
+                        Get.back();
+                      },
+                      width: 60,
+                      borderRadius: 18,
+                      btnColor: Colors.grey.withOpacity(0.2),
+                      child: SvgPicture.asset(CustomIcons.cross, height: 26,),
                     ),
                     const SizedBox(
-                      width: 16,
+                      width: 8,
                     ),
-                    GeneralButton(
+                    Expanded(child: GeneralButton(
                       onTap: () async {
                         Get.showOverlay(
                           asyncFunction: () async {
                             await paymentController
                                 .initiatePayment(
                               accessToken:
-                                  'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
+                              'w7BKImq5uMapLoURhh2cypPv5rdwZy7ExJ968kresYmYCUk2amez784imVgNc0MA0tWxPeftYnotItIcm9eHzdZcLwkhFeedsK7SO7MbyKizrdbXVjzoVKGxGQQmx45mt5hFoQCxctp5D8oJ5WRdXzDgo3OVet1DotsuJdan8YT7aPTkjNTLgmPy6i4vAX1Zj7cSIsiAXiYQWB5mzxfJ7moxICNkfRjRf8q9jimkMd0fnJZF',
                               meterNumber: summary.meter.number,
                               currency: summary.currency,
                               amount: summary.amount,
@@ -149,13 +151,13 @@ class PurchaseSummaryDialog extends StatelessWidget {
                       btnColor: Pallete.orange,
                       width: 200,
                       child: const Text(
-                        'Confirm Payment',
+                        'Make Payment',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ),),
                   ],
                 ),
                 const SizedBox(height: 10),

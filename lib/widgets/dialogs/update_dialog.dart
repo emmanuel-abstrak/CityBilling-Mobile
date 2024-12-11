@@ -39,7 +39,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       insetPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       child: Container(
-        height: 350,
+        height: 250,
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 4),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -52,24 +52,22 @@ class _UpdateDialogState extends State<UpdateDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const SizedBox(),
             Row(
               children: [
-                Expanded(flex: 3, child: Container()),
-                const Expanded(
+                Expanded(flex: 2, child: Container()),
+                Expanded(
                   flex: 1,
-                  child: Divider(
-                    thickness: 5,
-                    color: Colors.grey,
+                  child: Container(
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
-                Expanded(flex: 3, child: Container()),
+                Expanded(flex: 2, child: Container()),
               ],
-            ),
-
-            SvgPicture.asset(
-              CustomIcons.meter,
-              semanticsLabel: 'meter',
-              height: 100,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -88,33 +86,28 @@ class _UpdateDialogState extends State<UpdateDialog> {
             ),
 
             CustomTextField(
-              prefixIcon: const Icon(Icons.location_city),
               labelText: widget.title,
               controller: controller,
               onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(
-              height: 16,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GeneralButton(
-                    onTap: (){
-                      Get.back();
-                    },
-                    width: 60,
-                    btnColor: Colors.grey.shade300,
-                    child: const Icon(
-                        Icons.close
-                    )
+                  onTap: (){
+                    Get.back();
+                  },
+                  width: 60,
+                  borderRadius: 18,
+                  btnColor: Colors.grey.withOpacity(0.2),
+                  child: SvgPicture.asset(CustomIcons.cross, height: 26,),
                 ),
                 const SizedBox(
-                  width: 16,
+                  width: 8,
                 ),
-                GeneralButton(
+                Expanded(child: GeneralButton(
                   onTap: () {
-                      widget.onUpdate(controller.text.trim());
+                    widget.onUpdate(controller.text.trim());
                   },
                   width: 200,
                   btnColor: Pallete.orange,
@@ -122,7 +115,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     'Update',
                     style: TextStyle(color: Colors.white),
                   ),
-                ),
+                ),),
               ],
             ),
           ],

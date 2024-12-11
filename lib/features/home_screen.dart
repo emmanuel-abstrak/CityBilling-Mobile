@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 decoration: BoxDecoration(
                   color: selectedPage == 0 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 decoration: BoxDecoration(
                   color: selectedPage == 1 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 decoration: BoxDecoration(
                   color:  selectedPage == 2 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),

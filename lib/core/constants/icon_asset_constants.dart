@@ -11,4 +11,8 @@ class CustomIcons {
   static const history = 'assets/icons/history.svg';
   static const settings = 'assets/icons/settings.svg';
   static const dollar = 'assets/icons/dollar.svg';
+  static const add = 'assets/icons/add.svg';
+  static const cross = 'assets/icons/cross.svg';
+  static const more = 'assets/icons/more.svg';
+  static const edit = 'assets/icons/edit.svg';
 }

@@ -24,9 +24,9 @@ class MeterDetailsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color: Colors.grey.withOpacity(0.1),
           borderRadius: BorderRadius.circular(
-              10
+              15
           )
       ),
       child: ListTile(
@@ -36,12 +36,12 @@ class MeterDetailsTile extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Pallete.orange.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(15),
           ),
           child: SvgPicture.asset(
             CustomIcons.meter,
             semanticsLabel: 'view property',
-            height: 40,
+            height: 22,
           ),
         ),
         title: Text(
@@ -59,17 +59,14 @@ class MeterDetailsTile extends StatelessWidget {
           ),
         ),
         trailing:  PopupMenuButton(
+          icon: SvgPicture.asset(CustomIcons.more),
           color: Colors.white,
           itemBuilder: (BuildContext context) {
             return [
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Icon(
-                      FontAwesomeIcons.pen,
-                      color: Colors.grey.shade700,
-                      size: 20,
-                    ),
+                    SvgPicture.asset(CustomIcons.edit),
                     const SizedBox(
                       width: 8,
                     ),
@@ -98,7 +95,7 @@ class MeterDetailsTile extends StatelessWidget {
                                             number: response.data.meter,
                                             updatedProperty: response.data
                                         );
-                                        CustomSnackBar.showSuccessSnackbar(message: 'Property Updated Successfully');
+                                        CustomSnackBar.showSuccessSnackbar(message: 'Meter updated successfully');
                                       }else{
                                         CustomSnackBar.showErrorSnackbar(duration: 8,message:'Failed to update, check your Meter Number and try again');
                                       }
@@ -111,7 +108,7 @@ class MeterDetailsTile extends StatelessWidget {
                                   ),
                                 );
                               }else{
-                                CustomSnackBar.showErrorSnackbar(message: 'Meter Number number must have at least 8 digits');
+                                CustomSnackBar.showErrorSnackbar(message: 'Invalid meter number');
                               }
                             }
                         ),
@@ -125,7 +122,7 @@ class MeterDetailsTile extends StatelessWidget {
                     Icon(
                       FontAwesomeIcons.trashCan,
                       color: Colors.redAccent,
-                      size: 20,
+                      size: 15,
                     ),
                     SizedBox(
                       width: 8,
@@ -155,7 +152,7 @@ class MeterDetailsTile extends StatelessWidget {
                             ),
                           );
 
-                          CustomSnackBar.showSuccessSnackbar(message: 'Meter Number deleted Successfully');
+                          CustomSnackBar.showSuccessSnackbar(message: 'Meter removed successfully');
                         },
                       )
                   );

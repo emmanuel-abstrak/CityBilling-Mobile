@@ -26,8 +26,8 @@ class CustomLoader extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: LoadingAnimationWidget.hexagonDots(
-                    color: Pallete.primary,
-                    size: 45
+                    color: Pallete.orange,
+                    size: 28
                 ),
               ),
 
@@ -40,7 +40,7 @@ class CustomLoader extends StatelessWidget {
                 child: Text(
                   '$message.....',
                   style: const TextStyle(
-                      color: Pallete.primary,
+                      color: Colors.black,
                       fontSize: 12
                   ),
                 ),

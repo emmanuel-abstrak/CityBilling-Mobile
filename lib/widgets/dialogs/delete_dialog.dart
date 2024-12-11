@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
 import 'package:utility_token_app/widgets/custom_button/general_button.dart';
 
 class DeleteDialog extends StatelessWidget {
@@ -43,24 +45,17 @@ class DeleteDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GeneralButton(
-              width: 100,
+              width: 55,
               onTap: (){
                 Get.back();
               },
-              btnColor: Colors.grey,
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
+              btnColor: Colors.grey.withOpacity(0.2),
+              child: SvgPicture.asset(CustomIcons.cross),
             ),
             const SizedBox(
               width: 8,
             ),
-            GeneralButton(
+            Expanded(child: GeneralButton(
               width: 100,
               onTap: (){
                 Get.back();
@@ -75,7 +70,7 @@ class DeleteDialog extends StatelessWidget {
                     fontWeight: FontWeight.bold
                 ),
               ),
-            )
+            ),),
           ],
         )
       ],

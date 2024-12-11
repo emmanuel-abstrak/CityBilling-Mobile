@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import '../../../animations/slide_transition_dialog.dart';
 import '../../../core/constants/color_constants.dart';
+import '../../../core/constants/icon_asset_constants.dart';
 import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/cards/property_card.dart';
 import '../../../widgets/dialogs/add_meter_dialog.dart';
@@ -31,39 +33,6 @@ class _MetersScreenState extends State<MetersScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Show the tutorial if it hasn't been shown
-      if (!tutorialController.hasSeenTutorial.value) {
-        tutorialCoachMark = TutorialCoachMark(
-          targets: [
-            TargetFocus(
-              identify: "AddProperty",
-
-              keyTarget: addPropertyKey,
-              contents: [
-                TargetContent(
-                  align: ContentAlign.top,
-                  child: const Text(
-                    "It looks like you haven't added a Meter Number yet. Tap the + button to save your Meter Number",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          alignSkip: Alignment.bottomRight,
-          skipWidget: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("SKIP", style: TextStyle(color: Pallete.primary)),
-          ),
-          onSkip: () {
-            tutorialCoachMark.finish();
-            tutorialController.markTutorialAsSeen();
-            return true;
-          },
-        )..show(context: context);
-      }
-    });
   }
 
 
@@ -78,17 +47,29 @@ class _MetersScreenState extends State<MetersScreen> {
         if (properties.isEmpty) {
           return Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  LocalImageConstants.emptyBox,
-                  scale: 4,
-                ),
+                SvgPicture.asset('assets/illustrations/not-found.svg'),
                 const Text(
-                  "No saved properties",
+                  "You haven't saved any meter yet",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Click on", style: TextStyle(color: Colors.grey.withOpacity(0.8), fontWeight: FontWeight.w600,),),
+                    const SizedBox(width: 5),
+                    SvgPicture.asset(CustomIcons.buy, height: 20,),
+                    const SizedBox(width: 5),
+                    Text("to buy", style: TextStyle(color: Colors.grey.withOpacity(0.8), fontWeight: FontWeight.w600,),),
+                  ],
+                )
               ],
             ),
           );
@@ -96,7 +77,7 @@ class _MetersScreenState extends State<MetersScreen> {
 
         return ListView.separated(
           itemCount: properties.length,
-          separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+          separatorBuilder: (_, __) => Divider(color: Colors.transparent),
           itemBuilder: (context, index) {
             final property = properties[index];
             return MeterDetailsTile(
@@ -111,30 +92,27 @@ class _MetersScreenState extends State<MetersScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Add Meter Button
-          FloatingActionButton(
-            heroTag: 'AddProperty',
-            key: addPropertyKey,
-            onPressed: () {
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
               Get.dialog(
                 barrierDismissible: false,
-                const SlideTransitionDialog(
+                  const SlideTransitionDialog(
                   child: AddMeterDialog(
-                    title: 'Meter Number',
-                    initialValue: '',
+                  title: 'Meter Number',
+                  initialValue: '',
                   ),
                 ),
               );
             },
-            backgroundColor: Pallete.secondary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            elevation: 8,
-            child:  const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Pallete.orange,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: SvgPicture.asset(CustomIcons.add, height: 15),
             ),
           ),
         ],

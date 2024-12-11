@@ -97,9 +97,9 @@ class _BuyScreenState extends State<BuyScreen> {
                   elevation: 4.0,
                   borderRadius: BorderRadius.circular(8.0),
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 200,
-                      maxWidth: 300, // You can adjust this for alignment
+                    constraints: BoxConstraints(
+                      maxHeight: options.length * 80 + 18,
+                      maxWidth: MediaQuery.sizeOf(context).width - 32, // You can adjust this for alignment
                     ),
                     child: ListView.separated(
                       itemCount: options.length,
@@ -196,7 +196,7 @@ class _BuyScreenState extends State<BuyScreen> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   btnColor: Pallete.orange,
                   child: Text(
-                    ('Make Payment').toUpperCase(),
+                    ('Continue').toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       letterSpacing: 1,

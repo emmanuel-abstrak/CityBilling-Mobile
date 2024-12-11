@@ -75,8 +75,9 @@ class _GeneralButtonState extends State<GeneralButton>
           child: Material(
             color: Colors.transparent,
             child: InkWell(
+              highlightColor: Colors.transparent,
               borderRadius: BorderRadius.circular(12),
-              splashColor: widget.pressedColor?.withOpacity(0.5) ?? Colors.black12,
+              splashColor: Colors.transparent,
               hoverColor: widget.hoverColor ?? Colors.black.withOpacity(0.05),
               onTap: () async {
                 _controller.reverse();
