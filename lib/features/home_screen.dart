@@ -7,9 +7,13 @@ import 'package:utility_token_app/animations/slide_transition_dialog.dart';
 import 'package:utility_token_app/config/routes/router.dart';
 import 'package:utility_token_app/core/constants/color_constants.dart';
 import 'package:utility_token_app/core/constants/image_asset_constants.dart';
+import 'package:utility_token_app/features/buy/screens/buy_utility_screen.dart';
+import 'package:utility_token_app/features/history/screens/history.screen.dart';
+import 'package:utility_token_app/features/meters/screens/meters.screen.dart';
 import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
 import 'package:utility_token_app/features/property/state/tutorial_controller.dart';
+import 'package:utility_token_app/features/token/screens/buy.screen.dart';
 import 'package:utility_token_app/widgets/dialogs/add_meter_dialog.dart';
 import '../core/constants/icon_asset_constants.dart';
 import '../widgets/cards/property_card.dart';
@@ -25,11 +29,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
-  final PaymentController paymentController = Get.find<PaymentController>();
   final PropertyController propertyController = Get.find<PropertyController>();
   final TutorialController tutorialController = Get.find<TutorialController>();
   late TutorialCoachMark tutorialCoachMark;
   final GlobalKey addPropertyKey = GlobalKey();
+
+  late int selectedPage = 0;
+  late String title = "Token History";
+
+  final List<Widget> pages = [
+    HistoryScreen(),
+    BuyScreen(),
+    MetersScreen()
+  ];
 
   @override
   void initState() {
@@ -75,153 +87,139 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() {
-          return Text(
-              municipalityController.selectedMunicipality.value!.name
-          );
-        }
-        ),
-        leading: Builder(
-          builder: (context) {
-            return GestureDetector(
-              onTap: ()async{
-                await municipalityController.clearCachedMunicipality().then((_) {
-                  Get.offAllNamed(RoutesHelper.municipalitiesScreen);
-                });
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold,),
+            ),
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                Get.offAllNamed(RoutesHelper.municipalitiesScreen);
               },
               child: Container(
-                margin: const EdgeInsets.all(8),
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
+                  color: Pallete.orange.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
                 ),
-                child: const Icon(FontAwesomeIcons.chevronLeft, size: 20,),
-              ),
-            );
-          },
-        ),
-
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              'Recent Purchases',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400
+                child: Row(
+                  children: [
+                    Obx(() {
+                      return Text(
+                          municipalityController.selectedMunicipality.value!.name,
+                          style: TextStyle(fontSize: 13),
+                      );
+                    }
+                    ),
+                    SizedBox(width: 5),
+                    SvgPicture.asset(CustomIcons.location, height: 20),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          // Observe changes in the purchase history
-          if (paymentController.isLoading.value) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (paymentController.purchaseHistories.isEmpty) {
-            return const Center(
-              child: Text(
-                'No recent purchases available.',
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              ),
-            );
-          } else {
-            return ListView.separated(
-              itemCount: paymentController.purchaseHistories.length,
-              separatorBuilder: (context, index) => const Divider(color: Colors.grey),
-              itemBuilder: (context, index) {
-                final purchase = paymentController.purchaseHistories.reversed.toList()[index];
-                return PurchaseHistoryTile(
-                    purchase: purchase
-                );
+        child: pages[selectedPage],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color:  Color(0xFFF4F5FA)))
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(child: InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                setState(() {
+                  selectedPage = 0;
+                  title = "Token History";
+                });
               },
-            );
-          }
-        }),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // Add Meter Button
-          FloatingActionButton.extended(
-            heroTag: 'AddProperty',
-            key: addPropertyKey,
-            onPressed: () {
-              if (!tutorialController.hasSeenTutorial.value) {
-                tutorialController.markTutorialAsSeen();
-              }
-
-              if(propertyController.properties.isEmpty){
-                Get.dialog(
-                  barrierDismissible: false,
-                  const SlideTransitionDialog(
-                    child: AddMeterDialog(
-                      title: 'Meter Number',
-                      initialValue: '',
-                    ),
-                  ),
-                );
-              }else{
-                Get.toNamed(RoutesHelper.propertyDetails);
-              }
-            },
-            backgroundColor: Pallete.secondary,
-            icon: Icon(
-              propertyController.properties.isEmpty ? Icons.add :FontAwesomeIcons.gaugeHigh,
-              color: Colors.white,
-              size: 20,
-            ),
-            label: Text(
-              propertyController.properties.isEmpty ? 'Add Meter' : 'Saved Meters',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                decoration: BoxDecoration(
+                  color: selectedPage == 0 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(CustomIcons.history, height: 20,),
+                    const SizedBox(width: 5),
+                    const Text('History', style: TextStyle(fontWeight: FontWeight.w600,),),
+                  ],
+                ),
               ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(26),
-            ),
-            elevation: 8, // Added shadow
-          ),
-          const SizedBox(height: 12),
-          // Buy Utility Button
-          FloatingActionButton.extended(
-            heroTag: 'buyUtility',
-            onPressed: () {
-              Get.toNamed(RoutesHelper.buyScreen, arguments: null);
-            },
-            backgroundColor: Pallete.orange,
-            icon: const Icon(
-              FontAwesomeIcons.cartShopping,
-              color: Colors.white,
-              size: 20,
-            ),
-            label: const Text(
-              'Buy Token',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14, // Slightly smaller text
-                fontWeight: FontWeight.bold,
+            ),),
+            Expanded(child: InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                setState(() {
+                  selectedPage = 1;
+                  title = "Buy Token";
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                decoration: BoxDecoration(
+                  color: selectedPage == 1 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(CustomIcons.buy, height: 20,),
+                    const SizedBox(width: 5),
+                    const Text('Buy', style: TextStyle(fontWeight: FontWeight.w600,),),
+                  ],
+                ),
               ),
-
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(26),
-            ),
-            elevation: 8, // Added shadow
-          ),
-        ],
+            ),),
+            Expanded(child: InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                setState(() {
+                  selectedPage = 2;
+                  title = "Saved Meters";
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                decoration: BoxDecoration(
+                  color:  selectedPage == 2 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(CustomIcons.card, height: 20,),
+                    const SizedBox(width: 5),
+                    const Text('Meters', style: TextStyle(fontWeight: FontWeight.w600,),),
+                  ],
+                ),
+              ),
+            ),),
+          ],
+        ),
       ),
-
     );
   }
+}
+
+extension on Widget {
+  String? get title => null;
 }

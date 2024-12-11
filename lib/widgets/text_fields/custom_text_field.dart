@@ -38,7 +38,7 @@ class CustomTextField extends StatefulWidget {
     this.labelStyle,
     this.inputTextStyle,
     this.keyboardType,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.obscureText,
     this.suffixIconButton,
     this.enabled,
@@ -94,25 +94,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
         enabled: widget.enabled ?? true,
         focusNode: _internalFocusNode,
         decoration: InputDecoration(
-          fillColor: widget.fillColor ?? Colors.grey.shade100,
-          filled: widget.filled ?? true,
           counterText: '',
           contentPadding: widget.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIconButton,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 26.0),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
                 color: widget.defaultBorderColor ?? Colors.grey.shade400),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 26.0),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
                 color: widget.defaultBorderColor ?? Colors.grey.shade400),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 26.0),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
                 color: widget.focusedBorderColor ?? Colors.grey.shade400),
           ),

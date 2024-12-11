@@ -65,29 +65,17 @@ class _GeneralButtonState extends State<GeneralButton>
         scale: _controller,
         child: Container(
           width: widget.width ?? Dimensions.screenWidth * 0.5,
-          height: widget.height ?? 60,
+          height: widget.height ?? 50,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: widget.btnColor,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
+            borderRadius: BorderRadius.circular(12),
             border: widget.boxBorder,
-            boxShadow: [
-              BoxShadow(
-                color: widget.btnColor,
-                offset: const Offset(4, 4),
-                blurRadius: 10,
-              ),
-              const BoxShadow(
-                color: Colors.white,
-                offset: Offset(-4, -4),
-                blurRadius: 10,
-              ),
-            ],
           ),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 24),
+              borderRadius: BorderRadius.circular(12),
               splashColor: widget.pressedColor?.withOpacity(0.5) ?? Colors.black12,
               hoverColor: widget.hoverColor ?? Colors.black.withOpacity(0.05),
               onTap: () async {

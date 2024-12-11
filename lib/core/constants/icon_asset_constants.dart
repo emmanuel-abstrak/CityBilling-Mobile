@@ -6,4 +6,9 @@ class CustomIcons {
   static const meter= 'assets/icons/meter.svg';
   static const back = 'assets/icons/back-icon.svg';
   static const confirmPayment = 'assets/icons/confirm_payment.svg';
+  static const buy = 'assets/icons/buy.svg';
+  static const card = 'assets/icons/card.svg';
+  static const history = 'assets/icons/history.svg';
+  static const settings = 'assets/icons/settings.svg';
+  static const dollar = 'assets/icons/dollar.svg';
 }

@@ -67,29 +67,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
       return Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(),
-            const SizedBox(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                   CustomIcons.logo,
                   semanticsLabel: 'App Logo',
-                  height: 40,
+                  height: 80,
                 ),
               ],
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  color: Pallete.primary,
-                ),
-              ],
-            ),
-            const SizedBox(),
           ],
         ),
       );

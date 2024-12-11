@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/animations/slide_transition_dialog.dart';
+import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
 import 'package:utility_token_app/features/buy/models/meter_details.dart';
 import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/features/property/state/property_controller.dart';
@@ -182,7 +184,7 @@ class _BuyUtilityScreenState extends State<BuyUtilityScreen> {
             CustomDropDown(
               items: const ['USD', 'ZWG'],
               selectedValue: selectedCurrency,
-              prefixIcon: Icons.monetization_on_outlined,
+              prefix: SvgPicture.asset(CustomIcons.dollar),
               onChanged: (value) {
                 setState(() {
                   selectedCurrency = value!;

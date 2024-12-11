@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class CustomDropDown extends StatelessWidget {
   final List<String> items;
   final String selectedValue;
-  final IconData? prefixIcon;
+  final Widget? prefix;
   final Color? iconColor;
   final void Function(String?)? onChanged;
   final bool isEnabled;
 
   const CustomDropDown({
     super.key,
-    this.prefixIcon,
+    this.prefix,
     required this.items,
     required this.selectedValue,
     required this.onChanged,
@@ -26,7 +26,7 @@ class CustomDropDown extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         color: isEnabled ? Colors.transparent : theme.disabledColor.withOpacity(0.2),
         border: Border.all(
           color: theme.disabledColor.withOpacity(0.2),
@@ -34,11 +34,8 @@ class CustomDropDown extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (prefixIcon != null)
-            Icon(
-              prefixIcon,
-              color: iconColor ?? theme.iconTheme.color,
-            ),
+          if (prefix != null)
+            prefix!,
           const SizedBox(width: 8),
           Expanded(
             child: DropdownButton<String>(
