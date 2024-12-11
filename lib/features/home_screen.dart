@@ -28,6 +28,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
   late int selectedPage = 0;
   late String title = "Token History";
@@ -38,9 +40,30 @@ class _HomeScreenState extends State<HomeScreen> {
     const MetersScreen()
   ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      if(index == 0){
+        title = "Token History";
+      }
+
+      if(index == 1){
+
+        title = "Buy Token";
+      }
+
+      if(index == 2){
+        title = "Saved Meters";
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Obx(() {
                       return Text(
-                          municipalityController.selectedMunicipality.value!.name,
-                          style: const TextStyle(fontSize: 13),
+                        municipalityController.selectedMunicipality.value!.name,
+                        style: const TextStyle(fontSize: 13),
                       );
                     }
                     ),
@@ -80,97 +103,48 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: pages[selectedPage],
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: pages,
+        ),
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
         decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color:  Color(0xFFF4F5FA)))
+            border: Border(top: BorderSide(color:  Color(0xFFF4F5FA)))
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(child: InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                setState(() {
-                  selectedPage = 0;
-                  title = "Token History";
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                decoration: BoxDecoration(
-                  color: selectedPage == 0 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(CustomIcons.history, height: 20,),
-                    const SizedBox(width: 5),
-                    const Text('History', style: TextStyle(fontWeight: FontWeight.w600,),),
-                  ],
-                ),
-              ),
-            ),),
-            Expanded(child: InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                setState(() {
-                  selectedPage = 1;
-                  title = "Buy Token";
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                decoration: BoxDecoration(
-                  color: selectedPage == 1 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(CustomIcons.buy, height: 20,),
-                    const SizedBox(width: 5),
-                    const Text('Buy', style: TextStyle(fontWeight: FontWeight.w600,),),
-                  ],
-                ),
-              ),
-            ),),
-            Expanded(child: InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                setState(() {
-                  selectedPage = 2;
-                  title = "Saved Meters";
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                decoration: BoxDecoration(
-                  color:  selectedPage == 2 ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(CustomIcons.card, height: 20,),
-                    const SizedBox(width: 5),
-                    const Text('Meters', style: TextStyle(fontWeight: FontWeight.w600,),),
-                  ],
-                ),
-              ),
-            ),),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            buildBottomNavItem(index: 0, icon:  CustomIcons.history, context:  context, title: 'History'),
+            buildBottomNavItem(index: 1, icon:  CustomIcons.buy, context:  context, title: 'Buy'),
+            buildBottomNavItem(index: 2, icon:  CustomIcons.card, context:  context, title: 'Meters'),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildBottomNavItem({required int index, required String icon, required BuildContext context, required title}) {
+    return GestureDetector(
+        onTap: () => _onItemTapped(index),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          decoration: BoxDecoration(
+            color: index == _selectedIndex ? Pallete.orange.withOpacity(0.2) : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(icon, height: 20,),
+              const SizedBox(width: 5),
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w600,),),
+            ],
+          ),
+        )
     );
   }
 }

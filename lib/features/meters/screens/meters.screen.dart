@@ -89,6 +89,7 @@ class _MetersScreenState extends State<MetersScreen> {
         );
       }),
 
+      floatingActionButtonLocation: CustomFABLocation(x: 0.9, y: 0.4),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -117,6 +118,22 @@ class _MetersScreenState extends State<MetersScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+
+class CustomFABLocation extends FloatingActionButtonLocation {
+  final double x;
+  final double y;
+
+  CustomFABLocation({required this.x, required this.y});
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    return Offset(
+      scaffoldGeometry.scaffoldSize.width * x - scaffoldGeometry.floatingActionButtonSize.width / 2,
+      scaffoldGeometry.scaffoldSize.height * y - scaffoldGeometry.floatingActionButtonSize.height / 2,
     );
   }
 }
