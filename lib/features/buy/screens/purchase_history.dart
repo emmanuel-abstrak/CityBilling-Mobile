@@ -57,99 +57,93 @@ class PurchaseHistoryDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildDetailsCard(BuildContext context, PurchaseHistory purchase,  DateFormat dateFormat, NumberFormat currencyFormat) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Details',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const Divider(),
-            _buildDetailRow('Meter Number', purchase.meter),
-            _buildDetailRow('Date', dateFormat.format(purchase.createdAt)),
-            _buildDetailRow('Currency', purchase.currency),
-            _buildDetailRow('Amount Paid', "\$${purchase.totalAmount.toStringAsFixed(2)}"),
-            _buildDetailRow('Token Amount', currencyFormat.format(double.tryParse(purchase.amount) ?? 0.0)),
-            _buildDetailRow('Unit Price', purchase.unitPrice),
-            _buildDetailRow('VAT', purchase.vat),
-            _buildDetailRow('Volume', purchase.volume),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Details',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const Divider(),
+          _buildDetailRow('Meter Number', purchase.meter),
+          _buildDetailRow('Date', dateFormat.format(purchase.createdAt)),
+          _buildDetailRow('Currency', purchase.currency),
+          _buildDetailRow('Amount Paid', "\$${purchase.totalAmount.toStringAsFixed(2)}"),
+          _buildDetailRow('Token Amount', currencyFormat.format(double.tryParse(purchase.amount) ?? 0.0)),
+          _buildDetailRow('Unit Price', purchase.unitPrice),
+          _buildDetailRow('VAT', purchase.vat),
+          _buildDetailRow('Volume', purchase.volume),
+        ],
       ),
     );
   }
 
   Widget _buildTariffsCard(BuildContext context, PurchaseHistory purchase) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Tariffs',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const Divider(),
-            ...purchase.tariffs.map((tariff) {
-              return ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  PaymentHelper.capitalizeFirstLetter(tariff.name),
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                ),
-                subtitle: Text(
-                  'Statement Item ID: ${tariff.statementItemId}',
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Tariffs',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const Divider(),
+          ...purchase.tariffs.map((tariff) {
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                PaymentHelper.capitalizeFirstLetter(tariff.name),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+              ),
+              subtitle: Text(
+                'Statement Item ID: ${tariff.statementItemId}',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
 
-                ),
-                trailing: Text(
-                  '\$${tariff.amount.toStringAsFixed(2)}',
-                  style: const TextStyle(color: Colors.redAccent, fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-              );
-            }),
-          ],
-        ),
+              ),
+              trailing: Text(
+                '\$${tariff.amount.toStringAsFixed(2)}',
+                style: const TextStyle(color: Colors.redAccent, fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
 
   Widget _buildTokenCard(BuildContext context, PurchaseHistory purchase) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            const Icon(Icons.qr_code, size: 36, color: Pallete.secondary),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Token',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    purchase.token,
-                    style: const TextStyle(fontSize: 14, letterSpacing: 2),
-                  ),
-                ],
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Token',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const Divider(),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.qr_code, size: 36, color: Pallete.secondary),
+                    const SizedBox(width: 16),
+                    Text(
+                      purchase.token,
+                      style: const TextStyle(fontSize: 14, letterSpacing: 2),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
