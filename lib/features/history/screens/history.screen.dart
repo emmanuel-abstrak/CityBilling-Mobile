@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
+import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 
 import '../../../widgets/cards/purchase_history_tile.dart';
 import '../../buy/state/payment_controller.dart';
@@ -16,16 +17,20 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final PaymentController paymentController = Get.find<PaymentController>();
+  final MunicipalityController municipalityController = Get.find<MunicipalityController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // Observe changes in the purchase history
+      final purchases = paymentController.purchaseHistories.reversed.toList().where((purchase) =>
+        purchase.municipality.name.toLowerCase() == municipalityController.selectedMunicipality.value!.name.toLowerCase()
+      ).toList();
+      
       if (paymentController.isLoading.value) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (paymentController.purchaseHistories.isEmpty) {
+      } else if (purchases.isEmpty) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,10 +59,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
         );
       } else {
         return ListView.separated(
-          itemCount: paymentController.purchaseHistories.length,
+          itemCount: purchases.length,
           separatorBuilder: (context, index) => Divider(color: Colors.grey.shade200),
           itemBuilder: (context, index) {
-            final purchase = paymentController.purchaseHistories.reversed.toList()[index];
+            final purchase = purchases[index];
             return PurchaseHistoryTile(
                 purchase: purchase
             );
