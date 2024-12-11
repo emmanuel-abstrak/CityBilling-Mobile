@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:utility_token_app/features/municipalities/models/municipality.dart';

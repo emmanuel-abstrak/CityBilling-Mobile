@@ -29,11 +29,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final MunicipalityController municipalityController = Get.find<MunicipalityController>();
-  final PropertyController propertyController = Get.find<PropertyController>();
-  final TutorialController tutorialController = Get.find<TutorialController>();
-  late TutorialCoachMark tutorialCoachMark;
-  final GlobalKey addPropertyKey = GlobalKey();
-
   late int selectedPage = 0;
   late String title = "Token History";
 
@@ -42,46 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     const BuyScreen(),
     const MetersScreen()
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Show the tutorial if it hasn't been shown
-      if (!tutorialController.hasSeenTutorial.value) {
-        tutorialCoachMark = TutorialCoachMark(
-          targets: [
-            TargetFocus(
-              identify: "AddProperty",
-
-              keyTarget: addPropertyKey,
-              contents: [
-                TargetContent(
-                  align: ContentAlign.top,
-                  child: const Text(
-                    "It looks like you haven't added a Meter Number yet. Tap the + button to save your Meter Number",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          alignSkip: Alignment.bottomRight,
-          skipWidget: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("SKIP", style: TextStyle(color: Pallete.primary)),
-          ),
-          onSkip: () {
-            tutorialCoachMark.finish();
-            tutorialController.markTutorialAsSeen();
-            return true;
-          },
-        )..show(context: context);
-      }
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {

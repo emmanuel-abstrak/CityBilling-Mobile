@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/animations/slide_transition_dialog.dart';
-import '../../../config/routes/router.dart';
+import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/cards/property_card.dart';
-import '../../../widgets/circular_loader/circular_loader.dart';
-import '../../../widgets/custom_button/general_button.dart';
 import '../../../widgets/dialogs/add_meter_dialog.dart';
-import '../../../widgets/dialogs/delete_dialog.dart';
-import '../../../widgets/dialogs/update_dialog.dart';
-import '../../../widgets/snackbar/custom_snackbar.dart';
 import '../state/property_controller.dart';
 
 class PropertyDetailsScreen extends StatefulWidget {
@@ -23,6 +18,7 @@ class PropertyDetailsScreen extends StatefulWidget {
 
 class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
   final PropertyController propertyController = Get.find<PropertyController>();
+  final MunicipalityController municipalityController = Get.find<MunicipalityController>();
 
 
 
@@ -68,7 +64,9 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         ),
       ),
       body: Obx(() {
-        final properties = propertyController.properties;
+        final properties = propertyController.properties.where((property) =>
+        property.municipality.name.toLowerCase() == municipalityController.selectedMunicipality.value!.name.toLowerCase()
+        ).toList();
 
         if (properties.isEmpty) {
           return Center(

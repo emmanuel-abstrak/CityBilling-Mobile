@@ -15,8 +15,9 @@ Future<void> main() async {
   Get.put(MunicipalityController());
   Get.put(ConnectivityController());
   Get.put(TutorialController());
-  Get.put(PropertyController());
   Get.put(PaymentController());
+  Get.lazyPut(() => PropertyController());
+
 
   runApp(const MyApp());
 }

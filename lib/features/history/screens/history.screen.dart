@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
-import 'package:utility_token_app/widgets/buttons.dart';
 
 import '../../../widgets/cards/purchase_history_tile.dart';
 import '../../buy/state/payment_controller.dart';
@@ -42,14 +39,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Click on", style: TextStyle(color: Colors.grey.withOpacity(0.8), fontWeight: FontWeight.w600,),),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 SvgPicture.asset(CustomIcons.buy, height: 20,),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text("to buy", style: TextStyle(color: Colors.grey.withOpacity(0.8), fontWeight: FontWeight.w600,),),
               ],
             )
