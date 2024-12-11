@@ -111,7 +111,8 @@ class PurchaseSummaryDialog extends StatelessWidget {
                         onTap: onClose,
                         width: 60,
                         btnColor: Colors.grey.shade300,
-                        child: const Icon(Icons.close)),
+                        child: const Icon(Icons.close)
+                    ),
                     const SizedBox(
                       width: 16,
                     ),
@@ -145,7 +146,7 @@ class PurchaseSummaryDialog extends StatelessWidget {
                           ),
                         );
                       },
-                      btnColor: Pallete.primary,
+                      btnColor: Pallete.orange,
                       width: 200,
                       child: const Text(
                         'Confirm Payment',

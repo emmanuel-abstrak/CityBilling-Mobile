@@ -41,12 +41,12 @@ class _MetersScreenState extends State<MetersScreen> {
               children: [
                 Image.asset(
                   LocalImageConstants.emptyBox,
-                  scale: 2,
+                  scale: 4,
                 ),
                 const Text(
                   "No saved properties",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

@@ -102,15 +102,14 @@ class _ModernSearchPageState extends State<ModernSearchPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            FontAwesomeIcons.folderOpen,
-            size: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'No results found',
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+          SvgPicture.asset('assets/illustrations/not-found.svg'),
+          const Text(
+            "No results found",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

@@ -223,10 +223,6 @@ class PropertyController extends GetxController {
         amount: 2,
       );
 
-      // Log success
-      DevLogs.logInfo(
-          'Customer details lookup successful for meter number: $meterNumber');
-
       return response;
     } catch (e, stackTrace) {
       // Log the error and stack trace for detailed debugging

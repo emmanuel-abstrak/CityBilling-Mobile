@@ -69,7 +69,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
             SvgPicture.asset(
               CustomIcons.meter,
               semanticsLabel: 'meter',
-              color: Pallete.primary,
               height: 100,
             ),
             Row(
@@ -118,7 +117,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       widget.onUpdate(controller.text.trim());
                   },
                   width: 200,
-                  btnColor: Pallete.primary,
+                  btnColor: Pallete.orange,
                   child: const Text(
                     'Update',
                     style: TextStyle(color: Colors.white),

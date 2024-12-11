@@ -75,7 +75,6 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
                     SvgPicture.asset(
                       CustomIcons.meter,
                       semanticsLabel: 'meter',
-                      color: Pallete.primary,
                       height: 100,
                     ),
                     const SizedBox(
@@ -154,7 +153,7 @@ class _AddMeterDialogState extends State<AddMeterDialog> {
                     }
                   },
                   width: 200,
-                  btnColor: Pallete.primary,
+                  btnColor: Pallete.orange,
                   child: const Text(
                     'Save',
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),

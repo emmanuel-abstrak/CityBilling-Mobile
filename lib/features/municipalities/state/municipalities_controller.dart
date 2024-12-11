@@ -11,7 +11,6 @@ class MunicipalityController extends GetxController {
   /// List of municipalities that are fetched from the API.
   var municipalities = <Municipality>[].obs;
 
-
   var selectedMunicipality = Rx<Municipality?>(null);
 
   /// List of municipalities filtered by search query.
@@ -32,6 +31,8 @@ class MunicipalityController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    checkCachedMunicipality();
 
     // Listen to changes in the search query and update filtered municipalities.
     debounce(
@@ -119,7 +120,7 @@ class MunicipalityController extends GetxController {
     try {
       await CacheUtils.cacheMunicipality(municipality: municipality);
       selectedMunicipality.value = municipality;
-          DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
+      DevLogs.logInfo('Municipality cached successfully: ${municipality.name}');
     } catch (e) {
       DevLogs.logError('Error caching municipality: $e');
     }
