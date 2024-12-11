@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       } else {
         return ListView.separated(
           itemCount: paymentController.purchaseHistories.length,
-          separatorBuilder: (context, index) => const Divider(color: Colors.grey),
+          separatorBuilder: (context, index) => Divider(color: Colors.grey.shade200),
           itemBuilder: (context, index) {
             final purchase = paymentController.purchaseHistories.reversed.toList()[index];
             return PurchaseHistoryTile(

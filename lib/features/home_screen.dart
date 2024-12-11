@@ -38,9 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late String title = "Token History";
 
   final List<Widget> pages = [
-    HistoryScreen(),
-    BuyScreen(),
-    MetersScreen()
+    const HistoryScreen(),
+    const BuyScreen(),
+    const MetersScreen()
   ];
 
   @override
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Get.offAllNamed(RoutesHelper.municipalitiesScreen);
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: Pallete.orange.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
@@ -110,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Obx(() {
                       return Text(
                           municipalityController.selectedMunicipality.value!.name,
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                       );
                     }
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     SvgPicture.asset(CustomIcons.location, height: 20),
                   ],
                 ),
@@ -218,8 +218,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-extension on Widget {
-  String? get title => null;
 }
