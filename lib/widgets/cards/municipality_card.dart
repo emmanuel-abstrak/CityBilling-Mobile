@@ -6,6 +6,7 @@ import 'package:utility_token_app/features/home_screen.dart';
 import '../../core/constants/icon_asset_constants.dart';
 import '../../features/municipalities/models/municipality.dart';
 import '../../features/municipalities/state/municipalities_controller.dart';
+import '../../features/property/state/property_controller.dart';
 import '../circular_loader/circular_loader.dart';
 
 class MunicipalityCard extends StatelessWidget {
@@ -24,8 +25,10 @@ class MunicipalityCard extends StatelessWidget {
       onTap: () async {
         Get.showOverlay(
           asyncFunction: () async {
-            await municipalityController.cacheMunicipality(municipality);
 
+            Get.lazyPut(() => PropertyController());
+
+            await municipalityController.cacheMunicipality(municipality);
             Get.offAll(() => const HomeScreen());
           },
           loadingWidget: const Center(

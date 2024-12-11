@@ -9,6 +9,7 @@ import '../../core/constants/color_constants.dart';
 import '../../core/constants/icon_asset_constants.dart';
 import '../../features/home_screen.dart';
 import '../../features/municipalities/state/municipalities_controller.dart';
+import '../../features/property/state/property_controller.dart';
 
 class ModernSearchPage extends StatefulWidget {
   final MunicipalityController municipalityController;
@@ -132,6 +133,9 @@ class _ModernSearchPageState extends State<ModernSearchPage> {
             onTap: () async {
               Get.showOverlay(
                 asyncFunction: () async {
+
+                  Get.lazyPut(() => PropertyController());
+
                   await widget.municipalityController.cacheMunicipality(municipality);
 
                   Get.offAll(() => const HomeScreen());

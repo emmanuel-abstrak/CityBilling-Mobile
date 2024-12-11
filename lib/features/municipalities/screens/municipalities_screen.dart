@@ -23,8 +23,7 @@ class MunicipalitiesScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(ModernSearchPage(
-                  municipalityController: municipalityController));
+              Get.to(ModernSearchPage( municipalityController: municipalityController));
             },
             child: Container(
               margin: const EdgeInsets.only(right: 14),
