@@ -25,8 +25,8 @@ class BuyScreen extends StatefulWidget {
 }
 
 class _BuyScreenState extends State<BuyScreen> {
-  final PaymentController paymentController = Get.find<PaymentController>();
   final PropertyController propertyController = Get.find<PropertyController>();
+  final PaymentController paymentController = Get.find<PaymentController>();
   final _amountController = TextEditingController();
   late TextEditingController _meterNumberTextEditingController;
   String selectedCurrency = 'USD';

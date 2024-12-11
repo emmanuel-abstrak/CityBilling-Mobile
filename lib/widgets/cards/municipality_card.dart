@@ -25,9 +25,6 @@ class MunicipalityCard extends StatelessWidget {
       onTap: () async {
         Get.showOverlay(
           asyncFunction: () async {
-
-            Get.lazyPut(() => PropertyController());
-
             await municipalityController.cacheMunicipality(municipality);
             Get.offAll(() => const HomeScreen());
           },

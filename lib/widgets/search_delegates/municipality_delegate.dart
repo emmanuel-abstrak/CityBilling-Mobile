@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:utility_token_app/core/utils/logs.dart';
+import 'package:utility_token_app/features/buy/state/payment_controller.dart';
 import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
 import 'package:utility_token_app/widgets/text_fields/custom_text_field.dart';
 import '../../core/constants/color_constants.dart';
@@ -133,11 +134,7 @@ class _ModernSearchPageState extends State<ModernSearchPage> {
             onTap: () async {
               Get.showOverlay(
                 asyncFunction: () async {
-
-                  Get.lazyPut(() => PropertyController());
-
                   await widget.municipalityController.cacheMunicipality(municipality);
-
                   Get.offAll(() => const HomeScreen());
                 },
                 loadingWidget: const Center(
