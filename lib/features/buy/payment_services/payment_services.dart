@@ -113,7 +113,6 @@ class PaymentServices {
 
   static Future<APIResponse<PurchaseHistory>> getPurchaseDetails({
     required int purchaseId,
-    required String accessToken
   }) async {
     final String url = "${UrlConstants.paymentsBaseUrl}/vending/water-purchases/$purchaseId";
 
@@ -121,7 +120,6 @@ class PaymentServices {
       final response = await http.get(
         Uri.parse(url),
         headers: {
-          'Authorization': 'Bearer $accessToken',
           'Content-Type': 'Application/json',
         },
       );

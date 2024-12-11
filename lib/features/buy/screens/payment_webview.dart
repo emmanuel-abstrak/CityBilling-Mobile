@@ -35,9 +35,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(widget.redirectUrl))),
       onLoadStop: (controller, url) async{
         DevLogs.logSuccess(url.toString());
-        if (url.toString().contains("https://api-masvingo.abstrak.agency/payment/settle")) {
-          CustomSnackBar.showSuccessSnackbar(message: 'Payment Successful');
-
+        if (url.toString().contains("${municipalityController.selectedMunicipality.value!.endpoint}/payment/settle")) {
           // Parse the URL
           final uri = Uri.parse(url.toString());
 
@@ -45,10 +43,17 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
 
           DevLogs.logInfo(purchaseId.toString());
 
-          await paymentController.fetchPurchaseDetailsAndStoreToCache(
+           await paymentController.fetchPurchaseDetailsAndStoreToCache(
             purchaseId: purchaseId,
-            accessToken: 'k6gX6nDH1ZuDvv0UOP41advUWhvRN0OzL7HR6q1Yop4VbVJT9vvTEyDBo6oHukey2AVSP8tZLS5FpP3gtQnCmyYDCReDyKSji2GDysnIfouTR2zRgeBVV6MSWgPzgd9su22OS2Z9fkxRt7Lzx0rOgPpk9BytVAiHDSdlrYMhYTAujaCf0uYS3Ffbg6klvf1KBsNmjPOhVPmzXMNXcGqq6vi52HHxzsyKGp21arz9ywXwkfaQ',
-          );
+          ).then((history) {
+            if (history.success) {
+              CustomSnackBar.showSuccessSnackbar(message: 'Payment Successful');
+            } else {
+              CustomSnackBar.showErrorSnackbar(message: 'Payment Failed');
+            }
+           }
+         );
+
           setState(() {
             showProceedButton = true;
             isLoading = false; // Stop the loading indicator

@@ -118,14 +118,12 @@ class PaymentController extends GetxController {
   /// [accessToken]: The access token for authentication.
   Future<APIResponse<PurchaseHistory>> fetchPurchaseDetailsAndStoreToCache({
     required int purchaseId,
-    required String accessToken,
   }) async {
     isLoading.value = true;
     try {
       // Call the service to fetch purchase details
       APIResponse<PurchaseHistory> response = await PaymentServices.getPurchaseDetails(
         purchaseId: purchaseId,
-        accessToken: accessToken,
       );
 
       if (response.success && response.data != null) {
