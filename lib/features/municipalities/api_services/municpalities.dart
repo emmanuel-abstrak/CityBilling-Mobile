@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:utility_token_app/core/constants/url_constants.dart';
-import 'package:utility_token_app/core/utils/api_response.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
-import 'package:utility_token_app/features/municipalities/models/municipality.dart';
+import 'package:puc_app/core/constants/url_constants.dart';
+import 'package:puc_app/core/utils/api_response.dart';
+import 'package:puc_app/core/utils/logs.dart';
+import 'package:puc_app/features/municipalities/models/municipality.dart';
 
 class MunicipalityServices {
   /// Fetch the list of municipalities from the API

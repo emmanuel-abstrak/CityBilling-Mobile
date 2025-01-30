@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/core/constants/icon_asset_constants.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
 
 import '../../../widgets/cards/purchase_history_tile.dart';
 import '../../buy/state/payment_controller.dart';

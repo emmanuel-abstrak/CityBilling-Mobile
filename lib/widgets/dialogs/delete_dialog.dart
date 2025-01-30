@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/constants/icon_asset_constants.dart';
-import 'package:utility_token_app/widgets/custom_button/general_button.dart';
+import 'package:puc_app/core/constants/icon_asset_constants.dart';
+import 'package:puc_app/widgets/custom_button/general_button.dart';
 
 class DeleteDialog extends StatelessWidget {
   final String itemName;

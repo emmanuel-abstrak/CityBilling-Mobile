@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:utility_token_app/features/buy/models/meter_details.dart';
+import 'package:puc_app/features/buy/models/meter_details.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/logs.dart';
 import '../../../core/utils/shared_pref_methods.dart';

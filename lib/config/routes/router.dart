@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:utility_token_app/features/buy/models/meter_details.dart';
-import 'package:utility_token_app/features/buy/models/purchase_history.dart';
-import 'package:utility_token_app/features/buy/screens/buy_utility_screen.dart';
-import 'package:utility_token_app/features/buy/screens/payment_webview.dart';
-import 'package:utility_token_app/features/home_screen.dart';
-import 'package:utility_token_app/features/splash/splash/splash_screen.dart';
+import 'package:puc_app/features/buy/models/meter_details.dart';
+import 'package:puc_app/features/buy/models/purchase_history.dart';
+import 'package:puc_app/features/buy/screens/buy_utility_screen.dart';
+import 'package:puc_app/features/buy/screens/payment_webview.dart';
+import 'package:puc_app/features/home_screen.dart';
+import 'package:puc_app/features/splash/splash/splash_screen.dart';
 import '../../features/buy/screens/purchase_history.dart';
 import '../../features/municipalities/screens/municipalities_screen.dart';
 import '../../features/property/screens/property_detail_screen.dart';

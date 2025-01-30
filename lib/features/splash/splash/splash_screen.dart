@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/config/routes/router.dart';
-import 'package:utility_token_app/core/constants/color_constants.dart';
-import 'package:utility_token_app/widgets/dialogs/no_internet.dart';
+import 'package:puc_app/config/routes/router.dart';
+import 'package:puc_app/core/constants/color_constants.dart';
+import 'package:puc_app/widgets/dialogs/no_internet.dart';
 import '../../../core/constants/icon_asset_constants.dart';
 import '../../municipalities/state/municipalities_controller.dart';
 

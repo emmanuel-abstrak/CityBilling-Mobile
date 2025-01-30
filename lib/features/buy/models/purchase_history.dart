@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:utility_token_app/features/buy/models/tariff.dart';
-import 'package:utility_token_app/features/municipalities/models/municipality.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/features/buy/models/tariff.dart';
+import 'package:puc_app/features/municipalities/models/municipality.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
 part 'purchase_history.g.dart';
 
 @JsonSerializable()

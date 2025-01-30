@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:utility_token_app/core/constants/color_constants.dart';
-import 'package:utility_token_app/features/buy/helper/helper.dart';
+import 'package:puc_app/core/constants/color_constants.dart';
+import 'package:puc_app/features/buy/helper/helper.dart';
 import '../models/purchase_history.dart';
 
 class PurchaseHistoryDetailsScreen extends StatelessWidget {

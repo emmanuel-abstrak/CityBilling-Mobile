@@ -1,9 +1,9 @@
-name: utility_token_app
+name: puc_app
 description: A Flutter app for buying utility tokens from different municipalities.
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -24,18 +24,18 @@ dependencies:
   connectivity_plus: ^6.1.0
   tutorial_coach_mark: ^1.2.12
   font_awesome_flutter: ^10.8.0
-  intl: ^0.19.0
+  intl: ^0.20.2
   flutter_native_splash: ^2.4.3
   google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   build_runner: ^2.4.9
   json_serializable: ^6.8.0
   rename_app: ^1.6.1
-  flutter_launcher_icons: "^0.13.1"
+  flutter_launcher_icons: ^0.14.3
   mockito: ^5.4.4
   change_app_package_name: ^1.4.0
   test: ^1.24.3

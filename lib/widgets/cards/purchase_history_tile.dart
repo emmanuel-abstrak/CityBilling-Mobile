@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/config/routes/router.dart';
-import 'package:utility_token_app/features/buy/models/purchase_history.dart';
+import 'package:puc_app/config/routes/router.dart';
+import 'package:puc_app/features/buy/models/purchase_history.dart';
 
 import '../../core/constants/icon_asset_constants.dart';
 

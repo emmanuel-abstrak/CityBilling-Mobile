@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:utility_token_app/core/constants/url_constants.dart';
-import 'package:utility_token_app/core/utils/api_response.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
+import 'package:puc_app/core/constants/url_constants.dart';
+import 'package:puc_app/core/utils/api_response.dart';
+import 'package:puc_app/core/utils/logs.dart';
 import 'package:http/http.dart' as http;
-import 'package:utility_token_app/features/buy/models/purchase_history.dart';
-import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
+import 'package:puc_app/features/buy/models/purchase_history.dart';
+import 'package:puc_app/features/buy/models/purchase_summary.dart';
 
 class PaymentServices {
   static Future<APIResponse<PurchaseSummary>> lookUpCustomerDetails({
@@ -34,7 +34,6 @@ class PaymentServices {
         DevLogs.logSuccess(response.body);
 
         final data = jsonDecode(response.body)['result'];
-
         final summary = PurchaseSummary.fromJson(data);
 
         return APIResponse(
@@ -57,7 +56,6 @@ class PaymentServices {
       );
     }
   }
-
 
   static Future<APIResponse<String>> initiatePayment({
     required String accessToken,
@@ -109,12 +107,11 @@ class PaymentServices {
     }
   }
 
-
-
   static Future<APIResponse<PurchaseHistory>> getPurchaseDetails({
     required int purchaseId,
   }) async {
-    final String url = "${UrlConstants.paymentsBaseUrl}/vending/water-purchases/$purchaseId";
+    final String url =
+        "${UrlConstants.paymentsBaseUrl}/vending/water-purchases/$purchaseId";
 
     try {
       final response = await http.get(

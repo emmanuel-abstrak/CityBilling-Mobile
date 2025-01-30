@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/utils/api_response.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
-import 'package:utility_token_app/features/buy/models/purchase_history.dart';
-import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
+import 'package:puc_app/core/utils/api_response.dart';
+import 'package:puc_app/core/utils/logs.dart';
+import 'package:puc_app/features/buy/models/purchase_history.dart';
+import 'package:puc_app/features/buy/models/purchase_summary.dart';
+import 'package:puc_app/widgets/snackbar/custom_snackbar.dart';
 import '../../../core/utils/shared_pref_methods.dart';
 import '../payment_services/payment_services.dart';
 

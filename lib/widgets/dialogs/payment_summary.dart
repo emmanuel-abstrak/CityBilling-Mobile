@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/features/buy/helper/helper.dart';
-import 'package:utility_token_app/features/buy/models/purchase_summary.dart';
-import 'package:utility_token_app/features/buy/state/payment_controller.dart';
+import 'package:puc_app/features/buy/helper/helper.dart';
+import 'package:puc_app/features/buy/models/purchase_summary.dart';
+import 'package:puc_app/features/buy/state/payment_controller.dart';
 import '../../config/routes/router.dart';
 import '../../core/constants/color_constants.dart';
 import '../../core/constants/icon_asset_constants.dart';

@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:utility_token_app/core/constants/url_constants.dart';
-import 'package:utility_token_app/core/utils/api_response.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
+import 'package:puc_app/core/constants/url_constants.dart';
+import 'package:puc_app/core/utils/api_response.dart';
+import 'package:puc_app/core/utils/logs.dart';
 import 'package:http/http.dart' as http;
-import 'package:utility_token_app/features/authentication/model/user.dart';
+import 'package:puc_app/features/authentication/model/user.dart';
 
 class AuthService {
   static Future<APIResponse<User>> login({

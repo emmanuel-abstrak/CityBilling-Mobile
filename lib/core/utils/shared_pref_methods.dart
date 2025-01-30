@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:utility_token_app/features/buy/models/meter_details.dart';
-import 'package:utility_token_app/features/municipalities/models/municipality.dart';
+import 'package:puc_app/features/buy/models/meter_details.dart';
+import 'package:puc_app/features/municipalities/models/municipality.dart';
 import '../../features/buy/models/purchase_history.dart';
 import 'logs.dart';
 

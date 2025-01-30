@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/config/routes/router.dart';
-import 'package:utility_token_app/features/buy/models/meter_details.dart';
-import 'package:utility_token_app/features/property/state/property_controller.dart';
+import 'package:puc_app/config/routes/router.dart';
+import 'package:puc_app/features/buy/models/meter_details.dart';
+import 'package:puc_app/features/property/state/property_controller.dart';
 
 import '../../animations/slide_transition_dialog.dart';
 import '../../core/constants/color_constants.dart';

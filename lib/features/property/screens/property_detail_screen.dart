@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/animations/slide_transition_dialog.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/animations/slide_transition_dialog.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/image_asset_constants.dart';
 import '../../../widgets/cards/property_card.dart';

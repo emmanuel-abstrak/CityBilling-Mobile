@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:utility_token_app/widgets/custom_typography/typography.dart';
+import 'package:puc_app/widgets/custom_typography/typography.dart';
 
 class Pallete {
   static const Color secondary = Color(0xFF0B378F);

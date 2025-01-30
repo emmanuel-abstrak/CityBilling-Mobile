@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/widgets/dialogs/update_dialog.dart';
+import 'package:puc_app/widgets/dialogs/update_dialog.dart';
 
 /// A utility class for managing property-related operations.
 class PropertyHelper {

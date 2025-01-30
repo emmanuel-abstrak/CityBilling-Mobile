@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:utility_token_app/features/buy/state/payment_controller.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
-import 'package:utility_token_app/widgets/circular_loader/circular_loader.dart';
+import 'package:puc_app/features/buy/state/payment_controller.dart';
+import 'package:puc_app/widgets/snackbar/custom_snackbar.dart';
+import 'package:puc_app/widgets/circular_loader/circular_loader.dart';
 
 class PaymentHelper {
   /// Validates payment details before proceeding with payment processing.

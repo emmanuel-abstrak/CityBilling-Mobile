@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/core/constants/color_constants.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
-import 'package:utility_token_app/widgets/cards/municipality_card.dart';
+import 'package:puc_app/core/constants/color_constants.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/widgets/cards/municipality_card.dart';
 import '../../../widgets/search_delegates/municipality_delegate.dart';
 
 class MunicipalitiesScreen extends StatelessWidget {

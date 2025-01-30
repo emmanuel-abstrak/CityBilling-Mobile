@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:utility_token_app/config/routes/router.dart';
-import 'package:utility_token_app/core/constants/color_constants.dart';
-import 'package:utility_token_app/core/utils/dimensions.dart';
-import 'package:utility_token_app/core/utils/logs.dart';
-import 'package:utility_token_app/features/buy/payment_services/payment_services.dart';
-import 'package:utility_token_app/features/buy/state/payment_controller.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
-import 'package:utility_token_app/widgets/custom_button/general_button.dart';
-import 'package:utility_token_app/widgets/snackbar/custom_snackbar.dart';
+import 'package:puc_app/config/routes/router.dart';
+import 'package:puc_app/core/constants/color_constants.dart';
+import 'package:puc_app/core/utils/dimensions.dart';
+import 'package:puc_app/core/utils/logs.dart';
+import 'package:puc_app/features/buy/payment_services/payment_services.dart';
+import 'package:puc_app/features/buy/state/payment_controller.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/widgets/custom_button/general_button.dart';
+import 'package:puc_app/widgets/snackbar/custom_snackbar.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
   final String redirectUrl;

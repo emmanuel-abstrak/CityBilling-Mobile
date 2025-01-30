@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:utility_token_app/features/municipalities/state/municipalities_controller.dart';
+import 'package:puc_app/features/municipalities/state/municipalities_controller.dart';
 import '../../../animations/slide_transition_dialog.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../core/constants/icon_asset_constants.dart';
