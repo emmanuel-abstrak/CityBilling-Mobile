@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mobile/screens/purchase/purchase_screen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:puc_app/screens/purchase/purchase_screen.dart';
 import '../models/transaction.dart';
 import '../providers/theme_provider.dart';
 import '../providers/transaction_provider.dart';
@@ -14,7 +13,7 @@ class TokenHistoryScreen extends StatefulWidget {
   const TokenHistoryScreen({super.key});
 
   @override
-  _TokenHistoryScreenState createState() => _TokenHistoryScreenState();
+  State<TokenHistoryScreen> createState() => _TokenHistoryScreenState();
 }
 
 class _TokenHistoryScreenState extends State<TokenHistoryScreen> {

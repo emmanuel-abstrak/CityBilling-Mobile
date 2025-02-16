@@ -1,11 +1,11 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mobile/models/transaction.dart';
-import 'package:mobile/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/transaction.dart';
 import '../../providers/theme_provider.dart';
+import '../../theme/app_colors.dart';
 import '../../theme/app_theme.dart';
 
 class SuccessScreen extends StatefulWidget {
