@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:mobile/providers/utility_provider_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:puc_app/providers/utility_provider_provider.dart';
 
 class CurrencyProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _currencies = [];

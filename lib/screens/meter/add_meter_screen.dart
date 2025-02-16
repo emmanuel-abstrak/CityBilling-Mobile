@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/models/meter.dart';
-import 'package:mobile/providers/meter_provider.dart';
-import 'package:mobile/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/meter.dart';
+import '../../providers/meter_provider.dart';
 import '../../providers/utility_provider_provider.dart';
+import '../../theme/app_colors.dart';
 
 class AddMeterScreen extends StatefulWidget {
   const AddMeterScreen({super.key});
 
   @override
-  _AddMeterScreenState createState() => _AddMeterScreenState();
+  State<AddMeterScreen> createState() => _AddMeterScreenState();
 }
 
 class _AddMeterScreenState extends State<AddMeterScreen> {

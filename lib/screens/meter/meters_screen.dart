@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/models/meter.dart';
-import 'package:mobile/providers/meter_provider.dart';
-import 'package:mobile/providers/utility_provider_provider.dart';
-import 'package:mobile/screens/meter/add_meter_screen.dart';
-import 'package:mobile/screens/meter/edit_meter_screen.dart';
-import 'package:mobile/screens/purchase/purchase_screen.dart';
-import 'package:mobile/theme/app_colors.dart';
 import 'package:provider/provider.dart';
+import 'package:puc_app/providers/meter_provider.dart';
 
+import '../../models/meter.dart';
 import '../../providers/theme_provider.dart';
+import '../../providers/utility_provider_provider.dart';
+import '../../theme/app_colors.dart';
+import '../purchase/purchase_screen.dart';
+import 'add_meter_screen.dart';
+import 'edit_meter_screen.dart';
 
 class MetersScreen extends StatelessWidget {
   const MetersScreen({super.key});

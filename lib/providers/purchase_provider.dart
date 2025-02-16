@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/providers/utility_provider_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:puc_app/providers/utility_provider_provider.dart';
 
 class PurchaseProvider extends ChangeNotifier {
   bool _isLoading = false;
