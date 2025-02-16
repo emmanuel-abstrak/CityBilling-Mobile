@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:puc_app/providers/utility_provider_provider.dart';
 
+import '../core/utilities/logs.dart';
+
 class CurrencyProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _currencies = [];
   Map<String, dynamic>? _selectedCurrency;
@@ -22,7 +24,7 @@ class CurrencyProvider extends ChangeNotifier {
             .selectedUtilityProvider;
 
     if (utilityProvider == null) {
-      debugPrint("No Utility Provider selected.");
+      DevLogs.logError("No Utility Provider selected.");
       return;
     }
 
@@ -34,10 +36,12 @@ class CurrencyProvider extends ChangeNotifier {
     try {
       final response = await _dio.get(apiUrl);
 
-      Logger().w(response);
+      final data = response.data['data'];
+
+      DevLogs.logInfo(data);
 
       if (response.statusCode == 200) {
-        _currencies = (response.data as List)
+        _currencies = (data as List)
             .map((c) => {
                   "code": c["code"],
                   "symbol": c["symbol"],
@@ -45,10 +49,10 @@ class CurrencyProvider extends ChangeNotifier {
             .toList();
         _selectedCurrency = _currencies.first; // Default to first currency
       } else {
-        debugPrint("Failed to load currencies: ${response.data}");
+        DevLogs.logError("Failed to load currencies: ${response.data}");
       }
     } catch (e) {
-      debugPrint("Error fetching currencies: $e");
+      DevLogs.logError("Error fetching currencies: $e");
     }
 
     _isLoading = false;
