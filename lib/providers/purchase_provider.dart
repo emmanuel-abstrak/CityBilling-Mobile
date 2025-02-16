@@ -21,11 +21,12 @@ class PurchaseProvider extends ChangeNotifier {
             .selectedUtilityProvider;
 
     if (utilityProvider == null) {
-      debugPrint("No Utility Provider selected.");
+      DevLogs.logError("No Utility Provider selected.");
       return;
     }
 
     final String apiUrl = "${utilityProvider.endpoint}/buy/lookup";
+    
 
     _isLoading = true;
     notifyListeners();
