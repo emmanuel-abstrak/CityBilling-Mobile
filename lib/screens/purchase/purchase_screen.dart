@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/models/utility_provider.dart';
-import 'package:mobile/providers/currency_provider.dart';
-import 'package:mobile/screens/purchase/confirm_purchase_screen.dart';
-import 'package:mobile/screens/purchase/success_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:puc_app/screens/purchase/success_screen.dart';
 import 'package:uuid/uuid.dart' show Uuid; // Generate unique IDs
 
 import '../../models/meter.dart';
 import '../../models/transaction.dart';
+import '../../models/utility_provider.dart';
+import '../../providers/currency_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/transaction_provider.dart';
 import '../../providers/utility_provider_provider.dart';
 import '../../theme/app_colors.dart';
+import 'confirm_purchase_screen.dart';
 
 class PurchaseScreen extends StatefulWidget {
   final Meter? meter;

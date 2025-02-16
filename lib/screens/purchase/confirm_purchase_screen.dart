@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/providers/purchase_provider.dart';
-import 'package:mobile/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/purchase_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../theme/app_colors.dart';
 
 class ConfirmPurchaseScreen extends StatefulWidget {
   final String meterNumber;
