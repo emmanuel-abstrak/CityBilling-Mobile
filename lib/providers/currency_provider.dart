@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:puc_app/providers/utility_provider_provider.dart';
 
 import '../core/utilities/logs.dart';
+import '../models/currency.dart';
 
 class CurrencyProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _currencies = [];
@@ -39,25 +40,35 @@ class CurrencyProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.get(apiUrl);
+      final List<dynamic> currenciesJson = response.data['data'];
 
-      final data = response.data['data'];
 
-      DevLogs.logInfo(data);
+      DevLogs.logInfo(currenciesJson.toString());  // Logs the list of Currency objects
 
-      if (response.statusCode == 200) {
-        _currencies = (data as List)
-            .map((c) => {
-                  "code": c["code"],
-                  "symbol": c["symbol"],
-                })
-            .toList();
-        _selectedCurrency = _currencies.first; // Default to first currency
-      } else {
-        DevLogs.logError("Failed to load currencies: ${response.data}");
-      }
+      List<Currency> currencies = currenciesJson
+          .map((currencyJson) => Currency.fromJson(currencyJson))
+          .toList();
+
     } catch (e) {
       DevLogs.logError("Error fetching currencies: $e");
     }
+
+
+    // try {
+    //   final response = await _dio.get(apiUrl);
+    //
+    //   final data = response.data['data'];
+    //
+    //   DevLogs.logInfo(data);
+    //
+    //   if (response.statusCode == 200) {
+    //     DevLogs.logInfo(data);
+    //   } else {
+    //     DevLogs.logError("Failed to load currencies: ${response.data}");
+    //   }
+    // } catch (e) {
+    //   DevLogs.logError("Error fetching currencies: $e");
+    // }
 
     _isLoading = false;
     notifyListeners();
