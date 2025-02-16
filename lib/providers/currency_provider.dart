@@ -28,7 +28,11 @@ class CurrencyProvider extends ChangeNotifier {
       return;
     }
 
+
     final String apiUrl = "${utilityProvider.endpoint}/currencies";
+
+
+    DevLogs.logInfo(apiUrl);
 
     _isLoading = true;
     notifyListeners();
