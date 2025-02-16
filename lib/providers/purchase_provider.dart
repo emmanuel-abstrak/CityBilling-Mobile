@@ -13,7 +13,7 @@ class PurchaseProvider extends ChangeNotifier {
 
   final Dio _dio = Dio();
 
-  /// **Fetch Currencies from the API Using the Selected UtilityProvider's Base URL**
+
   Future<dynamic> lookup(BuildContext context, String meterNumber,
       double amount, currencyCode) async {
     final utilityProvider =

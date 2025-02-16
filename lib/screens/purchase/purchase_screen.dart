@@ -26,7 +26,7 @@ class PurchaseScreenState extends State<PurchaseScreen>
   final TextEditingController _meterController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   bool _isProcessing = false;
-  late String _selectedCurrency = "";
+  late String _selectedCurrency = "usd";
 
   @override
   void initState() {
