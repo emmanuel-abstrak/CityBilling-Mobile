@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile/providers/currency_provider.dart';
-import 'package:mobile/providers/meter_provider.dart';
-import 'package:mobile/providers/purchase_provider.dart';
-import 'package:mobile/providers/transaction_provider.dart';
-import 'package:mobile/screens/meter/meters_screen.dart';
-import 'package:mobile/screens/purchase/purchase_screen.dart';
-import 'package:mobile/screens/settings_screen.dart';
-import 'package:mobile/theme/app_theme.dart';
 import 'package:provider/provider.dart';
-
+import 'package:puc_app/providers/currency_provider.dart';
+import 'package:puc_app/providers/meter_provider.dart';
+import 'package:puc_app/providers/purchase_provider.dart';
+import 'package:puc_app/providers/transaction_provider.dart';
+import 'package:puc_app/screens/meter/meters_screen.dart';
+import 'package:puc_app/screens/purchase/purchase_screen.dart';
+import 'package:puc_app/screens/settings_screen.dart';
 import 'providers/theme_provider.dart';
 import 'providers/utility_provider_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/provider_selection_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
