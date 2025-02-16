@@ -30,8 +30,6 @@ class UtilityProviderProvider extends ChangeNotifier {
 
       final data = response.data;
 
-      DevLogs.logInfo("Fetched ${data} providers");
-
 
       _providers = (data['data'] as List)
           .map((json) => UtilityProvider.fromJson(json))
