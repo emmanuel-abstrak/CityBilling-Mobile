@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:puc_app/configs/api_configs.dart';
+import 'package:puc_app/core/utilities/logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/utility_provider.dart';
@@ -24,15 +26,21 @@ class UtilityProviderProvider extends ChangeNotifier {
   /// Fetch providers from API
   Future<void> fetchProviders() async {
     try {
-      final response = await _dio.get("http://192.168.1.10:8000/api/providers");
+      final response = await _dio.get("${APIConfigs.baseUrl}/providers");
 
-      _providers = (response.data as List)
+      final data = response.data;
+
+      DevLogs.logInfo("Fetched ${data} providers");
+
+
+      _providers = (data['data'] as List)
           .map((json) => UtilityProvider.fromJson(json))
           .toList();
-      _filteredProviders = _providers; // Initialize filtered list
+
+      _filteredProviders = _providers;
       notifyListeners();
     } catch (e) {
-      debugPrint("Error fetching providers: $e");
+      DevLogs.logError("Error fetching providers: $e");
     }
   }
 

@@ -10,7 +10,7 @@ class UtilityProviderSelectionScreen extends StatefulWidget {
   const UtilityProviderSelectionScreen({super.key});
 
   @override
-  _UtilityProviderSelectionScreenState createState() =>
+  State<UtilityProviderSelectionScreen> createState() =>
       _UtilityProviderSelectionScreenState();
 }
 
@@ -43,7 +43,8 @@ class _UtilityProviderSelectionScreenState
                     themeProvider.isDarkMode
                         ? "assets/logo-white.svg"
                         : "assets/logo.svg",
-                    height: 30),
+                    height: 30
+                ),
               ],
             ),
             SizedBox(height: 10),
