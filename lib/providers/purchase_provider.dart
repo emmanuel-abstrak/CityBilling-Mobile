@@ -13,7 +13,6 @@ class PurchaseProvider extends ChangeNotifier {
 
   final Dio _dio = Dio();
 
-
   Future<dynamic> lookup(BuildContext context, String meterNumber,
       double amount, String currencyCode) async {
     final utilityProvider =
@@ -25,9 +24,7 @@ class PurchaseProvider extends ChangeNotifier {
       return;
     }
 
-    final String apiUrl = "${utilityProvider.endpoint}/buy/lookup";
-
-    DevLogs.logInfo("API URL: $apiUrl");
+    final String apiUrl = "${utilityProvider.endpoint}/purchase/lookup";
 
     _isLoading = true;
     notifyListeners();
@@ -45,19 +42,24 @@ class PurchaseProvider extends ChangeNotifier {
       DevLogs.logInfo("Raw Response: ${response.toString()}");
 
       final responseData = response.data;
-      DevLogs.logInfo("Response Data Type: ${responseData.runtimeType}");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         if (responseData is Map<String, dynamic>) {
           if (responseData.containsKey('data')) {
             final data = responseData['data'];
             DevLogs.logInfo("Response Data: $data");
+            _isLoading = false;
+            notifyListeners();
             return data;
           } else {
-            DevLogs.logError("API response does not contain 'data' key.");
+            DevLogs.logInfo("Returning full response as fallback.");
+            _isLoading = false;
+            notifyListeners();
+            return responseData; // Return full response instead of throwing an error
           }
         } else {
-          DevLogs.logError("Unexpected response format. Expected Map<String, dynamic>, got: ${responseData.runtimeType}");
+          _error = "Unexpected response format. Expected Map<String, dynamic>, got: ${responseData.runtimeType}";
+          DevLogs.logError(_error);
         }
       } else {
         _error = responseData is Map<String, dynamic> && responseData.containsKey('message')
@@ -91,5 +93,4 @@ class PurchaseProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
-
 }
