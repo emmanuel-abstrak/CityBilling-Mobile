@@ -38,13 +38,19 @@ class CurrencyProvider extends ChangeNotifier {
       DevLogs.logInfo(response.toString());
 
       if (response.statusCode == 200) {
-        _currencies = (response.data as List)
-            .map((c) => {
-                  "code": c["code"],
-                  "symbol": c["symbol"],
-                })
-            .toList();
-        _selectedCurrency = _currencies.first; // Default to first currency
+        final responseData = response.data;
+
+        if (responseData is Map<String, dynamic> && responseData.containsKey('data')) {
+          _currencies = (responseData['data'] as List)
+              .map((c) => {
+            "code": c["code"],
+            "symbol": c["symbol"],
+          })
+              .toList();
+          _selectedCurrency = _currencies.isNotEmpty ? _currencies.first : null;
+        } else {
+          DevLogs.logError("Invalid API response format: missing 'data' key.");
+        }
       } else {
         DevLogs.logError("Failed to load currencies: ${response.data}");
       }
@@ -55,6 +61,7 @@ class CurrencyProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
 
   /// **Set Selected Currency**
   void selectCurrency(Map<String, dynamic> currency) {
