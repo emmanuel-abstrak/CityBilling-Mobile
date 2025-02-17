@@ -202,6 +202,7 @@ class PurchaseScreenState extends State<PurchaseScreen>
         ),
       ),
     );
+
   }
 
   /// **Simulate API Call for Detailed Deductions**
