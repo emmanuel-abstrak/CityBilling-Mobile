@@ -35,8 +35,6 @@ class CurrencyProvider extends ChangeNotifier {
     try {
       final response = await _dio.get(apiUrl);
 
-      DevLogs.logInfo(response.toString());
-
       if (response.statusCode == 200) {
         final responseData = response.data;
 
