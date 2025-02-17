@@ -15,7 +15,7 @@ class PurchaseProvider extends ChangeNotifier {
 
 
   Future<dynamic> lookup(BuildContext context, String meterNumber,
-      double amount, currencyCode) async {
+      double amount, String currencyCode) async {
     final utilityProvider =
         Provider.of<UtilityProviderProvider>(context, listen: false)
             .selectedUtilityProvider;
@@ -26,46 +26,70 @@ class PurchaseProvider extends ChangeNotifier {
     }
 
     final String apiUrl = "${utilityProvider.endpoint}/buy/lookup";
-    
+
+    DevLogs.logInfo("API URL: $apiUrl");
 
     _isLoading = true;
     notifyListeners();
 
     try {
-      final response = await _dio.post(apiUrl, data: {
-        'meter': meterNumber,
-        'amount': amount,
-        'currency': currencyCode
-      });
+      final response = await _dio.post(
+          apiUrl,
+          data: {
+            "meter": meterNumber,
+            "amount": amount,
+            "currency": currencyCode
+          }
+      );
+
+      DevLogs.logInfo("Raw Response: ${response.toString()}");
+
+      final responseData = response.data;
+      DevLogs.logInfo("Response Data Type: ${responseData.runtimeType}");
 
       if (response.statusCode == 200) {
-        final data = response.data['data'];
-        DevLogs.logInfo(data);
-        return data;
+        if (responseData is Map<String, dynamic>) {
+          if (responseData.containsKey('data')) {
+            final data = responseData['data'];
+            DevLogs.logInfo("Response Data: $data");
+            return data;
+          } else {
+            DevLogs.logError("API response does not contain 'data' key.");
+          }
+        } else {
+          DevLogs.logError("Unexpected response format. Expected Map<String, dynamic>, got: ${responseData.runtimeType}");
+        }
       } else {
-        _error = response.data['message'];
+        _error = responseData is Map<String, dynamic> && responseData.containsKey('message')
+            ? responseData['message']
+            : "Unknown error occurred";
 
-        DevLogs.logError(_error);
+        DevLogs.logError("Error Message: $_error");
       }
     } catch (e) {
       if (e is DioException) {
         if (e.response != null) {
-          _error = e.response?.data['message'];
+          DevLogs.logInfo("Raw Error Response: ${e.response?.data}");
+          DevLogs.logInfo("Error Response Type: ${e.response?.data.runtimeType}");
 
-          DevLogs.logError(_error);
+          final errorResponse = e.response?.data;
+          _error = errorResponse is Map<String, dynamic> && errorResponse.containsKey('message')
+              ? errorResponse['message']
+              : "Unexpected error response format";
+
+          DevLogs.logError("DioException: $_error");
         } else {
           _error = e.error.toString();
-
-          DevLogs.logError(_error);
+          DevLogs.logError("DioException (No Response): $_error");
         }
       } else {
         _error = e.toString();
-
-        DevLogs.logError(_error);
+        DevLogs.logError("Unexpected Error: $_error");
       }
     }
 
     _isLoading = false;
     notifyListeners();
   }
+
 }
