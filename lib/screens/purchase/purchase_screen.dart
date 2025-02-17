@@ -196,7 +196,7 @@ class PurchaseScreenState extends State<PurchaseScreen>
           volume: volume,
           currencyCode: _selectedCurrency,
           onConfirm: () {
-            Navigator.pop(context); // Close confirmation screen
+            Navigator.pop(context);
             _processPayment(provider, meterNumber, finalAmount, volume, currencyProvider);
           },
         ),
