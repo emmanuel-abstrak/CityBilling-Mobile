@@ -57,13 +57,13 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
         },
       onLoadStart: (controller, url) {
         setState(() {
-          isLoading = true; // Show loading indicator when the page starts loading
+          isLoading = true;
         });
       },
       onProgressChanged: (controller, progress) {
         if (progress == 100) {
           setState(() {
-            isLoading = false; // Hide the loading indicator when the page is fully loaded
+            isLoading = false;
           });
         }
       },
