@@ -27,6 +27,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       onLoadStop: (controller, url) async{
         DevLogs.logSuccess(url.toString());
 
+
         // if (url.toString().contains("${municipalityController.selectedMunicipality.value!.endpoint}/payment/settle")) {
         //   // Parse the URL
         //   final uri = Uri.parse(url.toString());
