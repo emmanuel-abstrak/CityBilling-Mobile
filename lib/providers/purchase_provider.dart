@@ -26,6 +26,8 @@ class PurchaseProvider extends ChangeNotifier {
 
     final String apiUrl = "${utilityProvider.endpoint}/purchase/lookup";
 
+    DevLogs.logInfo("API URL: $apiUrl");
+
     _isLoading = true;
     notifyListeners();
 
