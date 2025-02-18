@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:puc_app/core/utilities/logs.dart';
+import 'package:puc_app/screens/purchase/paynow_webview.dart';
 
 import '../../models/utility_provider.dart';
 import '../../providers/currency_provider.dart';
@@ -30,13 +32,21 @@ class ConfirmPurchaseScreen extends StatefulWidget {
 }
 
 class _ConfirmPurchaseScreenState extends State<ConfirmPurchaseScreen> {
+
+  var lookUpData;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      if (mounted) {
-        Provider.of<PurchaseProvider>(context, listen: false).lookup(context,
-            widget.meterNumber, widget.purchaseAmount, widget.currencyCode);
+    Future.delayed(Duration.zero, () async{
+      if (mounted){
+       await Provider.of<PurchaseProvider>(context, listen: false).lookup(context,  widget.meterNumber, widget.purchaseAmount, widget.currencyCode).then((response){
+          setState(() {
+            lookUpData = response;
+          });
+
+          DevLogs.logInfo(response.toString());
+       });
       }
     });
   }
@@ -120,7 +130,16 @@ class _ConfirmPurchaseScreenState extends State<ConfirmPurchaseScreen> {
                                   borderRadius: BorderRadius.circular(8)),
                             ),
                             onPressed: () async {
-                              await
+                              await Provider.of<PurchaseProvider>(context, listen: false).buy(context, lookUpData['id']).then((response){
+                                DevLogs.logInfo(response.toString());
+                                
+                                if(response['status'].toString().toLowerCase() == 'pending' && response["token"] == null){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => PaymentWebViewScreen(redirectUrl: response["redirect_url"]))
+                                  );
+                                }
+                              });
                             },
                             child: Text(
                               "Make payment",

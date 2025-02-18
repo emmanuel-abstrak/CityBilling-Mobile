@@ -39,15 +39,12 @@ class PurchaseProvider extends ChangeNotifier {
           }
       );
 
-      DevLogs.logInfo("Raw Response: ${response.toString()}");
-
       final responseData = response.data;
 
       if (response.statusCode == 201) {
         if (responseData is Map<String, dynamic>) {
           if (responseData.containsKey('data')) {
             final data = responseData['data'];
-            DevLogs.logInfo("Response Data: $data");
             _isLoading = false;
             notifyListeners();
             return data;
