@@ -92,7 +92,7 @@ class PurchaseScreenState extends State<PurchaseScreen>
                         setState(() {
                           _selectedCurrency = currency["code"];
                         })
-                      },
+                      },// Replace with your actual token
                       child: Container(
                         margin: EdgeInsets.only(right: 10),
                         padding:
@@ -178,6 +178,7 @@ class PurchaseScreenState extends State<PurchaseScreen>
 
     // Fetch breakdown of deductions from API (mocked for now)
     List<Map<String, dynamic>> deductions = await _fetchDeductions(amount);
+
     if (!mounted) return;
 
     double totalDeductions =
@@ -195,10 +196,6 @@ class PurchaseScreenState extends State<PurchaseScreen>
           finalAmount: finalAmount,
           volume: volume,
           currencyCode: _selectedCurrency,
-          onConfirm: () {
-            Navigator.pop(context);
-            _processPayment(provider, meterNumber, finalAmount, volume, currencyProvider);
-          },
         ),
       ),
     );
@@ -216,40 +213,40 @@ class PurchaseScreenState extends State<PurchaseScreen>
   }
 
   /// **Process Payment & Redirect to Success Screen**
-  void _processPayment(UtilityProvider provider, double meterNumber,
-      double finalAmount, double volume, CurrencyProvider currencyProvider) {
-    setState(() {
-      _isProcessing = true;
-    });
-
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isProcessing = false;
-      });
-
-      final transaction = Transaction(
-        id: const Uuid().v4(),
-        provider: provider.id,
-        meter: meterNumber.toStringAsFixed(0),
-        tokenAmount: finalAmount,
-        token: _generateRandomToken(),
-        date: DateTime.now().toLocal().toString().split(' ')[0],
-        time: TimeOfDay.now().format(context),
-        volumePurchased: volume,
-        utilityType: "Electricity",
-        currencyCode: currencyProvider.selectedCurrency!["code"],
-      );
-
-      Provider.of<TransactionProvider>(context, listen: false)
-          .addTransaction(transaction);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SuccessScreen(transaction: transaction)),
-      );
-    });
-  }
+  // void _processPayment(UtilityProvider provider, double meterNumber,
+  //     double finalAmount, double volume, CurrencyProvider currencyProvider) {
+  //   setState(() {
+  //     _isProcessing = true;
+  //   });
+  //
+  //   Future.delayed(const Duration(seconds: 2), () {
+  //     setState(() {
+  //       _isProcessing = false;
+  //     });
+  //
+  //     final transaction = Transaction(
+  //       id: const Uuid().v4(),
+  //       provider: provider.id,
+  //       meter: meterNumber.toStringAsFixed(0),
+  //       tokenAmount: finalAmount,
+  //       token: _generateRandomToken(),
+  //       date: DateTime.now().toLocal().toString().split(' ')[0],
+  //       time: TimeOfDay.now().format(context),
+  //       volumePurchased: volume,
+  //       utilityType: "Electricity",
+  //       currencyCode: currencyProvider.selectedCurrency!["code"],
+  //     );
+  //
+  //     Provider.of<TransactionProvider>(context, listen: false)
+  //         .addTransaction(transaction);
+  //
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => SuccessScreen(transaction: transaction)),
+  //     );
+  //   });
+  // }
 
   String _generateRandomToken() {
     return List.generate(25, (index) => (index % 10).toString()).join();

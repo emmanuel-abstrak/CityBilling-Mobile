@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/utility_provider.dart';
+import '../../providers/currency_provider.dart';
 import '../../providers/purchase_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme/app_colors.dart';
@@ -12,7 +14,6 @@ class ConfirmPurchaseScreen extends StatefulWidget {
   final double finalAmount;
   final double volume;
   final String currencyCode;
-  final VoidCallback onConfirm;
 
   const ConfirmPurchaseScreen({
     super.key,
@@ -22,7 +23,6 @@ class ConfirmPurchaseScreen extends StatefulWidget {
     required this.finalAmount,
     required this.volume,
     required this.currencyCode,
-    required this.onConfirm,
   });
 
   @override
@@ -119,7 +119,9 @@ class _ConfirmPurchaseScreenState extends State<ConfirmPurchaseScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                             ),
-                            onPressed: widget.onConfirm,
+                            onPressed: () async {
+                              await
+                            },
                             child: Text(
                               "Make payment",
                               textAlign: TextAlign.center,
